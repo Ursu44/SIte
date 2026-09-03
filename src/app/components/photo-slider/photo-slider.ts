@@ -12,6 +12,8 @@ interface Slide {
   templateUrl: './photo-slider.html',
   styleUrl: './photo-slider.css'
 })
+
+
 export class HeroSlider implements OnInit, OnDestroy {
   slides: Slide[] = [
     {
