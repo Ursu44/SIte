@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, ElementRef, ViewChild, afterNextRender, output } from '@angular/core';
 
 interface Slide {
   image: string;
@@ -7,34 +7,51 @@ interface Slide {
 }
 
 @Component({
-  selector: 'app-hero-slider',
+  selector: 'app-photo-slider',
   standalone: true,
   templateUrl: './photo-slider.html',
   styleUrl: './photo-slider.css'
 })
+export class PhotoSlider implements OnInit, OnDestroy {
+  @ViewChild('heroRef') heroRef!: ElementRef<HTMLElement>;
 
+  sectionGone = output<boolean>();
 
-export class HeroSlider implements OnInit, OnDestroy {
   slides: Slide[] = [
     {
-      image: 'https://picsum.photos/1600/900?random=1',
-      title: 'Soluții profesionale pentru afacerea ta',
-      subtitle: 'Experiență, încredere și rezultate de peste 10 ani'
+      image: 'slide-economii.jpg',
+      title: 'Economisește inteligent, crește constant',
+      subtitle: 'Depuneri sigure cu randamente avantajoase pentru viitorul tău'
     },
     {
-      image: 'https://picsum.photos/1600/900?random=2',
-      title: 'Echipă dedicată succesului tău',
-      subtitle: 'Consultanță personalizată, adaptată nevoilor tale'
+      image: 'slide-imprumuturi.jpg',
+      title: 'Împrumuturi avantajoase, adaptate ție',
+      subtitle: 'Dobânzi competitive și condiții flexibile de rambursare'
     },
     {
-      image: 'https://picsum.photos/1600/900?random=3',
-      title: 'Parteneri de încredere',
+      image: 'slide-comunitate.jpg',
+      title: 'O comunitate mare, o familie unită',
       subtitle: 'Peste 500 de clienți mulțumiți în toată țara'
     }
   ];
 
   currentIndex = signal(0);
   private intervalId: ReturnType<typeof setInterval> | null = null;
+
+  constructor() {
+    afterNextRender(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const goneUp = entry.boundingClientRect.bottom <= 0;
+            this.sectionGone.emit(entry.intersectionRatio === 0 && goneUp);
+          });
+        },
+        { threshold: [0] }
+      );
+      observer.observe(this.heroRef.nativeElement);
+    });
+  }
 
   ngOnInit() {
     this.startAutoplay();

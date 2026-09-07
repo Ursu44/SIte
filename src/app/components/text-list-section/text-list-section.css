@@ -1,21 +1,23 @@
-.text-block {
+/* Lista: acum vine din stânga */
+.list-block {
   opacity: 0;
   transform: translateX(-60px);
   transition: opacity 0.9s ease-out, transform 0.9s ease-out;
 }
 
-.text-block-visible {
+.list-block-visible {
   opacity: 1;
   transform: translateX(0);
 }
 
-.list-block {
+/* Textul: acum vine din dreapta */
+.text-block {
   opacity: 0;
   transform: translateX(60px);
   transition: opacity 0.9s ease-out 0.2s, transform 0.9s ease-out 0.2s;
 }
 
-.list-block-visible {
+.text-block-visible {
   opacity: 1;
   transform: translateX(0);
 }

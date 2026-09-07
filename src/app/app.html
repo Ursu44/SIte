@@ -1,7 +1,15 @@
 <div class="sticky top-0 z-50">
   <app-top-bar></app-top-bar>
+  <app-navbar></app-navbar>
 </div>
-<app-navbar></app-navbar>
-<app-hero-slider></app-hero-slider>
-<app-text-list-section></app-text-list-section>
+
+<app-photo-slider (sectionGone)="heroGone.set($event)"></app-photo-slider>
+
+<app-list-section
+  [heroGone]="heroGone()"
+  (animationDone)="listGone.set($event)"
+></app-list-section>
+
+<app-text-section [triggerVisible]="listGone()"></app-text-section>
+
 <app-footer></app-footer>

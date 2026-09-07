@@ -24,13 +24,10 @@ export class TextListSection {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              this.isVisible.set(true);
-              observer.disconnect();
-            }
+            this.isVisible.set(entry.isIntersecting);
           });
         },
-        { threshold: 0.9 }
+        { threshold: 0.3 }
       );
 
       observer.observe(this.sectionRef.nativeElement);

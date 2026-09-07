@@ -1,0 +1,10 @@
+.text-block {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 1.8s ease-out, transform 1.8s ease-out;
+}
+
+.text-block-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
