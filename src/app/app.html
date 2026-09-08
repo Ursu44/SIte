@@ -1,15 +1,28 @@
-<div class="sticky top-0 z-50">
-  <app-top-bar></app-top-bar>
-  <app-navbar></app-navbar>
+<div class="relative min-h-screen">
+
+  <div class="fixed inset-0 -z-10">
+    <img
+      src="tren.png"
+      alt=""
+      class="w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-white/50"></div>
+  </div>
+
+  <div class="sticky top-0 z-50">
+    <app-top-bar></app-top-bar>
+    <app-navbar></app-navbar>
+  </div>
+
+  <app-photo-slider (heroRatio)="heroRatio.set($event)"></app-photo-slider>
+
+  <app-text-section
+    [heroRatio]="heroRatio()"
+    (textRatio)="textRatio.set($event)"
+  ></app-text-section>
+
+  <app-list-section [textRatio]="textRatio()"></app-list-section>
+
+  <app-footer></app-footer>
+
 </div>
-
-<app-photo-slider (sectionGone)="heroGone.set($event)"></app-photo-slider>
-
-<app-list-section
-  [heroGone]="heroGone()"
-  (animationDone)="listGone.set($event)"
-></app-list-section>
-
-<app-text-section [triggerVisible]="listGone()"></app-text-section>
-
-<app-footer></app-footer>

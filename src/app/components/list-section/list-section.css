@@ -1,14 +1,3 @@
-.list-block {
-  opacity: 0;
-  transform: translateX(-60px);
-  transition: opacity 1.8s ease-out, transform 1.8s ease-out;
-}
-
-.list-block-visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
 .btn-wow {
   background: linear-gradient(135deg, #f59e0b, #ea580c, #f59e0b);
   background-size: 200% 200%;

@@ -15,24 +15,12 @@ interface Slide {
 export class PhotoSlider implements OnInit, OnDestroy {
   @ViewChild('heroRef') heroRef!: ElementRef<HTMLElement>;
 
-  sectionGone = output<boolean>();
+  heroRatio = output<number>();
 
   slides: Slide[] = [
-    {
-      image: 'slide-economii.jpg',
-      title: 'Economisește inteligent, crește constant',
-      subtitle: 'Depuneri sigure cu randamente avantajoase pentru viitorul tău'
-    },
-    {
-      image: 'slide-imprumuturi.jpg',
-      title: 'Împrumuturi avantajoase, adaptate ție',
-      subtitle: 'Dobânzi competitive și condiții flexibile de rambursare'
-    },
-    {
-      image: 'slide-comunitate.jpg',
-      title: 'O comunitate mare, o familie unită',
-      subtitle: 'Peste 500 de clienți mulțumiți în toată țara'
-    }
+    { image: 'pusculita.jpg', title: 'Economisește inteligent, crește constant', subtitle: 'Depuneri sigure cu randamente avantajoase pentru viitorul tău' },
+    { image: 'imprumut.jpg', title: 'Împrumuturi avantajoase, adaptate ție', subtitle: 'Dobânzi competitive și condiții flexibile de rambursare' },
+    { image: 'comunitate1.jpg', title: 'O comunitate mare, o familie unită', subtitle: 'Peste 500 de clienți mulțumiți în toată țara' }
   ];
 
   currentIndex = signal(0);
@@ -40,14 +28,14 @@ export class PhotoSlider implements OnInit, OnDestroy {
 
   constructor() {
     afterNextRender(() => {
+      const thresholds = Array.from({ length: 101 }, (_, i) => i / 100);
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            const goneUp = entry.boundingClientRect.bottom <= 0;
-            this.sectionGone.emit(entry.intersectionRatio === 0 && goneUp);
+            this.heroRatio.emit(entry.intersectionRatio);
           });
         },
-        { threshold: [0] }
+        { threshold: thresholds }
       );
       observer.observe(this.heroRef.nativeElement);
     });
@@ -74,9 +62,7 @@ export class PhotoSlider implements OnInit, OnDestroy {
   }
 
   prev() {
-    this.currentIndex.set(
-      (this.currentIndex() - 1 + this.slides.length) % this.slides.length
-    );
+    this.currentIndex.set((this.currentIndex() - 1 + this.slides.length) % this.slides.length);
   }
 
   goTo(index: number) {
