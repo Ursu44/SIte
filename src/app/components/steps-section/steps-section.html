@@ -1,0 +1,48 @@
+<div
+  class="max-w-4xl mx-auto px-4 py-16"
+  [style.opacity]="opacity()"
+  [style.transform]="'translateX(' + (-60 * (1 - opacity())) + 'px)'"
+  style="transition: opacity 0.8s ease-out, transform 0.8s ease-out;"
+>
+  <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 md:p-12">
+
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
+        Cum funcționează
+      </h2>
+      <div class="w-16 h-1 bg-amber-500 mx-auto rounded-full"></div>
+    </div>
+
+    <div class="relative">
+
+      <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-slate-200"></div>
+
+      <div
+        class="absolute left-6 top-0 w-0.5 bg-amber-500 origin-top"
+        [style.height]="(opacity() * 100) + '%'"
+        style="transition: height 2s ease-out;"
+      ></div>
+
+      <div class="flex flex-col gap-12">
+        @for (step of steps; track step.number; let i = $index) {
+          <div
+            class="relative flex gap-6 items-start"
+            [style.opacity]="opacity()"
+            [style.transition]="'opacity 1s ease-out ' + (i * 0.3) + 's'"
+          >
+            <div class="relative z-10 flex-shrink-0 w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-slate-900 font-bold">{{ step.number }}</span>
+            </div>
+
+            <div class="pt-2">
+              <h3 class="text-xl font-semibold text-slate-900 mb-2">{{ step.title }}</h3>
+              <p class="text-slate-600 leading-relaxed">{{ step.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+
+  </div>
+</div>

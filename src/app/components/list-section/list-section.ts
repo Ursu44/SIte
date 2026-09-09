@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, input, computed, afterNextRender, output, ViewChild, ElementRef } from '@angular/core';
 
 interface NewsItem {
   date: string;
@@ -13,7 +13,10 @@ interface NewsItem {
   styleUrl: './list-section.css'
 })
 export class ListSection {
+  @ViewChild('sectionRef') sectionRef!: ElementRef<HTMLElement>;
+
   textRatio = input<number>(1);
+  listSelfRatio = output<number>();
 
   opacity = computed(() => {
     const r = this.textRatio();
@@ -27,4 +30,19 @@ export class ListSection {
     { date: '2 August 2026', title: 'Certificare nouă obținută', description: 'Un pas important pentru garantarea calității serviciilor pe care le oferim clienților noștri.' },
     { date: '20 Iulie 2026', title: 'Deschidem o nouă sucursală', description: 'Extindem prezența noastră pentru a fi mai aproape de comunitatea pe care o deservim.' }
   ];
+
+   constructor() {
+    afterNextRender(() => {
+      const thresholds = Array.from({ length: 101 }, (_, i) => i / 100);
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            this.listSelfRatio.emit(entry.intersectionRatio);
+          });
+        },
+        { threshold: thresholds }
+      );
+      observer.observe(this.sectionRef.nativeElement);
+    });
+  }
 }
