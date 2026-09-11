@@ -25,9 +25,9 @@ export class ListSection {
 
   newsItems: NewsItem[] = [
     { title: 'Dobanzi avantajoase', description: 'Oferim imprumutri cu dobanzi pentru orice buzunar.' },
-    {  title: 'Depunere de fonduri', description: 'Am semnat un acord important care ne va permite să oferim servicii și mai complete.' },
-    {  title: 'Usurinta in accesarea serviciilor', description: '' },
-    {  title: 'Deschidem o nouă sucursală', description: 'Extindem prezența noastră pentru a fi mai aproape de comunitatea pe care o deservim.' }
+    {  title: 'Depunere de fonduri profitabile', description: 'Dobanzi foarte bune la depunerea de bani.' },
+    {  title: 'Usurinta in accesarea serviciilor', description: 'Cu doar cateva conditii de indeplinit si completarea unor acte obtii rapid orice serviciu.' },
+    {  title: 'O echipa dedicata', description: 'Personal bine pregatit gata pentru a oferi cele mai bune sfaturi financiare.' }
   ];
 
    constructor() {

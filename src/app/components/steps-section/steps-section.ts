@@ -22,9 +22,9 @@ export class StepsSection {
   });
 
   steps: Step[] = [
-    { number: '01', title: 'Ne contactezi', description: 'Ne spui ce ai nevoie, printr-un telefon, email sau formular pe site.' },
-    { number: '02', title: 'Analizăm situația', description: 'Echipa noastră evaluează cerințele tale și pregătește o soluție potrivită.' },
-    { number: '03', title: 'Primești oferta', description: 'Îți prezentăm o propunere clară, fără costuri ascunse.' },
-    { number: '04', title: 'Finalizăm împreună', description: 'Semnăm, implementăm, și rămânem alături de tine pe tot parcursul.' }
+    { number: '01', title: 'Obtinerea actelor', description: 'Documentele necesare se pot descarca din sectiunea Documente.' },
+    { number: '02', title: 'Completarea documentelor ', description: 'Se completeaza documentele la sediul nostru.' },
+    { number: '03', title: 'Gasirea si aducerea la sediu a girantilor', description: 'Dupa gasirea girantilor, trebuie sa va prezentati cu ei la sediu.' },
+    { number: '04', title: 'Finalizarea', description: 'Dupa indeplinirea tuturor conditiilor si aprobare banii vor veni fie in cont fie prin casierie.' }
   ];
 }

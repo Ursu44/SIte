@@ -1,0 +1,18 @@
+<app-photo-slider (heroRatio)="heroRatio.set($event)"></app-photo-slider>
+
+<app-text-section
+  [heroRatio]="heroRatio()"
+  (textRatio)="textRatio.set($event)"
+></app-text-section>
+
+<app-list-section
+  [textRatio]="textRatio()"
+  (listSelfRatio)="listSelfRatio.set($event)"
+></app-list-section>
+
+<app-services-section
+  [listSelfRatio]="listSelfRatio()"
+  (servicesSelfRatio)="servicesSelfRatio.set($event)"
+></app-services-section>
+
+<app-steps-section [servicesSelfRatio]="servicesSelfRatio()"></app-steps-section>
