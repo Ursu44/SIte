@@ -22,20 +22,6 @@
   animation: slideInRight 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Buton: stare implicită INVIZIBILĂ e definită AICI, în clasă, nu inline */
-.btn-hero {
-  opacity: 0;
-  transform: translateY(15px);
-}
-
-@keyframes buttonFadeIn {
-  0% { opacity: 0; transform: translateY(15px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-.animate-button-fade {
-  animation: buttonFadeIn 1s ease-out 1s forwards;
-}
-
 @keyframes glowPulse {
   0%, 100% { box-shadow: 0 0 15px 3px rgba(245, 158, 11, 0.35); }
   50% { box-shadow: 0 0 25px 8px rgba(245, 158, 11, 0.55); }
@@ -43,9 +29,33 @@
 .glow-permanent {
   animation: glowPulse 2.5s ease-in-out infinite;
 }
-
 .glow-permanent:hover {
   animation-play-state: paused;
   box-shadow: 0 0 35px 12px rgba(245, 158, 11, 0.7);
-  transform: scale(1.05) translateY(0);
+  transform: scale(1.05);
+}
+
+/* --- Elemente fluide, scalare lină cu clamp() --- */
+
+.slider-text-padding {
+  padding-left: clamp(1.25rem, 5vw, 5rem);
+  padding-right: clamp(1.25rem, 5vw, 5rem);
+  padding-top: clamp(3rem, 8vh, 0rem);
+}
+
+.slider-title {
+  font-size: clamp(1.35rem, 4.5vw, 3rem);
+  line-height: 1.2;
+  margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+}
+
+.slider-subtitle {
+  font-size: clamp(0.85rem, 2vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.slider-button {
+  padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1.5rem, 3vw, 1.5rem);
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  margin-top: clamp(1rem, 2vh, 1.5rem);
 }
