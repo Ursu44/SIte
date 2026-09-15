@@ -12,16 +12,17 @@
       [class.pointer-events-none]="currentIndex() !== i"
     >
       <div
-        class="w-full h-full bg-cover bg-center"
+        class="w-full h-full bg-cover slider-image"
         [class.animate-kenburns]="currentIndex() === i"
         [style.background-image]="'url(' + slide.image + ')'"
+        [style.background-position]="slide.position || 'center'"
       ></div>
 
       <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-slate-950/10"></div>
 
-      <div class="absolute inset-0 flex flex-col justify-center items-start text-white max-w-3xl slider-text-padding">
+      <div class="absolute inset-0 flex flex-col justify-center items-start text-white slider-content">
         <h1
-          class="font-bold mb-3 drop-shadow-lg slider-title"
+          class="font-bold drop-shadow-lg slider-title"
           [class.animate-slide-in-left]="currentIndex() === i"
           style="opacity: 0;"
         >
@@ -37,7 +38,7 @@
         </p>
 
         <button
-          class="mt-5 bg-amber-500 text-slate-900 font-semibold rounded-md hover:bg-amber-400 transition-all duration-700 relative glow-permanent slider-button"
+          class="bg-amber-500 text-slate-900 font-semibold rounded-md hover:bg-amber-400 transition-all duration-700 relative glow-permanent slider-button"
           [class.opacity-100]="currentIndex() === i"
           [class.opacity-0]="currentIndex() !== i"
           [class.translate-y-0]="currentIndex() === i"
@@ -49,24 +50,18 @@
     </div>
   }
 
-<button
-  (click)="prev()"
-  class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-1.5 sm:p-2 rounded-full transition-colors z-10"
->
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-  </svg>
-</button>
-<button
-  (click)="next()"
-  class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-1.5 sm:p-2 rounded-full transition-colors z-10"
->
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-  </svg>
-</button>
+  <button (click)="prev()" class="absolute top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors z-10 slider-arrow slider-arrow-left">
+    <svg xmlns="http://www.w3.org/2000/svg" class="slider-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+  <button (click)="next()" class="absolute top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors z-10 slider-arrow slider-arrow-right">
+    <svg xmlns="http://www.w3.org/2000/svg" class="slider-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
 
-  <div class="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+  <div class="absolute left-1/2 -translate-x-1/2 flex slider-dots-container">
     @for (slide of slides; track slide.image; let i = $index) {
       <button
         (click)="goTo(i)"

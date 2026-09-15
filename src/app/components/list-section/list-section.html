@@ -1,26 +1,26 @@
 <div
   #sectionRef
-  class="max-w-7xl mx-auto px-4 py-16"
+  class="max-w-7xl mx-auto list-wrapper"
   [style.opacity]="opacity()"
   [style.transform]="'translateX(' + (-60 * (1 - opacity())) + 'px)'"
   style="transition: opacity 0.8s ease-out, transform 0.8s ease-out;"
 >
-  <div class="text-center mb-12">
-    <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mt-2 mb-4">
+  <div class="text-center list-header">
+    <h2 class="font-bold text-slate-900 list-title">
       De ce sa devii membru ?
     </h2>
-    <div class="w-16 h-1 bg-amber-500 mx-auto rounded-full"></div>
+    <div class="bg-amber-500 mx-auto rounded-full list-title-line"></div>
   </div>
 
-  <div class="flex flex-col gap-6 max-w-3xl mx-auto">
+  <div class="flex flex-col mx-auto list-items-container">
    @for (item of newsItems; track item.title) {
-  <div class="group relative bg-white/75 backdrop-blur-md rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-shadow duration-300 overflow-hidden">
-    <div class="absolute left-0 top-0 h-full w-1 bg-amber-500 group-hover:w-2 transition-all duration-300"></div>
-    <div class="pl-2">
-      <h3 class="text-xl font-semibold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors duration-300">
+  <div class="group relative bg-white/75 backdrop-blur-md rounded-xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-shadow duration-300 overflow-hidden list-card">
+    <div class="absolute left-0 top-0 h-full bg-amber-500 group-hover:w-2 transition-all duration-300 list-card-accent"></div>
+    <div class="list-card-content">
+      <h3 class="font-semibold text-slate-900 group-hover:text-amber-600 transition-colors duration-300 list-card-title">
         {{ item.title }}
       </h3>
-      <p class="text-slate-600 leading-relaxed">{{ item.description }}</p>
+      <p class="text-slate-600 leading-relaxed list-card-description">{{ item.description }}</p>
     </div>
   </div>
 }

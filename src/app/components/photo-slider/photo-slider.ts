@@ -4,6 +4,7 @@ interface Slide {
   image: string;
   title: string;
   subtitle: string;
+  position?: string;
 }
 
 @Component({
@@ -18,9 +19,9 @@ export class PhotoSlider implements OnInit, OnDestroy {
   heroRatio = output<number>();
 
   slides: Slide[] = [
-    { image: 'pusculita.jpg', title: 'Economisește inteligent, crește constant', subtitle: 'Depuneri sigure cu randamente avantajoase pentru viitorul tău' },
-    { image: 'imprumut.jpg', title: 'Împrumuturi avantajoase, adaptate ție', subtitle: 'Dobânzi competitive și condiții flexibile de rambursare' },
-    { image: 'comunitate1.jpg', title: 'O comunitate mare, o familie unită', subtitle: 'Peste 500 de clienți mulțumiți în toată țara' }
+    { image: 'pusculita.jpg', title: 'Economisește inteligent, crește constant', subtitle: 'Depuneri sigure cu randamente avantajoase pentru viitorul tău', position: 'center top' },
+    { image: 'imprumut.jpg', title: 'Împrumuturi avantajoase, adaptate ție', subtitle: 'Dobânzi competitive și condiții flexibile de rambursare', position: 'center top' },
+    { image: 'comunitate1.jpg', title: 'O comunitate mare, o familie unită', subtitle: 'Peste 500 de clienți mulțumiți în toată țara', position: 'center top' }
   ];
 
   currentIndex = signal(0);
