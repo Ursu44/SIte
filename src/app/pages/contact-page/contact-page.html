@@ -1,67 +1,86 @@
-<div class="relative w-full h-72 overflow-hidden flex items-center justify-center">
+<!-- Banner -->
+<div class="relative w-full overflow-hidden flex items-center justify-center contact-banner">
   <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900"></div>
-  <div class="relative z-10 text-center px-4">
-    <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">Contactează-ne</h1>
-    <p class="text-lg text-slate-300 max-w-xl mx-auto">
+  <div class="relative z-10 text-center contact-banner-content">
+    <h1 class="font-bold text-white contact-banner-title">Contactează-ne</h1>
+    <p class="text-slate-300 mx-auto contact-banner-subtitle">
       Suntem aici să răspundem la orice întrebare ai avea
     </p>
   </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 py-16">
+<div class="max-w-7xl mx-auto contact-content">
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+  <!-- 3 cutii orizontale -->
+  <div class="grid grid-cols-1 md:grid-cols-3 contact-cards-grid">
 
-    <div class="group relative bg-white/75 backdrop-blur-md rounded-2xl shadow-lg p-8 text-center overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+    <!-- Adresă - din stânga -->
+    <div
+      class="group relative bg-white/85 backdrop-blur-md rounded-2xl shadow-lg text-center overflow-hidden hover:shadow-2xl transition-shadow duration-500 hover:-translate-y-2 card-enter card-from-left contact-card"
+      [class.card-enter-active]="animateIn()"
+    >
       <div class="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
       <div class="relative z-10">
-        <div class="w-16 h-16 mx-auto mb-4 bg-amber-500 group-hover:bg-white rounded-full flex items-center justify-center transition-colors duration-500">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-900 transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="mx-auto bg-amber-500 group-hover:bg-white rounded-full flex items-center justify-center transition-colors duration-500 contact-icon-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 transition-colors duration-500 contact-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-slate-900 group-hover:text-white mb-2 transition-colors duration-500">Adresă</h3>
-        <p class="text-slate-600 group-hover:text-white transition-colors duration-500">Str. Exemplu nr. 10, Iași</p>
+        <h3 class="font-semibold text-slate-900 group-hover:text-white transition-colors duration-500 contact-card-title">Adresă</h3>
+        <p class="text-slate-600 group-hover:text-white transition-colors duration-500 contact-card-text">Str. Exemplu nr. 10, Iași</p>
       </div>
     </div>
 
-    <div class="group relative bg-white/75 backdrop-blur-md rounded-2xl shadow-lg p-8 text-center overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+    <!-- Contact - de sus -->
+    <div
+      class="group relative bg-white/85 backdrop-blur-md rounded-2xl shadow-lg text-center overflow-hidden hover:shadow-2xl transition-shadow duration-500 hover:-translate-y-2 card-enter card-from-top contact-card"
+      [class.card-enter-active]="animateIn()"
+    >
       <div class="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
       <div class="relative z-10">
-        <div class="w-16 h-16 mx-auto mb-4 bg-amber-500 group-hover:bg-white rounded-full flex items-center justify-center transition-colors duration-500">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-900 transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="mx-auto bg-amber-500 group-hover:bg-white rounded-full flex items-center justify-center transition-colors duration-500 contact-icon-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 transition-colors duration-500 contact-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-slate-900 group-hover:text-white mb-2 transition-colors duration-500">Contact</h3>
-        <a href="tel:2222247" class="block text-slate-600 group-hover:text-white transition-colors duration-500">222 111 333</a>
-        <a href="mailto:contact@site.ro" class="block text-slate-600 group-hover:text-white transition-colors duration-500">contact@site.ro</a>
+        <h3 class="font-semibold text-slate-900 group-hover:text-white transition-colors duration-500 contact-card-title">Contact</h3>
+        <a href="tel:0755123456" class="block text-slate-600 group-hover:text-white transition-colors duration-500 contact-card-text">0755 123 456</a>
+        <a href="mailto:contact@site.ro" class="block text-slate-600 group-hover:text-white transition-colors duration-500 contact-card-text">contact@site.ro</a>
       </div>
     </div>
 
-    <div class="group relative bg-white/75 backdrop-blur-md rounded-2xl shadow-lg p-8 text-center overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+    <!-- Program - din dreapta -->
+    <div
+      class="group relative bg-white/85 backdrop-blur-md rounded-2xl shadow-lg text-center overflow-hidden hover:shadow-2xl transition-shadow duration-500 hover:-translate-y-2 card-enter card-from-right contact-card"
+      [class.card-enter-active]="animateIn()"
+    >
       <div class="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
       <div class="relative z-10">
-        <div class="w-16 h-16 mx-auto mb-4 bg-amber-500 group-hover:bg-white rounded-full flex items-center justify-center transition-colors duration-500">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-900 transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="mx-auto bg-amber-500 group-hover:bg-white rounded-full flex items-center justify-center transition-colors duration-500 contact-icon-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 transition-colors duration-500 contact-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-slate-900 group-hover:text-white mb-2 transition-colors duration-500">Program</h3>
-        <p class="text-slate-600 group-hover:text-white transition-colors duration-500">Luni - Vineri: 9:00 - 18:00</p>
+        <h3 class="font-semibold text-slate-900 group-hover:text-white transition-colors duration-500 contact-card-title">Program</h3>
+        <p class="text-slate-600 group-hover:text-white transition-colors duration-500 contact-card-text">Luni - Vineri: 9:00 - 18:00</p>
       </div>
     </div>
 
   </div>
 
-  <div class="bg-white/75 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden">
+  <!-- Hartă - de jos, animație declanșată la scroll -->
+  <div
+    #mapRef
+    class="bg-white/85 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden card-enter card-from-bottom"
+    [class.card-enter-active]="mapVisible()"
+  >
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2723.5!2d27.5828!3d47.1585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDA5JzMwLjYiTiAyN8KwMzQnNTguMSJF!5e0!3m2!1sro!2sro!4v1234567890"
-      class="w-full h-[600px] border-0"
+      class="w-full contact-map"
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"
     ></iframe>

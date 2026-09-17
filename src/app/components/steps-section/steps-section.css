@@ -1,0 +1,60 @@
+.steps-wrapper {
+  padding-left: clamp(1rem, 4vw, 1rem);
+  padding-right: clamp(1rem, 4vw, 1rem);
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.steps-card {
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.steps-header {
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.steps-title {
+  font-size: clamp(1.4rem, 4vw, 3rem);
+  margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+.steps-title-line {
+  width: clamp(3rem, 6vw, 4rem);
+  height: clamp(0.2rem, 0.3vw, 0.25rem);
+}
+
+.steps-line {
+  left: clamp(1.25rem, 3vw, 1.5rem);
+  width: clamp(1.5px, 0.15vw, 2px);
+}
+
+.steps-list {
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.steps-item {
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.step-number-circle {
+  width: clamp(2.5rem, 5vw, 3rem);
+  height: clamp(2.5rem, 5vw, 3rem);
+}
+
+.step-number-text {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+}
+
+.step-text-content {
+  padding-top: clamp(0.25rem, 0.6vw, 0.5rem);
+}
+
+.step-title {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  margin-bottom: clamp(0.375rem, 0.8vw, 0.5rem);
+}
+
+.step-description {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  line-height: 1.6;
+}

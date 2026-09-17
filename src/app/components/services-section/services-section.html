@@ -1,27 +1,27 @@
 <div
   #sectionRef
-  class="max-w-7xl mx-auto px-4 py-16"
+  class="max-w-7xl mx-auto services-wrapper"
   [style.opacity]="opacity()"
   [style.transform]="'translateX(' + (60 * (1 - opacity())) + 'px)'"
   style="transition: opacity 0.8s ease-out, transform 0.8s ease-out;"
 >
-  <div class="text-center mb-12">
-    <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
+  <div class="text-center services-header">
+    <h2 class="font-bold text-slate-900 services-title">
       Serviciile noastre
     </h2>
-    <div class="w-16 h-1 bg-amber-500 mx-auto rounded-full"></div>
+    <div class="bg-amber-500 mx-auto rounded-full services-title-line"></div>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 services-grid">
     @for (service of services; track service.title) {
-      <div class="bg-white/80 backdrop-blur-md rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center">
-        <div class="w-14 h-14 mx-auto mb-4 bg-amber-500 rounded-full flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="bg-white/80 backdrop-blur-md rounded-xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center service-card">
+        <div class="mx-auto bg-amber-500 rounded-full flex items-center justify-center service-icon-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 service-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="service.icon" />
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ service.title }}</h3>
-        <p class="text-sm text-slate-600 leading-relaxed">{{ service.description }}</p>
+        <h3 class="font-semibold text-slate-900 service-title">{{ service.title }}</h3>
+        <p class="text-slate-600 leading-relaxed service-description">{{ service.description }}</p>
       </div>
     }
   </div>
