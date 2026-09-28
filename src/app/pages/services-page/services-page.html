@@ -1,0 +1,148 @@
+<div class="relative w-full overflow-hidden flex items-center justify-center srv-banner">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900"></div>
+  <div class="absolute rounded-full bg-amber-500/20 srv-blob srv-blob-1"></div>
+  <div class="absolute rounded-full bg-orange-500/20 srv-blob srv-blob-2"></div>
+
+  <div class="relative z-10 text-center srv-banner-content">
+    <span class="font-semibold text-amber-400 uppercase tracking-widest srv-banner-eyebrow">Ce oferim</span>
+    <h1 class="font-bold text-white srv-banner-title">Serviciile noastre</h1>
+    <p class="text-slate-300 mx-auto srv-banner-subtitle">
+      Soluții clare și oameni dedicați, în fiecare etapă a colaborării
+    </p>
+  </div>
+</div>
+
+<div #statsRef class="max-w-5xl mx-auto srv-stats-wrap">
+  <div class="grid grid-cols-2 md:grid-cols-4 bg-white/85 backdrop-blur-md rounded-2xl shadow-xl srv-stats reveal" [class.reveal-active]="statsVisible()">
+    @for (stat of stats; track stat.label; let i = $index) {
+      <div class="text-center srv-stat">
+        <div class="font-extrabold text-amber-600 srv-stat-number">{{ format(counts()[i]) }}{{ stat.suffix }}</div>
+        <div class="text-slate-600 srv-stat-label">{{ stat.label }}</div>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="max-w-6xl mx-auto srv-list">
+  @for (service of services; track service.number; let i = $index) {
+    <section
+      #serviceBlock
+      [attr.data-index]="i"
+      class="grid grid-cols-1 md:grid-cols-2 items-center bg-white/80 backdrop-blur-md shadow-xl srv-item"
+      [class.srv-reverse]="i % 2 === 1"
+      [class.srv-item-visible]="visibleServices().includes(i)"
+    >
+
+      <div class="srv-image-col">
+        <div class="relative srv-image-frame">
+          <div class="absolute inset-0 srv-image-shadow"></div>
+          <div class="relative overflow-hidden bg-slate-800 srv-image-box">
+            <img
+              [src]="service.image"
+              [alt]="service.title"
+              loading="lazy"
+              decoding="async"
+              class="absolute inset-0 w-full h-full object-cover srv-image"
+              [style.object-position]="service.imagePosition || 'center'"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent"></div>
+            <div class="absolute bg-amber-500 rounded-full flex items-center justify-center shadow-lg srv-image-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 srv-image-badge-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="service.icon" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="min-w-0 srv-text-col">
+        <span class="font-extrabold srv-big-number">{{ service.number }}</span>
+        <p class="font-semibold text-amber-600 uppercase tracking-widest srv-tagline">{{ service.tagline }}</p>
+        <h2 class="font-bold text-slate-900 srv-title">{{ service.title }}</h2>
+        <p class="text-slate-600 leading-relaxed srv-description">{{ service.description }}</p>
+
+        <ul class="srv-benefits">
+          @for (benefit of service.benefits; track benefit; let j = $index) {
+            <li class="flex items-start srv-benefit" [style.transition-delay]="(0.4 + j * 0.1) + 's'">
+              <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center srv-check">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 srv-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span class="text-slate-700 min-w-0 srv-benefit-text">{{ benefit }}</span>
+            </li>
+          }
+        </ul>
+
+        <a routerLink="/contact" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold srv-button">
+          <span class="relative z-10 flex items-center text-white srv-button-inner">
+            Solicită acum
+            <svg xmlns="http://www.w3.org/2000/svg" class="srv-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+    </section>
+  }
+</div>
+
+<div #faqRef class="max-w-3xl mx-auto srv-faq reveal" [class.reveal-active]="faqVisible()">
+  <div class="text-center srv-faq-header">
+    <h2 class="font-bold text-slate-900 srv-section-title">Întrebări frecvente</h2>
+    <div class="bg-amber-500 mx-auto rounded-full srv-title-line"></div>
+  </div>
+
+  <div class="srv-faq-list">
+    @for (faq of faqs; track faq.question; let i = $index) {
+      <div class="bg-white/85 backdrop-blur-md shadow-sm faq-item" [class.faq-open]="openFaq() === i">
+        <button
+          type="button"
+          class="w-full flex items-center justify-between text-left faq-question"
+          (click)="toggleFaq(i)"
+          [attr.aria-expanded]="openFaq() === i"
+        >
+          <span class="font-semibold text-slate-900 min-w-0">{{ faq.question }}</span>
+          <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center faq-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 faq-icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p class="text-slate-600 leading-relaxed faq-answer-text">{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<div #ctaRef class="max-w-6xl mx-auto srv-cta-wrap reveal" [class.reveal-active]="ctaVisible()">
+  <div class="relative overflow-hidden text-center bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 srv-cta">
+    <div class="absolute rounded-full bg-amber-500/20 srv-blob srv-blob-1"></div>
+    <div class="absolute rounded-full bg-orange-500/20 srv-blob srv-blob-2"></div>
+
+    <div class="relative z-10">
+      <h2 class="font-bold text-white srv-cta-title">Gata să faci primul pas?</h2>
+      <p class="text-slate-300 mx-auto srv-cta-text">
+        Spune-ne ce ai nevoie și te ghidăm mai departe, fără presiune și fără complicații.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center srv-cta-actions">
+        <a routerLink="/contact" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold srv-button">
+          <span class="relative z-10 flex items-center text-white srv-button-inner">
+            Contactează-ne
+            <svg xmlns="http://www.w3.org/2000/svg" class="srv-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+        <a href="tel:0755123456" class="text-white font-semibold hover:text-amber-400 transition-colors srv-cta-phone">
+          sau sună la 0755 123 456
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

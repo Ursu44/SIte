@@ -1,0 +1,113 @@
+<div class="relative w-full overflow-hidden flex items-center justify-center docs-banner">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900"></div>
+  <div class="relative z-10 text-center docs-banner-content">
+    <h1 class="font-bold text-white docs-banner-title">Documente</h1>
+    <p class="text-slate-300 mx-auto docs-banner-subtitle">
+      Tot ce ai nevoie pentru dosarul tău, într-un singur loc
+    </p>
+  </div>
+</div>
+
+<div #tabsRef class="max-w-5xl mx-auto docs-content reveal" [class.reveal-active]="tabsVisible()">
+  <div class="bg-white/85 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden">
+
+    <div class="relative grid grid-cols-2 bg-slate-100/80 tabs-bar">
+      <div class="tab-indicator" [style.transform]="'translateX(' + (activeTab() * 100) + '%)'"></div>
+      @for (cat of categories; track cat.id; let i = $index) {
+        <button
+          type="button"
+          (click)="selectTab(i)"
+          class="relative z-10 font-semibold transition-colors duration-300 tab-button"
+          [class.tab-button-active]="activeTab() === i"
+        >
+          {{ cat.label }}
+        </button>
+      }
+    </div>
+
+    @for (cat of [categories[activeTab()]]; track cat.id) {
+      <div class="grid grid-cols-1 md:grid-cols-2 tab-content">
+
+        <div class="flex flex-col justify-center min-w-0">
+          <h2 class="font-bold text-slate-900 tab-title">{{ cat.title }}</h2>
+          <p class="text-slate-600 tab-description">{{ cat.description }}</p>
+
+          <ul class="conditions-list">
+            @for (condition of cat.conditions; track condition; let j = $index) {
+              <li class="flex items-start condition-item" [style.animation-delay]="(j * 0.1) + 's'">
+                <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center condition-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 condition-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="text-slate-700 min-w-0 condition-text">{{ condition }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <div class="relative overflow-hidden rounded-2xl shadow-lg order-first md:order-last tab-image-wrapper">
+          <img
+            [src]="cat.image"
+            [alt]="cat.label"
+            class="absolute inset-0 w-full h-full object-cover tab-image"
+            [style.object-position]="cat.imagePosition || 'center'"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+          <span class="absolute font-semibold text-slate-900 bg-amber-500 rounded-full tab-image-badge">
+            {{ cat.label }}
+          </span>
+        </div>
+
+      </div>
+    }
+
+  </div>
+</div>
+
+<div class="max-w-5xl mx-auto docs-content docs-section">
+
+  <div #docsRef class="text-center docs-header reveal" [class.reveal-active]="docsVisible()">
+    <h2 class="font-bold text-slate-900 docs-section-title">Documente comune</h2>
+    <div class="bg-amber-500 mx-auto rounded-full docs-title-line"></div>
+    <p class="text-slate-600 mx-auto docs-section-subtitle">Necesare indiferent de categoria aleasă</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 docs-grid">
+    @for (doc of documents; track doc.title; let i = $index) {
+      <div
+        #docCard
+        [attr.data-index]="i"
+        class="reveal"
+        [class.reveal-active]="visibleDocs().includes(i)"
+        [style.transition-delay]="((i % 3) * 0.1) + 's'"
+      >
+        <div class="bg-white/85 backdrop-blur-md rounded-xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full doc-card">
+
+          <div class="flex items-center doc-card-top">
+            <div class="flex-shrink-0 bg-amber-500 rounded-xl flex items-center justify-center doc-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 doc-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <span class="text-slate-500 doc-size">{{ doc.size }}</span>
+          </div>
+
+          <h3 class="font-semibold text-slate-900 doc-title">{{ doc.title }}</h3>
+          <p class="text-slate-600 leading-relaxed flex-grow doc-description">{{ doc.description }}</p>
+
+          <a [href]="doc.file" download class="relative overflow-hidden inline-flex items-center justify-center font-semibold rounded-full doc-download">
+            <span class="relative z-10 flex items-center doc-download-inner">
+              Descarcă
+              <svg xmlns="http://www.w3.org/2000/svg" class="doc-download-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </span>
+          </a>
+
+        </div>
+      </div>
+    }
+  </div>
+
+</div>

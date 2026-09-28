@@ -1,0 +1,208 @@
+<div class="relative w-full overflow-hidden flex items-center justify-center about-banner">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900"></div>
+  <div class="absolute rounded-full bg-amber-500/20 about-blob about-blob-1"></div>
+  <div class="absolute rounded-full bg-orange-500/20 about-blob about-blob-2"></div>
+
+  <div class="relative z-10 text-center about-banner-content">
+    <span class="font-semibold text-amber-400 uppercase tracking-widest about-banner-eyebrow">Despre noi</span>
+    <h1 class="font-bold text-white about-banner-title">Cine suntem</h1>
+    <p class="text-slate-300 mx-auto about-banner-subtitle">
+      O comunitate construită pe încredere, apropiere și grijă pentru fiecare om
+    </p>
+  </div>
+</div>
+
+<section class="max-w-6xl mx-auto about-section">
+  <div
+    #rv
+    data-key="story"
+    class="grid grid-cols-1 md:grid-cols-2 items-center bg-white/80 backdrop-blur-md shadow-xl story-card"
+    [class.in-view]="isOn('story')"
+  >
+
+    <div class="min-w-0 story-text">
+      <span class="font-semibold text-amber-600 uppercase tracking-widest about-eyebrow">Povestea noastră</span>
+      <h2 class="font-bold text-slate-900 story-title">De la o idee simplă, la o comunitate mare</h2>
+      <p class="text-slate-600 leading-relaxed story-paragraph">
+        Totul a început cu dorința unui grup de oameni de a se sprijini reciproc. De atunci, am crescut
+        pas cu pas, păstrând aceleași principii: corectitudine, deschidere și respect pentru fiecare membru.
+      </p>
+      <p class="text-slate-600 leading-relaxed story-paragraph">
+        Astăzi, echipa noastră este alături de mii de oameni, oferindu-le soluții clare și un sprijin pe care
+        se pot baza atunci când contează.
+      </p>
+      <blockquote class="text-slate-700 italic story-quote">
+        „Credem că finanțele sănătoase se construiesc împreună.”
+      </blockquote>
+    </div>
+
+    <div class="order-first md:order-last story-image-col">
+      <div class="relative story-image-frame">
+        <div class="absolute inset-0 story-image-shadow"></div>
+        <div class="relative overflow-hidden bg-slate-800 story-image-box">
+          <img
+            src="despre-poveste.jpg"
+            alt="Povestea noastră"
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 w-full h-full object-cover story-image"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
+        </div>
+        <div class="absolute bg-amber-500 text-slate-900 font-bold shadow-lg story-badge">
+          Din 2001
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto about-section">
+  <div
+    #rv
+    data-key="stats"
+    class="relative overflow-hidden grid grid-cols-2 md:grid-cols-4 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 stats-band reveal"
+    [class.reveal-active]="isOn('stats')"
+  >
+    <div class="absolute rounded-full bg-amber-500/20 about-blob about-blob-1"></div>
+    <div class="absolute rounded-full bg-orange-500/20 about-blob about-blob-2"></div>
+
+    @for (stat of stats; track stat.label; let i = $index) {
+      <div class="relative z-10 text-center stats-item">
+        <div class="font-extrabold text-amber-400 stats-number">{{ format(counts()[i]) }}{{ stat.suffix }}</div>
+        <div class="text-slate-300 stats-label">{{ stat.label }}</div>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto about-section">
+  <div #rv data-key="h-pillars" class="text-center about-header reveal" [class.reveal-active]="isOn('h-pillars')">
+    <span class="font-semibold text-amber-600 uppercase tracking-widest about-eyebrow">Ce ne ghidează</span>
+    <h2 class="font-bold text-slate-900 about-section-title">Misiune și viziune</h2>
+    <div class="bg-amber-500 mx-auto rounded-full about-title-line"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 pillars-grid">
+    @for (pillar of pillars; track pillar.title; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'pillar-' + i"
+        class="reveal"
+        [class.reveal-left]="i === 0"
+        [class.reveal-right]="i === 1"
+        [class.reveal-active]="isOn('pillar-' + i)"
+      >
+        <div class="relative overflow-hidden bg-white/85 backdrop-blur-md shadow-lg text-center pillar-card">
+          <div class="absolute inset-0 pillar-bg"></div>
+
+          <div class="relative z-10">
+            <div class="mx-auto bg-amber-500 rounded-full flex items-center justify-center pillar-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" [attr.d]="pillar.icon" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-slate-900 pillar-title">{{ pillar.title }}</h3>
+            <p class="text-slate-600 leading-relaxed pillar-text">{{ pillar.text }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="max-w-5xl mx-auto about-section">
+  <div #rv data-key="h-timeline" class="text-center about-header reveal" [class.reveal-active]="isOn('h-timeline')">
+    <span class="font-semibold text-amber-600 uppercase tracking-widest about-eyebrow">Drumul nostru</span>
+    <h2 class="font-bold text-slate-900 about-section-title">Cum am ajuns aici</h2>
+    <div class="bg-amber-500 mx-auto rounded-full about-title-line"></div>
+  </div>
+
+  <div class="tl-list">
+    @for (event of timeline; track event.year; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'tl-' + i"
+        class="tl-item"
+        [class.tl-left]="i % 2 === 0"
+        [class.in-view]="isOn('tl-' + i)"
+      >
+        <div class="tl-marker">
+          <div class="tl-dot"><span class="tl-dot-inner"></span></div>
+          <div class="tl-line"><div class="tl-line-fill"></div></div>
+        </div>
+
+        <div class="tl-content">
+          <div class="bg-white/85 backdrop-blur-md shadow-lg tl-card">
+            <span class="inline-block font-bold text-slate-900 bg-amber-500 rounded-full tl-year">{{ event.year }}</span>
+            <h3 class="font-semibold text-slate-900 tl-title">{{ event.title }}</h3>
+            <p class="text-slate-600 leading-relaxed tl-text">{{ event.description }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto about-section">
+  <div #rv data-key="h-values" class="text-center about-header reveal" [class.reveal-active]="isOn('h-values')">
+    <span class="font-semibold text-amber-600 uppercase tracking-widest about-eyebrow">Ce ne definește</span>
+    <h2 class="font-bold text-slate-900 about-section-title">Valorile noastre</h2>
+    <div class="bg-amber-500 mx-auto rounded-full about-title-line"></div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 values-grid">
+    @for (value of values; track value.title; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'value-' + i"
+        class="reveal"
+        [style.transition-delay]="((i % 3) * 0.1) + 's'"
+        [class.reveal-active]="isOn('value-' + i)"
+      >
+        <div class="bg-white/85 backdrop-blur-md border border-slate-200 shadow-sm text-center h-full value-card">
+          <div class="mx-auto bg-amber-500 rounded-full flex items-center justify-center value-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 value-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" [attr.d]="value.icon" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-slate-900 value-title">{{ value.title }}</h3>
+          <p class="text-slate-600 leading-relaxed value-text">{{ value.text }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto about-cta-wrap">
+  <div
+    #rv
+    data-key="cta"
+    class="relative overflow-hidden text-center bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 about-cta reveal"
+    [class.reveal-active]="isOn('cta')"
+  >
+    <div class="absolute rounded-full bg-amber-500/20 about-blob about-blob-1"></div>
+    <div class="absolute rounded-full bg-orange-500/20 about-blob about-blob-2"></div>
+
+    <div class="relative z-10">
+      <h2 class="font-bold text-white about-cta-title">Fă parte din comunitatea noastră</h2>
+      <p class="text-slate-300 mx-auto about-cta-text">
+        Vino să ne cunoști și să afli cum te putem ajuta. Te așteptăm cu drag.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center about-cta-actions">
+        <a routerLink="/contact" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold about-button">
+          <span class="relative z-10 flex items-center text-white about-button-inner">
+            Contactează-ne
+            <svg xmlns="http://www.w3.org/2000/svg" class="about-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+        <a routerLink="/servicii" class="inline-flex items-center justify-center rounded-full font-semibold text-white about-button about-button-outline">
+          Vezi serviciile
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
