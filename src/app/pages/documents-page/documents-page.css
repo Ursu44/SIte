@@ -8,7 +8,10 @@
   transform: translateY(0);
 }
 
-.docs-banner { height: clamp(200px, 30vw, 300px); }
+.docs-banner {
+  min-height: clamp(200px, 30vw, 300px);
+  padding: 2rem 0;
+}
 .docs-banner-content { padding: 0 1rem; }
 .docs-banner-title {
   font-size: clamp(1.75rem, 5vw, 3rem);
@@ -158,6 +161,16 @@
 
 .docs-grid { gap: clamp(1rem, 2vw, 1.5rem); }
 
+/* Întârziere la apariție, în funcție de numărul de coloane */
+@media (min-width: 640px) {
+  .docs-grid > :nth-child(2n) { transition-delay: 0.1s; }
+}
+@media (min-width: 1024px) {
+  .docs-grid > :nth-child(2n)     { transition-delay: 0s; }
+  .docs-grid > :nth-child(3n + 2) { transition-delay: 0.1s; }
+  .docs-grid > :nth-child(3n)     { transition-delay: 0.2s; }
+}
+
 .doc-card { padding: clamp(1.1rem, 2.4vw, 1.5rem); }
 .doc-card-top {
   justify-content: space-between;
@@ -171,7 +184,7 @@
   width: clamp(1.4rem, 2.6vw, 1.75rem);
   height: clamp(1.4rem, 2.6vw, 1.75rem);
 }
-.doc-size { font-size: clamp(0.7rem, 1.1vw, 0.8rem); }
+.doc-size { font-size: clamp(0.75rem, 1.1vw, 0.8rem); }
 .doc-title {
   font-size: clamp(1rem, 1.7vw, 1.15rem);
   margin-bottom: clamp(0.3rem, 0.7vw, 0.5rem);
@@ -216,6 +229,17 @@
 }
 .doc-download:active::before { transform: scaleY(1); }
 .doc-download:active { color: #ffffff; }
+
+/* Telefon în landscape */
+@media (orientation: landscape) and (max-height: 500px) {
+  .docs-banner {
+    min-height: 0;
+    padding: 1.5rem 0;
+  }
+}
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 767px) {
+  .tab-image-wrapper { height: 180px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .reveal,

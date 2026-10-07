@@ -1,0 +1,485 @@
+/* ===== Apariție la scroll ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal-left { transform: translateX(calc(-1 * clamp(24px, 6vw, 70px))); }
+.reveal-right { transform: translateX(clamp(24px, 6vw, 70px)); }
+.reveal.reveal-active { opacity: 1; transform: none; }
+
+/* ===== Butoane ===== */
+.btn-wow {
+  background: linear-gradient(135deg, #f59e0b, #ea580c, #f59e0b);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.btn-wow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+}
+@media (hover: hover) {
+  .btn-wow:hover {
+    box-shadow: 0 8px 30px rgba(245, 158, 11, 0.6);
+    transform: scale(1.05);
+  }
+  .btn-wow:hover::before { left: 125%; }
+}
+.btn-wow:active { transform: scale(0.97); }
+
+.mb-button {
+  min-height: 2.75rem;
+  padding: clamp(0.65rem, 1.2vw, 0.85rem) clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+}
+.mb-button-inner { gap: clamp(0.4rem, 0.8vw, 0.5rem); }
+.mb-button-icon {
+  width: clamp(0.85rem, 1.3vw, 1rem);
+  height: clamp(0.85rem, 1.3vw, 1rem);
+}
+.mb-button-outline {
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+@media (hover: hover) {
+  .mb-button-outline:hover { background: #ffffff; color: #0f172a; }
+}
+.mb-button-outline:active { background: #ffffff; color: #0f172a; }
+
+/* ===== Banner ===== */
+.mb-banner { padding: clamp(3rem, 8vw, 5.5rem) 1rem; }
+.mb-banner-content { max-width: 44rem; }
+.mb-banner-eyebrow {
+  display: block;
+  font-size: clamp(0.7rem, 1.1vw, 0.875rem);
+  margin-bottom: clamp(0.4rem, 1vw, 0.75rem);
+}
+.mb-banner-title {
+  font-size: clamp(1.9rem, 5.5vw, 3.5rem);
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  overflow-wrap: anywhere;
+}
+.mb-banner-subtitle { font-size: clamp(0.9rem, 1.5vw, 1.2rem); max-width: 36rem; }
+.mb-chips {
+  gap: clamp(0.4rem, 1vw, 0.75rem);
+  margin: clamp(1.1rem, 2.5vw, 1.75rem) 0;
+}
+.mb-chip {
+  padding: clamp(0.3rem, 0.7vw, 0.45rem) clamp(0.8rem, 1.6vw, 1.1rem);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+}
+
+/* Telefon în landscape: banner mai puțin înalt */
+@media (orientation: landscape) and (max-height: 500px) {
+  .mb-banner { padding-top: 1.75rem; padding-bottom: 1.75rem; }
+}
+
+/* Cercuri decorative */
+.mb-blob {
+  filter: blur(30px);
+  animation: blobFloat 9s ease-in-out infinite;
+  will-change: transform;
+}
+@media (min-width: 768px) { .mb-blob { filter: blur(40px); } }
+.mb-blob-1 {
+  width: clamp(10rem, 24vw, 18rem);
+  height: clamp(10rem, 24vw, 18rem);
+  top: -20%;
+  left: -5%;
+}
+.mb-blob-2 {
+  width: clamp(8rem, 20vw, 14rem);
+  height: clamp(8rem, 20vw, 14rem);
+  bottom: -25%;
+  right: -3%;
+  animation-delay: -4s;
+}
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -16px) scale(1.1); }
+}
+/* Pe ecrane mici cercurile rămân, dar nu se mai mișcă (consum de baterie) */
+@media (max-width: 767px) {
+  .mb-blob { animation: none; will-change: auto; }
+}
+
+/* ===== Structură generală ===== */
+.mb-section {
+  padding: clamp(2.5rem, 6vw, 5rem) 1rem 0;
+  overflow-x: clip;
+}
+.mb-header { margin-bottom: clamp(1.75rem, 4vw, 3rem); }
+.mb-eyebrow {
+  display: block;
+  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+  margin-bottom: clamp(0.3rem, 0.8vw, 0.5rem);
+}
+.mb-title {
+  font-size: clamp(1.5rem, 4.5vw, 2.75rem);
+  margin-bottom: clamp(0.6rem, 1.2vw, 0.9rem);
+  overflow-wrap: anywhere;
+}
+.mb-title-line {
+  width: clamp(3rem, 6vw, 4rem);
+  height: clamp(0.2rem, 0.3vw, 0.25rem);
+}
+
+/* ===== Introducere ===== */
+.mb-intro {
+  --shift: clamp(24px, 6vw, 70px);
+  --offset: clamp(8px, 1.6vw, 18px);
+  border-radius: clamp(1rem, 2.5vw, 1.75rem);
+  padding: clamp(1.25rem, 4vw, 3rem);
+  gap: clamp(1.75rem, 5vw, 4rem);
+}
+.mb-intro-text,
+.mb-intro-image-col {
+  opacity: 0;
+  transition: opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mb-intro-text { transform: translateX(calc(-1 * var(--shift))); }
+.mb-intro-image-col {
+  transform: translateX(var(--shift));
+  transition-delay: 0.15s;
+  width: 100%;
+  max-width: 30rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.mb-intro.in-view .mb-intro-text,
+.mb-intro.in-view .mb-intro-image-col { opacity: 1; transform: translateX(0); }
+
+@media (min-width: 768px) {
+  .mb-intro-image-col { max-width: none; margin-left: 0; margin-right: 0; }
+}
+
+.mb-intro-title {
+  font-size: clamp(1.4rem, 3.4vw, 2.25rem);
+  line-height: 1.2;
+  margin-bottom: clamp(0.75rem, 1.6vw, 1.1rem);
+  overflow-wrap: anywhere;
+}
+.mb-intro-paragraph {
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  margin-bottom: clamp(0.75rem, 1.6vw, 1.1rem);
+}
+
+.mb-image-frame { padding-right: var(--offset); padding-bottom: var(--offset); }
+.mb-image-shadow {
+  border-radius: clamp(0.9rem, 2vw, 1.5rem);
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  opacity: 0.9;
+  transform: translate(var(--offset), var(--offset));
+}
+.mb-image-box {
+  aspect-ratio: 4 / 3;
+  border-radius: clamp(0.9rem, 2vw, 1.5rem);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+}
+.mb-image { transition: transform 0.7s ease; }
+@media (hover: hover) {
+  .mb-image-box:hover .mb-image { transform: scale(1.07); }
+}
+.mb-image-badge {
+  left: clamp(0.6rem, 1.6vw, 1.1rem);
+  bottom: calc(var(--offset) + clamp(0.6rem, 1.6vw, 1.1rem));
+  padding: clamp(0.35rem, 0.8vw, 0.5rem) clamp(0.9rem, 1.8vw, 1.25rem);
+  border-radius: 9999px;
+  font-size: clamp(0.8rem, 1.3vw, 1rem);
+}
+
+/* ===== Beneficii ===== */
+.mb-benefits { gap: clamp(1rem, 2vw, 1.5rem); }
+
+/* Întârziere la apariție, în funcție de numărul de coloane (1 / 2 / 3) */
+@media (min-width: 640px) {
+  .mb-benefits > :nth-child(2n) { transition-delay: 0.1s; }
+}
+@media (min-width: 1024px) {
+  .mb-benefits > :nth-child(2n)     { transition-delay: 0s; }
+  .mb-benefits > :nth-child(3n + 2) { transition-delay: 0.1s; }
+  .mb-benefits > :nth-child(3n)     { transition-delay: 0.2s; }
+}
+.mb-benefit {
+  border-radius: clamp(0.85rem, 2vw, 1.25rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.mb-benefit-icon-wrap {
+  width: clamp(3rem, 5.5vw, 3.75rem);
+  height: clamp(3rem, 5.5vw, 3.75rem);
+  margin-bottom: clamp(0.75rem, 1.6vw, 1.1rem);
+  transition: transform 0.4s ease;
+}
+.mb-benefit-icon {
+  width: clamp(1.4rem, 2.8vw, 1.8rem);
+  height: clamp(1.4rem, 2.8vw, 1.8rem);
+}
+.mb-benefit-title {
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  margin-bottom: clamp(0.3rem, 0.8vw, 0.5rem);
+}
+.mb-benefit-text { font-size: clamp(0.85rem, 1.25vw, 0.97rem); }
+@media (hover: hover) {
+  .mb-benefit:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
+  }
+  .mb-benefit:hover .mb-benefit-icon-wrap { transform: rotate(-8deg) scale(1.1); }
+}
+
+/* ===== Pași ===== */
+.mb-steps-anchor { scroll-margin-top: calc(var(--header-height, 0px) + 1rem); }
+.mb-tl { overflow-x: clip; }
+
+.mb-step {
+  --shift: clamp(24px, 6vw, 60px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: clamp(0.9rem, 3vw, 2rem);
+}
+.mb-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mb-step-content {
+  min-width: 0;
+  padding-bottom: clamp(1.25rem, 4vw, 2.5rem);
+}
+.mb-step:last-child .mb-step-content { padding-bottom: 0; }
+.mb-step:last-child .mb-line { display: none; }
+
+.mb-dot {
+  flex-shrink: 0;
+  width: clamp(2.1rem, 4.5vw, 3rem);
+  height: clamp(2.1rem, 4.5vw, 3rem);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  color: #0f172a;
+  font-weight: 800;
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.mb-step.in-view .mb-dot {
+  transform: scale(1);
+  animation: dotPulse 1.8s ease-out 0.4s 1;
+}
+@keyframes dotPulse {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55); }
+  100% { box-shadow: 0 0 0 16px rgba(245, 158, 11, 0); }
+}
+
+.mb-line {
+  flex: 1 1 auto;
+  width: 3px;
+  min-height: 1rem;
+  margin: 0.25rem 0;
+  border-radius: 2px;
+  background: rgba(148, 163, 184, 0.35);
+  overflow: hidden;
+}
+.mb-line-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(#f59e0b, #ea580c);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.2s ease-out 0.3s;
+}
+.mb-step.in-view .mb-line-fill { transform: scaleY(1); }
+
+.mb-step-card {
+  border-radius: clamp(0.85rem, 2vw, 1.25rem);
+  padding: clamp(1rem, 2.8vw, 1.75rem);
+  opacity: 0;
+  transform: translateX(var(--shift));
+  transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mb-step.in-view .mb-step-card { opacity: 1; transform: translateX(0); }
+
+.mb-step-top {
+  gap: clamp(0.5rem, 1.4vw, 0.9rem);
+  margin-bottom: clamp(0.5rem, 1.2vw, 0.8rem);
+}
+.mb-step-tag {
+  padding: clamp(0.2rem, 0.5vw, 0.3rem) clamp(0.7rem, 1.6vw, 1rem);
+  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+}
+.mb-time { gap: 0.35rem; font-size: clamp(0.75rem, 1.2vw, 0.9rem); }
+.mb-time-icon {
+  width: clamp(0.9rem, 1.4vw, 1.05rem);
+  height: clamp(0.9rem, 1.4vw, 1.05rem);
+}
+.mb-step-title {
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  margin-bottom: clamp(0.3rem, 0.8vw, 0.5rem);
+  overflow-wrap: anywhere;
+}
+.mb-step-text {
+  font-size: clamp(0.88rem, 1.3vw, 1rem);
+  margin-bottom: clamp(0.9rem, 2vw, 1.25rem);
+}
+.mb-needs-label {
+  font-size: clamp(0.68rem, 1vw, 0.78rem);
+  margin-bottom: clamp(0.4rem, 1vw, 0.6rem);
+}
+
+/* ===== Liste cu bife (folosite în mai multe locuri) ===== */
+.mb-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.2vw, 0.75rem);
+}
+.mb-list-item { gap: clamp(0.6rem, 1.4vw, 0.85rem); }
+.mb-check {
+  width: clamp(1.3rem, 2.4vw, 1.6rem);
+  height: clamp(1.3rem, 2.4vw, 1.6rem);
+  margin-top: 0.1rem;
+}
+.mb-check-icon {
+  width: clamp(0.75rem, 1.4vw, 0.95rem);
+  height: clamp(0.75rem, 1.4vw, 0.95rem);
+}
+.mb-list-text {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  overflow-wrap: anywhere;
+}
+
+/* ===== Carduri duble ===== */
+.mb-duo { gap: clamp(1rem, 2.5vw, 2rem); }
+.mb-card {
+  border-radius: clamp(1rem, 2.2vw, 1.5rem);
+  padding: clamp(1.25rem, 3.5vw, 2.5rem);
+}
+.mb-card-title {
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  margin-bottom: clamp(0.8rem, 1.8vw, 1.25rem);
+}
+.mb-docs-icon-wrap {
+  width: clamp(3rem, 5.5vw, 3.75rem);
+  height: clamp(3rem, 5.5vw, 3.75rem);
+  margin-bottom: clamp(0.8rem, 1.8vw, 1.25rem);
+}
+.mb-docs-icon {
+  width: clamp(1.4rem, 2.8vw, 1.8rem);
+  height: clamp(1.4rem, 2.8vw, 1.8rem);
+}
+.mb-docs-text {
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  margin-bottom: clamp(1rem, 2.4vw, 1.5rem);
+}
+
+/* ===== FAQ ===== */
+.mb-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.6rem, 1.4vw, 0.9rem);
+}
+.mb-faq-item {
+  border-radius: clamp(0.75rem, 1.6vw, 1rem);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.mb-faq-open {
+  border-color: #f59e0b;
+  box-shadow: 0 10px 28px rgba(245, 158, 11, 0.18);
+}
+.mb-faq-question {
+  min-height: 3rem;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  padding: clamp(0.85rem, 2vw, 1.25rem) clamp(1rem, 2.6vw, 1.5rem);
+  font-size: clamp(0.92rem, 1.5vw, 1.1rem);
+  overflow-wrap: anywhere;
+}
+.mb-faq-icon {
+  width: clamp(1.75rem, 3vw, 2.1rem);
+  height: clamp(1.75rem, 3vw, 2.1rem);
+  transition: transform 0.35s ease;
+}
+.mb-faq-icon-svg {
+  width: clamp(0.9rem, 1.6vw, 1.1rem);
+  height: clamp(0.9rem, 1.6vw, 1.1rem);
+}
+.mb-faq-open .mb-faq-icon { transform: rotate(45deg); }
+
+.mb-faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+.mb-faq-open .mb-faq-answer { grid-template-rows: 1fr; }
+.mb-faq-answer-inner { overflow: hidden; min-height: 0; }
+.mb-faq-answer-text {
+  padding: 0 clamp(1rem, 2.6vw, 1.5rem) clamp(1rem, 2.4vw, 1.5rem);
+  font-size: clamp(0.88rem, 1.3vw, 1rem);
+}
+
+/* ===== Banner final ===== */
+.mb-cta-wrap {
+  padding: clamp(2.5rem, 6vw, 5rem) 1rem clamp(2.5rem, 6vw, 4rem);
+  overflow-x: clip;
+}
+.mb-cta {
+  border-radius: clamp(1rem, 2.5vw, 1.75rem);
+  padding: clamp(2rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+}
+.mb-cta-title {
+  font-size: clamp(1.5rem, 4.5vw, 2.75rem);
+  margin-bottom: clamp(0.6rem, 1.4vw, 1rem);
+  overflow-wrap: anywhere;
+}
+.mb-cta-text {
+  font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+  max-width: 34rem;
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
+}
+.mb-cta-actions { gap: clamp(0.75rem, 2vw, 1.25rem); }
+
+/* ===== Respectă „reduce animațiile” din sistem ===== */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .mb-intro-text,
+  .mb-intro-image-col,
+  .mb-step-card,
+  .mb-dot,
+  .mb-line-fill,
+  .mb-blob,
+  .btn-wow {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal,
+  .mb-intro-text,
+  .mb-intro-image-col,
+  .mb-step-card {
+    opacity: 1;
+    transform: none;
+  }
+  .mb-dot { transform: scale(1); }
+  .mb-line-fill { transform: scaleY(1); }
+}

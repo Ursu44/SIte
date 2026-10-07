@@ -1,0 +1,622 @@
+<!-- Banner -->
+<div #rv data-key="stats" class="relative w-full overflow-hidden sv-banner">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900"></div>
+  <div class="absolute rounded-full bg-amber-500/20 sv-blob sv-blob-1"></div>
+  <div class="absolute rounded-full bg-orange-500/20 sv-blob sv-blob-2"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center sv-banner-grid">
+
+    <div class="text-center md:text-left">
+      <span class="font-semibold text-amber-400 uppercase tracking-widest sv-banner-eyebrow">Economii</span>
+      <h1 class="font-bold text-white sv-banner-title">Economisește inteligent, crește constant</h1>
+      <p class="text-slate-300 sv-banner-subtitle">
+        Alegi un obiectiv, vezi cât trebuie să pui deoparte și urmărești cum cresc economiile tale
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start sv-banner-actions">
+        <button type="button" (click)="scrollToCalc()" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold sv-button">
+          <span class="relative z-10 flex items-center text-white sv-button-inner">
+            Calculează-ți economiile
+            <svg xmlns="http://www.w3.org/2000/svg" class="sv-button-icon transition-transform duration-300 group-hover:translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </span>
+        </button>
+        <button type="button" (click)="scrollToProducts()" class="inline-flex items-center justify-center rounded-full font-semibold text-white sv-button sv-button-outline">
+          Vezi produsele
+        </button>
+      </div>
+    </div>
+
+    <!-- Monedă 3D (decorativă) -->
+    <div class="sv-coin-wrap" aria-hidden="true">
+      <div class="sv-coin-scene">
+        <div class="sv-coin-glow"></div>
+        <div class="sv-coin">
+          @for (layer of coinLayers; track layer) {
+            <span class="sv-coin-layer" [style.--i]="layer"></span>
+          }
+          <span class="sv-coin-face sv-coin-front"><span class="sv-coin-ring"><span class="sv-coin-symbol">LEI</span></span></span>
+          <span class="sv-coin-face sv-coin-back"><span class="sv-coin-ring"><span class="sv-coin-symbol">LEI</span></span></span>
+        </div>
+        <span class="sv-mini sv-mini-1"></span>
+        <span class="sv-mini sv-mini-2"></span>
+        <span class="sv-mini sv-mini-3"></span>
+        <div class="sv-coin-shadow"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="relative z-10 max-w-6xl mx-auto sv-stats">
+    <div class="grid grid-cols-3 sv-stats-grid">
+      @for (stat of stats; track stat.label; let i = $index) {
+        <div class="text-center sv-stat">
+          <div class="font-extrabold sv-stat-number">{{ statText(i) }}</div>
+          <div class="sv-stat-label">{{ stat.label }}</div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Obiective -->
+<section class="max-w-6xl mx-auto sv-section">
+  <div #rv data-key="h-goals" class="text-center sv-header reveal" [class.reveal-active]="isOn('h-goals')">
+    <span class="font-semibold text-amber-700 uppercase tracking-widest sv-eyebrow">Începe cu un scop</span>
+    <h2 class="font-bold text-slate-900 sv-title">Pentru ce economisești?</h2>
+    <div class="bg-amber-500 mx-auto rounded-full sv-title-line"></div>
+    <p class="text-slate-600 mx-auto sv-subtitle">Alege un obiectiv și îți arătăm cât ai de pus deoparte în fiecare lună.</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 sv-goals">
+    @for (goal of goals; track goal.id; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'goal-' + i"
+        class="reveal"
+        [class.sv-goal-last]="i === goals.length - 1"
+        [style.transition-delay]="(i * 0.08) + 's'"
+        [class.reveal-active]="isOn('goal-' + i)"
+      >
+        <button type="button" (click)="chooseGoal(goal)" class="group flex flex-col h-full w-full text-left bg-white/85 backdrop-blur-md border border-slate-200 shadow-md sv-goal">
+          <span class="bg-amber-500 rounded-full flex items-center justify-center sv-goal-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 sv-goal-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" [attr.d]="goal.icon" />
+            </svg>
+          </span>
+          <span class="font-bold text-slate-900 sv-goal-name">{{ goal.name }}</span>
+          <span class="text-slate-600 sv-goal-text">{{ goal.text }}</span>
+          <span class="font-semibold text-slate-900 sv-goal-target">
+            {{ num(goal.target) }} lei · {{ luni(goal.months) }}
+          </span>
+          <span class="font-semibold text-amber-700 sv-goal-cta">
+            Vezi cât pui lunar
+            <svg xmlns="http://www.w3.org/2000/svg" class="sv-goal-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </button>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Produse -->
+<section #productsRef class="max-w-6xl mx-auto sv-section sv-anchor">
+  <div #rv data-key="h-products" class="text-center sv-header reveal" [class.reveal-active]="isOn('h-products')">
+    <span class="font-semibold text-amber-700 uppercase tracking-widest sv-eyebrow">Compară</span>
+    <h2 class="font-bold text-slate-900 sv-title">Alege varianta potrivită</h2>
+    <div class="bg-amber-500 mx-auto rounded-full sv-title-line"></div>
+  </div>
+
+  <!-- Tabel, pe ecrane mari -->
+  <div #rv data-key="table" class="hidden md:block reveal" [class.reveal-active]="isOn('table')">
+    <div class="bg-white/90 backdrop-blur-md shadow-xl sv-table-card">
+      <table class="sv-ptable">
+        <caption class="sr-only">Comparație între produsele de economisire</caption>
+        <thead>
+          <tr>
+            <th scope="col">Produs</th>
+            <th scope="col">Perioadă</th>
+            <th scope="col">Dobândă anuală</th>
+            <th scope="col">Depunere minimă</th>
+            <th scope="col">Acces la bani</th>
+            <th scope="col"><span class="sr-only">Acțiune</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of products; track p.id) {
+            <tr [class.sv-row-reco]="p.recommended">
+              <th scope="row">
+                <span class="font-bold text-slate-900">{{ p.name }}</span>
+                @if (p.recommended) {
+                  <span class="sv-badge">Recomandat</span>
+                }
+              </th>
+              <td>{{ p.term }}</td>
+              <td class="sv-rate">{{ rate(p.annualRate) }}</td>
+              <td>{{ num(p.minDeposit) }} lei</td>
+              <td>{{ p.access }}</td>
+              <td class="sv-cell-action">
+                <button type="button" class="sv-card-btn" (click)="chooseProduct(p.id)">Calculează</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Carduri, pe telefon -->
+  <div class="md:hidden grid grid-cols-1 sv-pcards">
+    @for (p of products; track p.id; let i = $index) {
+      <div #rv [attr.data-key]="'pc-' + i" class="reveal" [class.reveal-active]="isOn('pc-' + i)">
+        <article class="relative flex flex-col bg-white/90 backdrop-blur-md border shadow-lg sv-pcard" [class.sv-pcard-reco]="p.recommended">
+          @if (p.recommended) {
+            <span class="sv-badge sv-badge-float">Recomandat</span>
+          }
+          <h3 class="font-bold text-slate-900 sv-pcard-name">{{ p.name }}</h3>
+          <p class="font-extrabold text-amber-700 sv-pcard-rate">{{ rate(p.annualRate) }} <span class="sv-pcard-rate-unit">/ an</span></p>
+
+          <dl class="sv-facts">
+            <div class="sv-fact"><dt>Perioadă</dt><dd>{{ p.term }}</dd></div>
+            <div class="sv-fact"><dt>Depunere minimă</dt><dd>{{ num(p.minDeposit) }} lei</dd></div>
+            <div class="sv-fact"><dt>Acces la bani</dt><dd>{{ p.access }}</dd></div>
+          </dl>
+
+          <ul class="sv-list">
+            @for (feature of p.features; track feature) {
+              <li class="flex items-start sv-list-item">
+                <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center sv-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 sv-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="text-slate-700 min-w-0 sv-list-text">{{ feature }}</span>
+              </li>
+            }
+          </ul>
+
+          <button type="button" class="sv-card-btn" (click)="chooseProduct(p.id)">Calculează</button>
+        </article>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Calculator -->
+<section #calcRef class="max-w-6xl mx-auto sv-section sv-anchor">
+  <div #rv data-key="h-calc" class="text-center sv-header reveal" [class.reveal-active]="isOn('h-calc')">
+    <span class="font-semibold text-amber-700 uppercase tracking-widest sv-eyebrow">Calculator</span>
+    <h2 class="font-bold text-slate-900 sv-title">Vezi cum cresc economiile tale</h2>
+    <div class="bg-amber-500 mx-auto rounded-full sv-title-line"></div>
+    <p class="text-slate-600 mx-auto sv-subtitle">
+      Află cât vei avea la final sau cât trebuie să pui lunar ca să atingi un obiectiv.
+    </p>
+  </div>
+
+  <div #rv data-key="calc" class="grid grid-cols-1 lg:grid-cols-5 sv-calc reveal" [class.reveal-active]="isOn('calc')">
+
+    <!-- Valorile alese -->
+    <div class="lg:col-span-3 bg-white/90 backdrop-blur-md shadow-xl sv-panel">
+
+      <!-- Valoarea principală, vizibilă pe mobil -->
+      <div class="sv-peek" aria-hidden="true">
+        @if (mode() === 'grow') {
+          <span class="sv-peek-label">La final vei avea</span>
+          <strong class="sv-peek-value">{{ money(calc().final) }} lei</strong>
+        } @else {
+          <span class="sv-peek-label">Pui lunar</span>
+          <strong class="sv-peek-value">{{ money(calc().monthly) }} lei</strong>
+        }
+      </div>
+
+      <!-- Ce vrei să afli -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 sv-radios sv-modes" role="radiogroup" aria-label="Ce vrei să afli?">
+        <label class="sv-radio">
+          <input type="radio" name="mode" class="sv-radio-input" value="grow" [checked]="mode() === 'grow'" (change)="setMode('grow')" />
+          <span class="sv-radio-card">
+            <span class="sv-radio-top">
+              <span class="sv-radio-dot" aria-hidden="true"></span>
+              <span class="font-bold text-slate-900 sv-radio-name">Cât voi avea</span>
+            </span>
+            <span class="text-slate-600 sv-radio-meta">Aflu cât strâng în timp</span>
+          </span>
+        </label>
+        <label class="sv-radio">
+          <input type="radio" name="mode" class="sv-radio-input" value="target" [checked]="mode() === 'target'" (change)="setMode('target')" />
+          <span class="sv-radio-card">
+            <span class="sv-radio-top">
+              <span class="sv-radio-dot" aria-hidden="true"></span>
+              <span class="font-bold text-slate-900 sv-radio-name">Cât trebuie să pun lunar</span>
+            </span>
+            <span class="text-slate-600 sv-radio-meta">Am un obiectiv de atins</span>
+          </span>
+        </label>
+      </div>
+
+      <!-- Pasul 1: produsul -->
+      <div class="sv-field" role="radiogroup" aria-labelledby="sv-product-label">
+        <h3 id="sv-product-label" class="font-bold text-slate-900 sv-step-title">
+          <span class="sv-num" aria-hidden="true">1</span>Alege produsul
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 sv-radios">
+          @for (p of products; track p.id) {
+            <label class="sv-radio">
+              <input
+                type="radio"
+                name="product"
+                class="sv-radio-input"
+                [value]="p.id"
+                [checked]="selectedId() === p.id"
+                (change)="selectProduct(p.id)"
+              />
+              <span class="sv-radio-card">
+                <span class="sv-radio-top">
+                  <span class="sv-radio-dot" aria-hidden="true"></span>
+                  <span class="font-bold text-slate-900 sv-radio-name">{{ p.name }}</span>
+                </span>
+                <span class="text-slate-600 sv-radio-meta">Dobândă {{ rate(p.annualRate) }} / an</span>
+                <span class="text-slate-600 sv-radio-meta">Minim {{ num(p.minDeposit) }} lei</span>
+              </span>
+            </label>
+          }
+        </div>
+      </div>
+
+      <!-- Pașii următori: câmpurile depind de mod -->
+      @for (key of visibleFields(); track key; let i = $index) {
+        <div class="sv-field">
+          <label [attr.for]="'sv-' + key" class="block font-bold text-slate-900 sv-step-title">
+            <span class="sv-num" aria-hidden="true">{{ i + 2 }}</span>{{ fieldMeta[key].label }}
+          </label>
+
+          <div class="flex items-center sv-control">
+            <button
+              type="button"
+              class="sv-step-btn"
+              (click)="changeBy(key, -1)"
+              [disabled]="values()[key] <= limits()[key].min"
+              [attr.aria-label]="'Scade ' + fieldMeta[key].short"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="sv-step-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4" />
+              </svg>
+            </button>
+
+            <div class="sv-input-wrap" [class.sv-input-wrap-error]="!!error(key)">
+              <input
+                [id]="'sv-' + key"
+                type="number"
+                inputmode="numeric"
+                class="sv-input"
+                [attr.min]="limits()[key].min"
+                [attr.max]="limits()[key].max"
+                [attr.step]="limits()[key].step"
+                [value]="raw()[key] ?? ''"
+                (input)="onInput(key, $event)"
+                (change)="commit(key)"
+                (blur)="commit(key)"
+                [attr.aria-invalid]="!!error(key)"
+                [attr.aria-describedby]="'sv-hint-' + key"
+              />
+              <span class="sv-suffix" aria-hidden="true">{{ fieldMeta[key].suffix }}</span>
+            </div>
+
+            <button
+              type="button"
+              class="sv-step-btn"
+              (click)="changeBy(key, 1)"
+              [disabled]="values()[key] >= limits()[key].max"
+              [attr.aria-label]="'Crește ' + fieldMeta[key].short"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="sv-step-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+          </div>
+
+          <input
+            type="range"
+            class="sv-range"
+            [attr.aria-label]="'Glisor pentru ' + fieldMeta[key].short"
+            [min]="limits()[key].min"
+            [max]="limits()[key].max"
+            [step]="limits()[key].step"
+            [value]="values()[key]"
+            [attr.aria-valuetext]="fmt(key, values()[key])"
+            [style.--fill]="fill(key) + '%'"
+            (input)="onInput(key, $event)"
+          />
+          <div class="flex justify-between sv-range-labels" aria-hidden="true">
+            <span>{{ fmt(key, limits()[key].min) }}</span>
+            <span>{{ fmt(key, limits()[key].max) }}</span>
+          </div>
+
+          <p [id]="'sv-hint-' + key" class="sv-hint" [class.sv-hint-error]="!!error(key)">
+            {{ error(key) ?? ('Între ' + fmt(key, limits()[key].min) + ' și ' + fmt(key, limits()[key].max)) }}
+          </p>
+          @if (key === 'months' && values().months >= 12) {
+            <p class="sv-duration">Adică {{ duration(values().months) }}</p>
+          }
+
+          <div class="flex flex-wrap sv-presets" role="group" [attr.aria-label]="'Valori rapide pentru ' + fieldMeta[key].short">
+            @for (p of presetsFor(key); track p) {
+              <button
+                type="button"
+                class="sv-chip"
+                [class.sv-chip-active]="values()[key] === p"
+                [attr.aria-pressed]="values()[key] === p"
+                (click)="setValue(key, p)"
+              >
+                {{ fmt(key, p) }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+    </div>
+
+    <!-- Rezultat -->
+    <div class="lg:col-span-2 lg:self-stretch">
+      <div class="sv-result-sticky">
+        <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 text-white sv-result">
+          <div class="absolute rounded-full bg-amber-500/20 sv-blob sv-blob-1"></div>
+
+          <p class="sr-only" aria-live="polite" aria-atomic="true">{{ summary() }}</p>
+
+          <div class="relative z-10">
+            @if (mode() === 'grow') {
+              <p class="text-amber-300 uppercase tracking-wider font-semibold sv-result-label">La final vei avea</p>
+              <p class="font-extrabold sv-result-big">{{ money(calc().final) }}<span class="sv-result-unit"> lei</span></p>
+              <p class="text-slate-300 sv-result-sub">
+                după {{ duration(values().months) }} · dobândă {{ rate(selected().annualRate) }} / an
+              </p>
+            } @else {
+              <p class="text-amber-300 uppercase tracking-wider font-semibold sv-result-label">Trebuie să pui lunar</p>
+              <p class="font-extrabold sv-result-big">{{ money(calc().monthly) }}<span class="sv-result-unit"> lei</span></p>
+              <p class="text-slate-300 sv-result-sub">
+                ca să ajungi la {{ num(values().target) }} lei în {{ duration(values().months) }}
+              </p>
+              @if (calc().alreadyThere) {
+                <p class="text-amber-200 sv-result-note">Cu suma inițială atingi deja obiectivul, fără depuneri lunare.</p>
+              }
+            }
+
+            <dl class="sv-rows">
+              @if (mode() === 'target') {
+                <div class="sv-row">
+                  <dt>Suma la final</dt>
+                  <dd>{{ money(calc().final) }} lei</dd>
+                </div>
+              }
+              <div class="sv-row">
+                <dt>Depunerile tale <span class="sv-row-hint">suma inițială + contribuții</span></dt>
+                <dd>{{ money(calc().paid) }} lei</dd>
+              </div>
+              <div class="sv-row sv-row-strong">
+                <dt>Dobânda câștigată</dt>
+                <dd>{{ money(calc().interest) }} lei</dd>
+              </div>
+            </dl>
+
+            <div class="sv-bar" role="img" [attr.aria-label]="barLabel()">
+              <span class="sv-bar-paid" [style.width.%]="calc().paidPct"></span>
+              <span class="sv-bar-int" [style.width.%]="calc().interestPct"></span>
+            </div>
+            <ul class="flex flex-wrap text-slate-300 sv-legend" aria-hidden="true">
+              <li class="sv-legend-item"><span class="sv-dot sv-dot-paid"></span>Depunerile tale</li>
+              <li class="sv-legend-item"><span class="sv-dot sv-dot-int"></span>Dobândă</li>
+            </ul>
+
+            <a routerLink="/contact" class="btn-wow group relative inline-flex items-center justify-center rounded-full overflow-hidden font-semibold w-full sv-button sv-result-cta">
+              <span class="relative z-10 flex items-center text-white sv-button-inner">
+                Deschide un cont de economii
+                <svg xmlns="http://www.w3.org/2000/svg" class="sv-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
+            </a>
+
+            <p class="text-slate-400 sv-disclaimer">
+              Calcul orientativ, cu dobândă capitalizată lunar și depuneri la finalul lunii. Condițiile finale se confirmă la deschiderea contului.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Grafic -->
+  <div class="bg-white/90 backdrop-blur-md shadow-xl sv-chart-card">
+    <div class="flex flex-wrap items-center justify-between sv-chart-head">
+      <div class="min-w-0">
+        <h3 class="font-bold text-slate-900 sv-chart-title">Cum crește economia ta</h3>
+        <p class="text-slate-600 sv-chart-sub">Partea de deasupra depunerilor tale este dobânda câștigată</p>
+      </div>
+      <ul class="flex flex-wrap sv-legend-light">
+        <li class="sv-legend-item"><span class="sv-dot sv-dot-total"></span>Total economisit</li>
+        <li class="sv-legend-item"><span class="sv-dot sv-dot-line"></span>Depunerile tale</li>
+      </ul>
+    </div>
+
+    <div #rv data-key="chart" class="sv-chart" [class.sv-chart-on]="isOn('chart')">
+      <ul class="sv-yaxis" aria-hidden="true">
+        @for (tick of chart().ticks; track tick.pct) {
+          <li [style.bottom.%]="tick.pct">{{ tick.label }}</li>
+        }
+      </ul>
+
+      <div class="sv-plot">
+        <svg class="sv-chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none" role="img" [attr.aria-label]="chartLabel()">
+          <path class="sv-area-balance" [attr.d]="chart().balanceArea" />
+          <path class="sv-area-paid" [attr.d]="chart().paidArea" />
+          <path class="sv-line-paid" [attr.d]="chart().paidLine" />
+          <path class="sv-line-balance" [attr.d]="chart().balanceLine" />
+        </svg>
+      </div>
+
+      <div class="sv-xaxis" aria-hidden="true">
+        <span>Azi</span>
+        <span>{{ duration(halfMonths()) }}</span>
+        <span>{{ duration(values().months) }}</span>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="sv-card-btn sv-table-toggle"
+      (click)="showTable.set(!showTable())"
+      [attr.aria-expanded]="showTable()"
+      aria-controls="sv-table"
+    >
+      {{ showTable() ? 'Ascunde tabelul' : 'Arată valorile pe ani' }}
+    </button>
+
+    @if (showTable()) {
+      <div id="sv-table" class="sv-table-wrap" tabindex="0" role="region" aria-label="Tabelul valorilor pe ani, derulabil">
+        <table class="sv-table">
+          <caption class="sr-only">Evoluția economiilor, pe ani</caption>
+          <thead>
+            <tr>
+              <th scope="col">Perioadă</th>
+              <th scope="col">Depunerile tale</th>
+              <th scope="col">Dobândă</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of yearRows(); track row.month) {
+              <tr>
+                <th scope="row">După {{ duration(row.month) }}</th>
+                <td>{{ money(row.contributed) }}</td>
+                <td>{{ money(interestOf(row)) }}</td>
+                <td>{{ money(row.balance) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Cum începi -->
+<section class="max-w-6xl mx-auto sv-section">
+  <div #rv data-key="h-how" class="text-center sv-header reveal" [class.reveal-active]="isOn('h-how')">
+    <span class="font-semibold text-amber-700 uppercase tracking-widest sv-eyebrow">Pas cu pas</span>
+    <h2 class="font-bold text-slate-900 sv-title">Cum începi să economisești</h2>
+    <div class="bg-amber-500 mx-auto rounded-full sv-title-line"></div>
+  </div>
+
+  <div #rv data-key="how" class="relative sv-how reveal" [class.reveal-active]="isOn('how')" [class.sv-how-on]="isOn('how')">
+    <div class="sv-how-line" aria-hidden="true"><div class="sv-how-line-fill"></div></div>
+    <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sv-how-grid">
+      @for (step of howSteps; track step.number) {
+        <li class="relative text-center sv-how-item">
+          <div class="mx-auto font-extrabold text-slate-900 flex items-center justify-center sv-how-num" aria-hidden="true">{{ step.number }}</div>
+          <div class="bg-white/85 backdrop-blur-md border border-slate-200 shadow-lg sv-how-card">
+            <h3 class="font-semibold text-slate-900 sv-how-title">
+              <span class="sr-only">Pasul {{ step.number }}: </span>{{ step.title }}
+            </h3>
+            <p class="text-slate-600 leading-relaxed sv-how-text">{{ step.text }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<!-- De ce la noi -->
+<section class="max-w-6xl mx-auto sv-section">
+  <div class="grid grid-cols-1 md:grid-cols-3 sv-infos">
+    @for (info of infos; track info.title; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'info-' + i"
+        class="reveal"
+        [style.transition-delay]="(i * 0.1) + 's'"
+        [class.reveal-active]="isOn('info-' + i)"
+      >
+        <div class="bg-white/85 backdrop-blur-md border border-slate-200 shadow-sm text-center h-full sv-info">
+          <div class="mx-auto bg-amber-500 rounded-full flex items-center justify-center sv-info-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 sv-info-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" [attr.d]="info.icon" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-slate-900 sv-info-title">{{ info.title }}</h3>
+          <p class="text-slate-600 leading-relaxed sv-info-text">{{ info.text }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- FAQ -->
+<section #rv data-key="faq" class="max-w-3xl mx-auto sv-section reveal" [class.reveal-active]="isOn('faq')">
+  <div class="text-center sv-header">
+    <h2 class="font-bold text-slate-900 sv-title">Întrebări frecvente</h2>
+    <div class="bg-amber-500 mx-auto rounded-full sv-title-line"></div>
+  </div>
+
+  <div class="sv-faq-list">
+    @for (faq of faqs; track faq.question; let i = $index) {
+      <div class="bg-white/85 backdrop-blur-md shadow-sm sv-faq-item" [class.sv-faq-open]="openFaq() === i">
+        <button
+          type="button"
+          class="w-full flex items-center justify-between text-left sv-faq-question"
+          (click)="toggleFaq(i)"
+          [attr.aria-expanded]="openFaq() === i"
+        >
+          <span class="font-semibold text-slate-900 min-w-0">{{ faq.question }}</span>
+          <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center sv-faq-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 sv-faq-icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+        </button>
+        <div class="sv-faq-answer">
+          <div class="sv-faq-answer-inner">
+            <p class="text-slate-600 leading-relaxed sv-faq-answer-text">{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Banner final -->
+<section class="max-w-6xl mx-auto sv-cta-wrap">
+  <div
+    #rv
+    data-key="cta"
+    class="relative overflow-hidden text-center bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 sv-cta reveal"
+    [class.reveal-active]="isOn('cta')"
+  >
+    <div class="absolute rounded-full bg-amber-500/20 sv-blob sv-blob-1"></div>
+    <div class="absolute rounded-full bg-orange-500/20 sv-blob sv-blob-2"></div>
+
+    <div class="relative z-10">
+      <h2 class="font-bold text-white sv-cta-title">Începe să economisești azi</h2>
+      <p class="text-slate-300 mx-auto sv-cta-text">
+        Spune-ne ce obiectiv ai și te ajutăm să alegi varianta potrivită, fără presiune și fără complicații.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center sv-cta-actions">
+        <a routerLink="/contact" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold sv-button">
+          <span class="relative z-10 flex items-center text-white sv-button-inner">
+            Contactează-ne
+            <svg xmlns="http://www.w3.org/2000/svg" class="sv-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+        <a href="tel:0111121000" class="inline-flex items-center justify-center rounded-full font-semibold text-white sv-button sv-button-outline">
+          sau sună la 0111 121 000
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

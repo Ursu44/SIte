@@ -38,17 +38,9 @@
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-.card-from-left {
-  transform: translateX(-80px);
-}
-
-.card-from-right {
-  transform: translateX(80px);
-}
-
-.card-from-top {
-  transform: translateY(-80px);
-}
+.card-from-left   { transform: translateX(calc(-1 * clamp(24px, 6vw, 80px))); }
+.card-from-right  { transform: translateX(clamp(24px, 6vw, 80px)); }
+.card-from-top    { transform: translateY(calc(-1 * clamp(24px, 6vw, 80px))); }
 
 .card-from-bottom {
   transform: translateY(80px);
@@ -60,10 +52,10 @@
   transform: translate(0, 0);
 }
 
-/* ===== Adaptare fluidă ===== */
 
 .contact-banner {
-  height: clamp(220px, 35vw, 320px);
+  min-height: clamp(220px, 35vw, 320px);
+  padding: 2rem 0;
 }
 
 .contact-banner-content {
@@ -113,10 +105,30 @@
   margin-bottom: clamp(0.375rem, 0.8vw, 0.5rem);
 }
 
-.contact-card-text {
-  font-size: clamp(0.85rem, 1.2vw, 1rem);
-}
+.contact-card-text { overflow-wrap: anywhere; }
 
 .contact-map {
   height: clamp(280px, 45vw, 500px);
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .contact-banner {
+    min-height: 0;
+    padding: 1.5rem 0;
+  }
+}
+
+@media (pointer: coarse) {
+  a.contact-card-text { padding: 0.6rem 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-enter,
+  .card-from-left,
+  .card-from-right,
+  .card-from-top {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

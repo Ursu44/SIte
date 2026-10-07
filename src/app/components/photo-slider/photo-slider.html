@@ -37,15 +37,16 @@
           {{ slide.subtitle }}
         </p>
 
-        <button
-          class="bg-amber-500 text-slate-900 font-semibold rounded-md hover:bg-amber-400 transition-all duration-700 relative glow-permanent slider-button"
+        <a
+          [routerLink]="slide.link"
+          class="inline-block bg-amber-500 text-slate-900 font-semibold rounded-md hover:bg-amber-400 transition-all duration-700 relative glow-permanent slider-button"
           [class.opacity-100]="currentIndex() === i"
           [class.opacity-0]="currentIndex() !== i"
           [class.translate-y-0]="currentIndex() === i"
           [class.translate-y-3]="currentIndex() !== i"
         >
           Află mai multe
-        </button>
+        </a>
       </div>
     </div>
   }

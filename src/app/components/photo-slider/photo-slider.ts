@@ -1,15 +1,18 @@
 import { Component, signal, OnInit, OnDestroy, ElementRef, ViewChild, afterNextRender, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 interface Slide {
   image: string;
   title: string;
   subtitle: string;
   position?: string;
+  link?: string;
 }
 
 @Component({
   selector: 'app-photo-slider',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './photo-slider.html',
   styleUrl: './photo-slider.css'
 })
@@ -19,9 +22,9 @@ export class PhotoSlider implements OnInit, OnDestroy {
   heroRatio = output<number>();
 
   slides: Slide[] = [
-    { image: 'pusculita.jpg', title: 'Economisește inteligent, crește constant', subtitle: 'Depuneri sigure cu randamente avantajoase pentru viitorul tău', position: 'center top' },
-    { image: 'imprumut.jpg', title: 'Împrumuturi avantajoase, adaptate ție', subtitle: 'Dobânzi competitive și condiții flexibile de rambursare', position: 'center top' },
-    { image: 'comunitate1.jpg', title: 'O comunitate mare, o familie unită', subtitle: 'Peste 500 de clienți mulțumiți în toată țara', position: 'center top' }
+    { image: 'pusculita.jpg', title: 'Economisește inteligent, crește constant', subtitle: 'Depuneri sigure cu randamente avantajoase pentru viitorul tău', position: 'center top',link:'economii' },
+    { image: 'imprumut.jpg', title: 'Împrumuturi avantajoase, adaptate ție', subtitle: 'Dobânzi competitive și condiții flexibile de rambursare', position: 'center top',link:'imprumuturi' },
+    { image: 'comunitate1.jpg', title: 'O comunitate mare, o familie unită', subtitle: 'Peste 500 de clienți mulțumiți în toată țara', position: 'center top',link:'devino-membru' }
   ];
 
   currentIndex = signal(0);

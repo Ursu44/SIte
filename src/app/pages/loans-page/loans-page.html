@@ -1,0 +1,592 @@
+<!-- Banner -->
+<div class="relative w-full overflow-hidden flex items-center justify-center ln-banner">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900"></div>
+  <div class="absolute rounded-full bg-amber-500/20 ln-blob ln-blob-1"></div>
+  <div class="absolute rounded-full bg-orange-500/20 ln-blob ln-blob-2"></div>
+
+  <div class="relative z-10 text-center ln-banner-content">
+    <span class="font-semibold text-amber-400 uppercase tracking-widest ln-banner-eyebrow">Împrumuturi</span>
+    <h1 class="font-bold text-white ln-banner-title">Împrumuturi clare, adaptate nevoilor tale</h1>
+    <p class="text-slate-300 mx-auto ln-banner-subtitle">
+      Alegi suma și perioada, vezi imediat cât ai de plată și știi exact la ce te angajezi
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center ln-pills">
+      <span class="ln-pill">Costuri clare</span>
+      <span class="ln-pill">Rate fixe</span>
+      <span class="ln-pill">Calculator gratuit</span>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center ln-banner-actions">
+      <button type="button" (click)="scrollToCalc()" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold ln-button">
+        <span class="relative z-10 flex items-center text-white ln-button-inner">
+          Calculează rata
+          <svg xmlns="http://www.w3.org/2000/svg" class="ln-button-icon transition-transform duration-300 group-hover:translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </span>
+      </button>
+      <button type="button" (click)="scrollToSteps()" class="inline-flex items-center justify-center rounded-full font-semibold text-white ln-button ln-button-outline">
+        Cum funcționează
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Tipuri de împrumut -->
+<section class="max-w-6xl mx-auto ln-section">
+  <div #rv data-key="h-types" class="text-center ln-header reveal" [class.reveal-active]="isOn('h-types')">
+    <span class="font-semibold text-amber-700 uppercase tracking-widest ln-eyebrow">Ce îți oferim</span>
+    <h2 class="font-bold text-slate-900 ln-title">Alege împrumutul potrivit</h2>
+    <div class="bg-amber-500 mx-auto rounded-full ln-title-line"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 ln-types">
+    @for (t of types; track t.id; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'type-' + i"
+        class="reveal"
+        [style.transition-delay]="(i * 0.1) + 's'"
+        [class.reveal-active]="isOn('type-' + i)"
+      >
+        <article class="flex flex-col h-full bg-white/85 backdrop-blur-md border border-slate-200 shadow-lg ln-type-card">
+          <div class="bg-amber-500 rounded-full flex items-center justify-center ln-type-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 ln-type-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" [attr.d]="t.icon" />
+            </svg>
+          </div>
+
+          <h3 class="font-bold text-slate-900 ln-type-name">{{ t.name }}</h3>
+          <p class="font-semibold text-amber-700 ln-type-tagline">{{ t.tagline }}</p>
+          <p class="text-slate-600 leading-relaxed ln-type-desc">{{ t.description }}</p>
+
+          <dl class="ln-facts">
+            <div class="ln-fact"><dt>Dobândă</dt><dd>{{ rate(t.annualRate) }} / an</dd></div>
+            <div class="ln-fact"><dt>Sumă</dt><dd>{{ num(t.minAmount) }} – {{ num(t.maxAmount) }} lei</dd></div>
+            <div class="ln-fact"><dt>Perioadă</dt><dd>{{ t.minMonths }} – {{ luni(t.maxMonths) }}</dd></div>
+          </dl>
+
+          <ul class="ln-list">
+            @for (feature of t.features; track feature) {
+              <li class="flex items-start ln-list-item">
+                <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center ln-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 ln-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="text-slate-700 min-w-0 ln-list-text">{{ feature }}</span>
+              </li>
+            }
+          </ul>
+
+          <button type="button" (click)="chooseType(t.id)" class="mt-auto ln-card-btn">
+            Calculează rata
+          </button>
+        </article>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Avantaje -->
+<section class="max-w-6xl mx-auto ln-section">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ln-adv-grid">
+    @for (adv of advantages; track adv.title; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'adv-' + i"
+        class="reveal"
+        [style.transition-delay]="(i * 0.1) + 's'"
+        [class.reveal-active]="isOn('adv-' + i)"
+      >
+        <div class="bg-white/85 backdrop-blur-md border border-slate-200 shadow-sm text-center h-full ln-adv">
+          <div class="mx-auto bg-amber-500 rounded-full flex items-center justify-center ln-adv-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 ln-adv-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" [attr.d]="adv.icon" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-slate-900 ln-adv-title">{{ adv.title }}</h3>
+          <p class="text-slate-600 leading-relaxed ln-adv-text">{{ adv.text }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Cum funcționează -->
+<section #stepsRef class="max-w-6xl mx-auto ln-section ln-anchor">
+  <div #rv data-key="h-how" class="text-center ln-header reveal" [class.reveal-active]="isOn('h-how')">
+    <span class="font-semibold text-amber-700 uppercase tracking-widest ln-eyebrow">Pas cu pas</span>
+    <h2 class="font-bold text-slate-900 ln-title">Cum obții un împrumut</h2>
+    <div class="bg-amber-500 mx-auto rounded-full ln-title-line"></div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ln-how-grid">
+    @for (step of howSteps; track step.number; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'how-' + i"
+        class="reveal"
+        [style.transition-delay]="(i * 0.1) + 's'"
+        [class.reveal-active]="isOn('how-' + i)"
+      >
+        <div class="bg-white/85 backdrop-blur-md border border-slate-200 shadow-lg h-full ln-how-card">
+          <div class="font-extrabold text-slate-900 flex items-center justify-center ln-how-num" aria-hidden="true">{{ step.number }}</div>
+          <h3 class="font-semibold text-slate-900 ln-how-title">
+            <span class="sr-only">Pasul {{ step.number }}: </span>{{ step.title }}
+          </h3>
+          <p class="text-slate-600 leading-relaxed ln-how-text">{{ step.text }}</p>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div #rv data-key="callout" class="reveal" [class.reveal-active]="isOn('callout')">
+    <div class="flex flex-col md:flex-row items-center justify-between bg-white/85 backdrop-blur-md border border-amber-300 shadow-lg ln-callout">
+      <p class="text-slate-700 ln-callout-text">
+        <strong class="text-slate-900">Împrumuturile sunt destinate membrilor.</strong>
+        Nu ești încă membru? Înscrierea este simplă, iar documentele le găsești gata de descărcat.
+      </p>
+      <div class="flex flex-col sm:flex-row ln-callout-actions">
+        <a routerLink="/devino-membru" class="ln-link-btn ln-link-btn-primary">Cum devii membru</a>
+        <a routerLink="/documente" class="ln-link-btn">Vezi documentele</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Calculator -->
+<section #calcRef class="max-w-6xl mx-auto ln-section ln-anchor">
+  <div #rv data-key="h-calc" class="text-center ln-header reveal" [class.reveal-active]="isOn('h-calc')">
+    <span class="font-semibold text-amber-700 uppercase tracking-widest ln-eyebrow">Calculator</span>
+    <h2 class="font-bold text-slate-900 ln-title">Calculează-ți rata</h2>
+    <div class="bg-amber-500 mx-auto rounded-full ln-title-line"></div>
+    <p class="text-slate-600 mx-auto ln-subtitle">
+      Alege tipul de împrumut, suma și perioada. Rezultatul se actualizează imediat.
+    </p>
+  </div>
+
+  <div #rv data-key="calc" class="grid grid-cols-1 lg:grid-cols-5 ln-calc reveal" [class.reveal-active]="isOn('calc')">
+
+    <!-- Valorile alese -->
+    <div class="lg:col-span-3 bg-white/90 backdrop-blur-md shadow-xl ln-panel">
+
+      <!-- Rata, lipită sub header pe ecrane mici (rezumatul pentru cititoare de ecran e în cardul de rezultat) -->
+      <div class="ln-mini" aria-hidden="true">
+        <span class="ln-mini-label">Rata lunară</span>
+        <strong class="ln-mini-value">{{ money(result().monthly) }} lei</strong>
+      </div>
+
+      <!-- Pasul 1: tipul -->
+      <div class="ln-field" role="radiogroup" aria-labelledby="ln-type-label">
+        <h3 id="ln-type-label" class="font-bold text-slate-900 ln-step-title">
+          <span class="ln-num" aria-hidden="true">1</span>Alege tipul de împrumut
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 ln-radios">
+          @for (t of types; track t.id) {
+            <label class="ln-radio">
+              <input
+                type="radio"
+                name="loanType"
+                class="ln-radio-input"
+                [value]="t.id"
+                [checked]="selectedId() === t.id"
+                (change)="selectType(t.id)"
+              />
+              <span class="ln-radio-card">
+                <span class="ln-radio-top">
+                  <span class="ln-radio-dot" aria-hidden="true"></span>
+                  <span class="font-bold text-slate-900 ln-radio-name">{{ t.name }}</span>
+                </span>
+                <span class="text-slate-600 ln-radio-meta">Dobândă {{ rate(t.annualRate) }} / an</span>
+                <span class="text-slate-600 ln-radio-meta">{{ num(t.minAmount) }} – {{ num(t.maxAmount) }} lei</span>
+              </span>
+            </label>
+          }
+        </div>
+      </div>
+
+      <!-- Pasul 2: suma -->
+      <div class="ln-field">
+        <label for="ln-amount" class="block font-bold text-slate-900 ln-step-title">
+          <span class="ln-num" aria-hidden="true">2</span>De ce sumă ai nevoie?
+        </label>
+
+        <div class="flex items-center ln-control">
+          <button
+            type="button"
+            class="ln-step-btn"
+            (click)="changeAmount(-1)"
+            [disabled]="amount() <= selected().minAmount"
+            [attr.aria-label]="'Scade suma cu ' + num(selected().amountStep) + ' lei'"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="ln-step-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4" />
+            </svg>
+          </button>
+
+          <div class="ln-input-wrap" [class.ln-input-wrap-error]="!!amountError()">
+            <input
+              id="ln-amount"
+              type="number"
+              inputmode="numeric"
+              class="ln-input"
+              [attr.min]="selected().minAmount"
+              [attr.max]="selected().maxAmount"
+              [attr.step]="selected().amountStep"
+              [value]="amountRaw() ?? ''"
+              (input)="onAmountInput($event)"
+              (change)="commitAmount()"
+              (blur)="commitAmount()"
+              [attr.aria-invalid]="!!amountError()"
+              aria-describedby="ln-amount-hint"
+            />
+            <span class="ln-suffix" aria-hidden="true">lei</span>
+          </div>
+
+          <button
+            type="button"
+            class="ln-step-btn"
+            (click)="changeAmount(1)"
+            [disabled]="amount() >= selected().maxAmount"
+            [attr.aria-label]="'Crește suma cu ' + num(selected().amountStep) + ' lei'"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="ln-step-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        </div>
+
+        <input
+          type="range"
+          class="ln-range"
+          aria-label="Glisor pentru sumă, în lei"
+          [min]="selected().minAmount"
+          [max]="selected().maxAmount"
+          [step]="selected().amountStep"
+          [value]="amount()"
+          [attr.aria-valuetext]="num(amount()) + ' lei'"
+          [style.--fill]="amountFill() + '%'"
+          (input)="onAmountSlider($event)"
+        />
+        <div class="flex justify-between ln-range-labels" aria-hidden="true">
+          <span>{{ num(selected().minAmount) }} lei</span>
+          <span>{{ num(selected().maxAmount) }} lei</span>
+        </div>
+
+        <p id="ln-amount-hint" class="ln-hint" [class.ln-hint-error]="!!amountError()">
+          {{ amountError() ?? ('Între ' + num(selected().minAmount) + ' și ' + num(selected().maxAmount) + ' lei') }}
+        </p>
+
+        <div class="flex flex-wrap ln-presets" role="group" aria-label="Sume rapide">
+          @for (p of selected().amountPresets; track p) {
+            <button
+              type="button"
+              class="ln-chip"
+              [class.ln-chip-active]="amount() === p"
+              [attr.aria-pressed]="amount() === p"
+              (click)="setAmount(p)"
+            >
+              {{ num(p) }} lei
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Pasul 3: perioada -->
+      <div class="ln-field">
+        <label for="ln-months" class="block font-bold text-slate-900 ln-step-title">
+          <span class="ln-num" aria-hidden="true">3</span>Pe ce perioadă?
+        </label>
+
+        <div class="flex items-center ln-control">
+          <button
+            type="button"
+            class="ln-step-btn"
+            (click)="changeMonths(-1)"
+            [disabled]="months() <= selected().minMonths"
+            aria-label="Scade perioada cu o lună"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="ln-step-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4" />
+            </svg>
+          </button>
+
+          <div class="ln-input-wrap" [class.ln-input-wrap-error]="!!monthsError()">
+            <input
+              id="ln-months"
+              type="number"
+              inputmode="numeric"
+              class="ln-input"
+              [attr.min]="selected().minMonths"
+              [attr.max]="selected().maxMonths"
+              step="1"
+              [value]="monthsRaw() ?? ''"
+              (input)="onMonthsInput($event)"
+              (change)="commitMonths()"
+              (blur)="commitMonths()"
+              [attr.aria-invalid]="!!monthsError()"
+              aria-describedby="ln-months-hint"
+            />
+            <span class="ln-suffix" aria-hidden="true">luni</span>
+          </div>
+
+          <button
+            type="button"
+            class="ln-step-btn"
+            (click)="changeMonths(1)"
+            [disabled]="months() >= selected().maxMonths"
+            aria-label="Crește perioada cu o lună"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="ln-step-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        </div>
+
+        <input
+          type="range"
+          class="ln-range"
+          aria-label="Glisor pentru perioadă, în luni"
+          [min]="selected().minMonths"
+          [max]="selected().maxMonths"
+          step="1"
+          [value]="months()"
+          [attr.aria-valuetext]="luni(months())"
+          [style.--fill]="monthsFill() + '%'"
+          (input)="onMonthsSlider($event)"
+        />
+        <div class="flex justify-between ln-range-labels" aria-hidden="true">
+          <span>{{ luni(selected().minMonths) }}</span>
+          <span>{{ luni(selected().maxMonths) }}</span>
+        </div>
+
+        <p id="ln-months-hint" class="ln-hint" [class.ln-hint-error]="!!monthsError()">
+          {{ monthsError() ?? ('Între ' + selected().minMonths + ' și ' + luni(selected().maxMonths)) }}
+        </p>
+        @if (months() >= 12) {
+          <p class="ln-duration">Adică {{ duration(months()) }}</p>
+        }
+
+        <div class="flex flex-wrap ln-presets" role="group" aria-label="Perioade rapide">
+          @for (p of selected().monthPresets; track p) {
+            <button
+              type="button"
+              class="ln-chip"
+              [class.ln-chip-active]="months() === p"
+              [attr.aria-pressed]="months() === p"
+              (click)="setMonths(p)"
+            >
+              {{ luni(p) }}
+            </button>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Rezultat -->
+    <div class="lg:col-span-2 lg:self-stretch">
+      <div class="ln-result-sticky">
+        <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 text-white ln-result">
+          <div class="absolute rounded-full bg-amber-500/20 ln-blob ln-blob-1"></div>
+
+          <p class="sr-only" aria-live="polite" aria-atomic="true">{{ summary() }}</p>
+
+          <div class="relative z-10">
+            <p class="text-amber-300 uppercase tracking-wider font-semibold ln-result-label">Rata ta lunară</p>
+            <p class="font-extrabold ln-result-big">
+              {{ money(result().monthly) }}<span class="ln-result-unit"> lei</span>
+            </p>
+            <p class="text-slate-300 ln-result-sub">
+              timp de {{ duration(months()) }} · dobândă {{ rate(selected().annualRate) }} / an
+            </p>
+            @if (result().lastDiffers) {
+              <p class="text-slate-400 ln-result-note">
+                Ultima rată: {{ money(result().last) }} lei (diferă ușor din cauza rotunjirii).
+              </p>
+            }
+
+            <dl class="ln-rows">
+              <div class="ln-row">
+                <dt>Suma împrumutată</dt>
+                <dd>{{ num(amount()) }} lei</dd>
+              </div>
+              <div class="ln-row">
+                <dt>Total de rambursat <span class="ln-row-hint">capital + dobândă</span></dt>
+                <dd>{{ money(result().total) }} lei</dd>
+              </div>
+              <div class="ln-row ln-row-strong">
+                <dt>Costul total al creditului <span class="ln-row-hint">dobândă + comision</span></dt>
+                <dd>{{ money(result().cost) }} lei</dd>
+              </div>
+            </dl>
+
+            <p class="text-slate-300 ln-cost-detail">
+              Dobândă: {{ money(result().interest) }} lei
+              @if (result().fee > 0) {
+                · Comision de analiză: {{ money(result().fee) }} lei (o singură dată)
+              } @else {
+                · Fără comision de analiză
+              }
+            </p>
+
+            <div class="ln-bar" role="img" [attr.aria-label]="barLabel()">
+              <span class="ln-bar-cap" [style.width.%]="result().principalPct"></span>
+              <span class="ln-bar-int" [style.width.%]="result().interestPct"></span>
+              @if (result().fee > 0) {
+                <span class="ln-bar-fee" [style.width.%]="result().feePct"></span>
+              }
+            </div>
+            <ul class="flex flex-wrap text-slate-300 ln-legend" aria-hidden="true">
+              <li class="ln-legend-item"><span class="ln-dot ln-dot-cap"></span>Capital</li>
+              <li class="ln-legend-item"><span class="ln-dot ln-dot-int"></span>Dobândă</li>
+              @if (result().fee > 0) {
+                <li class="ln-legend-item"><span class="ln-dot ln-dot-fee"></span>Comision</li>
+              }
+            </ul>
+
+            <a routerLink="/contact" class="btn-wow group relative inline-flex items-center justify-center rounded-full overflow-hidden font-semibold w-full ln-button ln-result-cta">
+              <span class="relative z-10 flex items-center text-white ln-button-inner">
+                Solicită acest împrumut
+                <svg xmlns="http://www.w3.org/2000/svg" class="ln-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
+            </a>
+
+            <p class="text-slate-400 ln-disclaimer">
+              Calcul orientativ. Oferta finală depinde de analiza dosarului și se prezintă înainte de semnare.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Graficul de rambursare -->
+  <div class="bg-white/90 backdrop-blur-md shadow-xl ln-schedule-card">
+    <div class="flex flex-wrap items-center justify-between ln-schedule-head">
+      <div class="min-w-0">
+        <h3 class="font-bold text-slate-900 ln-schedule-title">Grafic de rambursare</h3>
+        <p class="text-slate-600 ln-schedule-sub">Fiecare rată, împărțită în capital și dobândă</p>
+      </div>
+      <button
+        type="button"
+        class="ln-card-btn ln-schedule-toggle"
+        (click)="showSchedule.set(!showSchedule())"
+        [attr.aria-expanded]="showSchedule()"
+        aria-controls="ln-schedule"
+      >
+        {{ showSchedule() ? 'Ascunde graficul' : 'Arată graficul' }}
+      </button>
+    </div>
+
+    @if (showSchedule()) {
+      <div id="ln-schedule" class="ln-table-wrap" tabindex="0" role="region" aria-label="Tabelul graficului de rambursare, derulabil">
+        <table class="ln-table">
+          <caption class="sr-only">
+            Grafic de rambursare pentru {{ num(amount()) }} lei, pe {{ duration(months()) }}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Luna</th>
+              <th scope="col">Rata</th>
+              <th scope="col">Capital</th>
+              <th scope="col">Dobândă</th>
+              <th scope="col">Rest de plată</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of schedule(); track row.month) {
+              <tr>
+                <th scope="row">{{ row.month }}</th>
+                <td>{{ money(row.payment) }}</td>
+                <td>{{ money(row.principal) }}</td>
+                <td>{{ money(row.interest) }}</td>
+                <td>{{ money(row.balance) }}</td>
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Total</th>
+              <td>{{ money(result().total) }}</td>
+              <td>{{ money(amount()) }}</td>
+              <td>{{ money(result().interest) }}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- FAQ -->
+<section #rv data-key="faq" class="max-w-3xl mx-auto ln-section reveal" [class.reveal-active]="isOn('faq')">
+  <div class="text-center ln-header">
+    <h2 class="font-bold text-slate-900 ln-title">Întrebări frecvente</h2>
+    <div class="bg-amber-500 mx-auto rounded-full ln-title-line"></div>
+  </div>
+
+  <div class="ln-faq-list">
+    @for (faq of faqs; track faq.question; let i = $index) {
+      <div class="bg-white/85 backdrop-blur-md shadow-sm ln-faq-item" [class.ln-faq-open]="openFaq() === i">
+        <button
+          type="button"
+          class="w-full flex items-center justify-between text-left ln-faq-question"
+          (click)="toggleFaq(i)"
+          [attr.aria-expanded]="openFaq() === i"
+        >
+          <span class="font-semibold text-slate-900 min-w-0">{{ faq.question }}</span>
+          <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center ln-faq-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 ln-faq-icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+        </button>
+        <div class="ln-faq-answer">
+          <div class="ln-faq-answer-inner">
+            <p class="text-slate-600 leading-relaxed ln-faq-answer-text">{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Banner final -->
+<section class="max-w-6xl mx-auto ln-cta-wrap">
+  <div
+    #rv
+    data-key="cta"
+    class="relative overflow-hidden text-center bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 ln-cta reveal"
+    [class.reveal-active]="isOn('cta')"
+  >
+    <div class="absolute rounded-full bg-amber-500/20 ln-blob ln-blob-1"></div>
+    <div class="absolute rounded-full bg-orange-500/20 ln-blob ln-blob-2"></div>
+
+    <div class="relative z-10">
+      <h2 class="font-bold text-white ln-cta-title">Ai nevoie de un împrumut?</h2>
+      <p class="text-slate-300 mx-auto ln-cta-text">
+        Spune-ne ce ai în minte și te ajutăm să alegi varianta potrivită, fără presiune și fără complicații.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center ln-cta-actions">
+        <a routerLink="/contact" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold ln-button">
+          <span class="relative z-10 flex items-center text-white ln-button-inner">
+            Contactează-ne
+            <svg xmlns="http://www.w3.org/2000/svg" class="ln-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+        <a href="tel:0111113001" class="inline-flex items-center justify-center rounded-full font-semibold text-white ln-button ln-button-outline">
+          sau sună la 0111 113 001
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

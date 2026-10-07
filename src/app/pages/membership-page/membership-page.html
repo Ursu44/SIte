@@ -1,0 +1,317 @@
+<!-- Banner -->
+<div class="relative w-full overflow-hidden flex items-center justify-center mb-banner">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900"></div>
+  <div class="absolute rounded-full bg-amber-500/20 mb-blob mb-blob-1"></div>
+  <div class="absolute rounded-full bg-orange-500/20 mb-blob mb-blob-2"></div>
+
+  <div class="relative z-10 text-center mb-banner-content">
+    <span class="font-semibold text-amber-400 uppercase tracking-widest mb-banner-eyebrow">Alătură-te nouă</span>
+    <h1 class="font-bold text-white mb-banner-title">Cum devii membru</h1>
+    <p class="text-slate-300 mx-auto mb-banner-subtitle">
+      Tot ce trebuie să știi despre înscriere: pașii, condițiile și documentele, explicate simplu
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center mb-chips">
+      <span class="mb-chip">2.000+ membri</span>
+      <span class="mb-chip">5 pași simpli</span>
+      <span class="mb-chip">Fără costuri ascunse</span>
+    </div>
+
+    <button type="button" (click)="scrollToSteps()" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold mb-button">
+      <span class="relative z-10 flex items-center text-white mb-button-inner">
+        Vezi pașii
+        <svg xmlns="http://www.w3.org/2000/svg" class="mb-button-icon transition-transform duration-300 group-hover:translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+<!-- Introducere -->
+<section class="max-w-6xl mx-auto mb-section">
+  <div
+    #rv
+    data-key="intro"
+    class="grid grid-cols-1 md:grid-cols-2 items-center bg-white/80 backdrop-blur-md shadow-xl mb-intro"
+    [class.in-view]="isOn('intro')"
+  >
+    <div class="min-w-0 mb-intro-text">
+      <span class="font-semibold text-amber-600 uppercase tracking-widest mb-eyebrow">Fii parte din comunitate</span>
+      <h2 class="font-bold text-slate-900 mb-intro-title">Peste 2.000 de oameni ne-au acordat încrederea lor</h2>
+      <p class="text-slate-600 leading-relaxed mb-intro-paragraph">
+        A deveni membru înseamnă să faci parte dintr-o comunitate care se bazează pe corectitudine,
+        sprijin reciproc și transparență. Procesul de înscriere este simplu, iar echipa noastră
+        te ghidează la fiecare pas.
+      </p>
+      <p class="text-slate-600 leading-relaxed mb-intro-paragraph">
+        Mai jos găsești exact ce ai de făcut, ce documente îți trebuie și cât durează fiecare etapă.
+      </p>
+    </div>
+
+    <div class="order-first md:order-last mb-intro-image-col">
+      <div class="relative mb-image-frame">
+        <div class="absolute inset-0 mb-image-shadow"></div>
+        <div class="relative overflow-hidden bg-slate-800 mb-image-box">
+          <img
+            src="comunitate1.jpg"
+            alt="Comunitatea noastră"
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 w-full h-full object-cover mb-image"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
+        </div>
+        <div class="absolute bg-amber-500 text-slate-900 font-bold shadow-lg mb-image-badge">2.000+ membri</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Beneficii -->
+<section class="max-w-6xl mx-auto mb-section">
+  <div #rv data-key="h-benefits" class="text-center mb-header reveal" [class.reveal-active]="isOn('h-benefits')">
+    <span class="font-semibold text-amber-600 uppercase tracking-widest mb-eyebrow">De ce să te înscrii</span>
+    <h2 class="font-bold text-slate-900 mb-title">Ce câștigi ca membru</h2>
+    <div class="bg-amber-500 mx-auto rounded-full mb-title-line"></div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-benefits">
+    @for (benefit of benefits; track benefit.title; let i = $index) {
+      <div
+        #rv
+        [attr.data-key]="'benefit-' + i"
+        class="reveal"
+        [class.reveal-active]="isOn('benefit-' + i)"
+      >
+        <div class="bg-white/85 backdrop-blur-md border border-slate-200 shadow-sm text-center h-full mb-benefit">
+          <div class="mx-auto bg-amber-500 rounded-full flex items-center justify-center mb-benefit-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 mb-benefit-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" [attr.d]="benefit.icon" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-slate-900 mb-benefit-title">{{ benefit.title }}</h3>
+          <p class="text-slate-600 leading-relaxed mb-benefit-text">{{ benefit.text }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Pașii detaliați -->
+<section #stepsRef class="max-w-4xl mx-auto mb-section mb-steps-anchor">
+  <div #rv data-key="h-steps" class="text-center mb-header reveal" [class.reveal-active]="isOn('h-steps')">
+    <span class="font-semibold text-amber-600 uppercase tracking-widest mb-eyebrow">Pas cu pas</span>
+    <h2 class="font-bold text-slate-900 mb-title">Cum te înscrii</h2>
+    <div class="bg-amber-500 mx-auto rounded-full mb-title-line"></div>
+  </div>
+
+  <div class="mb-tl">
+    @for (step of steps; track step.number; let i = $index) {
+      <div #rv [attr.data-key]="'step-' + i" class="mb-step" [class.in-view]="isOn('step-' + i)">
+
+        <div class="mb-marker">
+          <div class="mb-dot">{{ step.number }}</div>
+          <div class="mb-line"><div class="mb-line-fill"></div></div>
+        </div>
+
+        <div class="mb-step-content">
+          <div class="bg-white/85 backdrop-blur-md shadow-lg mb-step-card">
+            <div class="flex flex-wrap items-center mb-step-top">
+              <span class="font-bold text-slate-900 bg-amber-500 rounded-full mb-step-tag">Pasul {{ step.number }}</span>
+              <span class="inline-flex items-center text-slate-500 mb-time">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mb-time-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ step.time }}
+              </span>
+            </div>
+
+            <h3 class="font-semibold text-slate-900 mb-step-title">{{ step.title }}</h3>
+            <p class="text-slate-600 leading-relaxed mb-step-text">{{ step.description }}</p>
+
+            <p class="font-semibold text-slate-900 uppercase tracking-wider mb-needs-label">Ce ai nevoie</p>
+            <ul class="mb-list">
+              @for (need of step.needs; track need) {
+                <li class="flex items-start mb-list-item">
+                  <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center mb-check">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 mb-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  <span class="text-slate-700 min-w-0 mb-list-text">{{ need }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Condiții + documente -->
+<section class="max-w-6xl mx-auto mb-section">
+  <div class="grid grid-cols-1 md:grid-cols-2 mb-duo">
+
+    <div #rv data-key="cond" class="reveal reveal-left" [class.reveal-active]="isOn('cond')">
+      <div class="bg-white/85 backdrop-blur-md shadow-lg h-full mb-card">
+        <h3 class="font-bold text-slate-900 mb-card-title">Condiții de înscriere</h3>
+        <ul class="mb-list">
+          @for (condition of conditions; track condition) {
+            <li class="flex items-start mb-list-item">
+              <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center mb-check">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 mb-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span class="text-slate-700 min-w-0 mb-list-text">{{ condition }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div #rv data-key="docs" class="reveal reveal-right" [class.reveal-active]="isOn('docs')">
+      <div class="relative overflow-hidden flex flex-col justify-center h-full bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 shadow-lg mb-card mb-docs-card">
+        <div class="absolute rounded-full bg-amber-500/20 mb-blob mb-blob-1"></div>
+        <div class="relative z-10">
+          <div class="bg-amber-500 rounded-full flex items-center justify-center mb-docs-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 mb-docs-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3 class="font-bold text-white mb-card-title">Documente necesare</h3>
+          <p class="text-slate-300 leading-relaxed mb-docs-text">
+            Lista completă, împărțită pe categorii, și formularele gata de descărcat le găsești în pagina Documente.
+          </p>
+          <a routerLink="/documente" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold mb-button">
+            <span class="relative z-10 flex items-center text-white mb-button-inner">
+              Vezi documentele
+              <svg xmlns="http://www.w3.org/2000/svg" class="mb-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Drepturi și obligații -->
+<section class="max-w-6xl mx-auto mb-section">
+  <div #rv data-key="h-rights" class="text-center mb-header reveal" [class.reveal-active]="isOn('h-rights')">
+    <span class="font-semibold text-amber-600 uppercase tracking-widest mb-eyebrow">Ce presupune</span>
+    <h2 class="font-bold text-slate-900 mb-title">Drepturi și obligații</h2>
+    <div class="bg-amber-500 mx-auto rounded-full mb-title-line"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 mb-duo">
+
+    <div #rv data-key="rights" class="reveal" [class.reveal-active]="isOn('rights')">
+      <div class="bg-white/85 backdrop-blur-md shadow-lg h-full mb-card">
+        <h3 class="font-bold text-slate-900 mb-card-title">Drepturile tale</h3>
+        <ul class="mb-list">
+          @for (item of rights; track item) {
+            <li class="flex items-start mb-list-item">
+              <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center mb-check">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 mb-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span class="text-slate-700 min-w-0 mb-list-text">{{ item }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div #rv data-key="duties" class="reveal" style="transition-delay: 0.1s" [class.reveal-active]="isOn('duties')">
+      <div class="bg-white/85 backdrop-blur-md shadow-lg h-full mb-card">
+        <h3 class="font-bold text-slate-900 mb-card-title">Obligațiile tale</h3>
+        <ul class="mb-list">
+          @for (item of duties; track item) {
+            <li class="flex items-start mb-list-item">
+              <span class="flex-shrink-0 bg-slate-800 rounded-full flex items-center justify-center mb-check">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-white mb-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span class="text-slate-700 min-w-0 mb-list-text">{{ item }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section #rv data-key="faq" class="max-w-3xl mx-auto mb-section reveal" [class.reveal-active]="isOn('faq')">
+  <div class="text-center mb-header">
+    <h2 class="font-bold text-slate-900 mb-title">Întrebări frecvente</h2>
+    <div class="bg-amber-500 mx-auto rounded-full mb-title-line"></div>
+  </div>
+
+  <div class="mb-faq-list">
+    @for (faq of faqs; track faq.question; let i = $index) {
+      <div class="bg-white/85 backdrop-blur-md shadow-sm mb-faq-item" [class.mb-faq-open]="openFaq() === i">
+        <button
+          type="button"
+          class="w-full flex items-center justify-between text-left mb-faq-question"
+          (click)="toggleFaq(i)"
+          [attr.aria-expanded]="openFaq() === i"
+        >
+          <span class="font-semibold text-slate-900 min-w-0">{{ faq.question }}</span>
+          <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center mb-faq-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 mb-faq-icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+        </button>
+        <div class="mb-faq-answer">
+          <div class="mb-faq-answer-inner">
+            <p class="text-slate-600 leading-relaxed mb-faq-answer-text">{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Banner final -->
+<section class="max-w-6xl mx-auto mb-cta-wrap">
+  <div
+    #rv
+    data-key="cta"
+    class="relative overflow-hidden text-center bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 mb-cta reveal"
+    [class.reveal-active]="isOn('cta')"
+  >
+    <div class="absolute rounded-full bg-amber-500/20 mb-blob mb-blob-1"></div>
+    <div class="absolute rounded-full bg-orange-500/20 mb-blob mb-blob-2"></div>
+
+    <div class="relative z-10">
+      <h2 class="font-bold text-white mb-cta-title">Ești gata să devii membru?</h2>
+      <p class="text-slate-300 mx-auto mb-cta-text">
+        Fă primul pas chiar acum. Te ascultăm, îți explicăm și te ghidăm mai departe, fără presiune.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center mb-cta-actions">
+        <a routerLink="/contact" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold mb-button">
+          <span class="relative z-10 flex items-center text-white mb-button-inner">
+            Contactează-ne
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+        <a href="tel:1122113111" class="inline-flex items-center justify-center rounded-full font-semibold text-white mb-button mb-button-outline">
+          sau sună la 1122 113 111
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

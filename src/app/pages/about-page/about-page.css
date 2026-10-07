@@ -67,6 +67,7 @@
 
 .about-banner {
   height: clamp(240px, 34vw, 340px);
+  padding: 2.5rem 0;
 }
 .about-banner-content { padding: 0 1rem; }
 .about-banner-eyebrow {
@@ -86,7 +87,7 @@
 
 @media (orientation: landscape) and (max-height: 500px) {
   .about-banner {
-    height: auto;
+    min-height: 0;
     padding: 2rem 0;
   }
 }
@@ -97,7 +98,10 @@
   will-change: transform;
 }
 @media (min-width: 768px) {
-  .about-blob { filter: blur(40px); }
+  .about-blob {
+    animation: none;
+    will-change: auto;
+  }
 }
 .about-blob-1 {
   width: clamp(10rem, 24vw, 18rem);

@@ -54,7 +54,7 @@
 }
 
 .srv-banner {
-  height: clamp(260px, 38vw, 380px);
+  min-height: clamp(260px, 38vw, 380px);
   padding-bottom: clamp(2.5rem, 7vw, 5rem);
 }
 .srv-banner-content { padding: 0 1rem; }
@@ -88,6 +88,9 @@
 }
 @media (min-width: 768px) {
   .srv-blob { filter: blur(40px); }
+}
+@media (max-width: 767px) {
+  .srv-blob { animation: none; will-change: auto; }
 }
 .srv-blob-1 {
   width: clamp(10rem, 24vw, 18rem);
@@ -337,6 +340,12 @@
 .faq-answer-inner {
   overflow: hidden;
   min-height: 0;
+  visibility: hidden;
+  transition: visibility 0s linear 0.4s;
+}
+.faq-open .faq-answer-inner {
+  visibility: visible;
+  transition-delay: 0s;
 }
 .faq-answer-text {
   padding: 0 clamp(1rem, 2.6vw, 1.5rem) clamp(1rem, 2.4vw, 1.5rem);
@@ -378,6 +387,7 @@
   .srv-blob,
   .btn-wow,
   .faq-answer,
+  .faq-answer-inner,
   .faq-icon {
     animation: none !important;
     transition: none !important;
