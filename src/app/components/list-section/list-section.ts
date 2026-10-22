@@ -24,13 +24,25 @@ export class ListSection {
   });
 
   newsItems: NewsItem[] = [
-    { title: 'Dobanzi avantajoase', description: 'Oferim imprumutri cu dobanzi pentru orice buzunar.' },
-    {  title: 'Depunere de fonduri profitabile', description: 'Dobanzi foarte bune la depunerea de bani.' },
-    {  title: 'Usurinta in accesarea serviciilor', description: 'Cu doar cateva conditii de indeplinit si completarea unor acte obtii rapid orice serviciu.' },
-    {  title: 'O echipa dedicata', description: 'Personal bine pregatit gata pentru a oferi cele mai bune sfaturi financiare.' }
+    {
+      title: 'Dobândă fixă la împrumuturi',
+      description: 'Împrumuturi cu dobândă fixă, de 9,5% sau 11,5% pe an, în funcție de tip, ca să știi din start ce ai de plătit.'
+    },
+    {
+      title: 'Economii cu dobândă',
+      description: 'Prin Fondul Social, sumele depuse primesc o dobândă de aproximativ 5%, în condițiile stabilite prin regulamentele asociației.'
+    },
+    {
+      title: 'Rambursare pe măsura posibilităților',
+      description: 'Îți poți planifica rambursarea în funcție de propriile posibilități, pe o perioadă de până la 60 de luni.'
+    },
+    {
+      title: 'Spirit de întrajutorare',
+      description: 'O comunitate bazată pe solidaritate, responsabilitate și sprijin reciproc, cu condiții transparente și încredere.'
+    }
   ];
 
-   constructor() {
+  constructor() {
     afterNextRender(() => {
       const thresholds = Array.from({ length: 101 }, (_, i) => i / 100);
       const observer = new IntersectionObserver(

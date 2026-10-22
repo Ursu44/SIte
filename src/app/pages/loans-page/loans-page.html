@@ -12,9 +12,9 @@
     </p>
 
     <div class="flex flex-wrap items-center justify-center ln-pills">
-      <span class="ln-pill">Costuri clare</span>
-      <span class="ln-pill">Rate fixe</span>
-      <span class="ln-pill">Calculator gratuit</span>
+      <span class="ln-pill">Dobândă fixă</span>
+      <span class="ln-pill">Pentru membri</span>
+      <span class="ln-pill">Calculator orientativ</span>
     </div>
 
     <div class="flex flex-col sm:flex-row items-center justify-center ln-banner-actions">
@@ -37,11 +37,19 @@
 <section class="max-w-6xl mx-auto ln-section">
   <div #rv data-key="h-types" class="text-center ln-header reveal" [class.reveal-active]="isOn('h-types')">
     <span class="font-semibold text-amber-700 uppercase tracking-widest ln-eyebrow">Ce îți oferim</span>
-    <h2 class="font-bold text-slate-900 ln-title">Alege împrumutul potrivit</h2>
+    <h2 class="font-bold text-slate-900 ln-title">Tipuri de împrumuturi oferite</h2>
     <div class="bg-amber-500 mx-auto rounded-full ln-title-line"></div>
+    <p class="text-slate-600 mx-auto ln-subtitle ln-subtitle-wide">
+      În spiritul principiului de întrajutorare și al sprijinului reciproc, Asociația C.A.R. CFR Suceava pune la
+      dispoziția membrilor săi două forme de împrumut, concepute pentru a răspunde unor nevoi financiare diverse.
+    </p>
+    <p class="text-slate-600 mx-auto ln-subtitle ln-subtitle-wide">
+      Prin condițiile de creditare oferite, ne propunem să venim în sprijinul membrilor noștri, oferindu-le acces la
+      resurse financiare și posibilitatea de a-și planifica rambursarea în funcție de propriile posibilități.
+    </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 ln-types">
+  <div class="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto ln-types">
     @for (t of types; track t.id; let i = $index) {
       <div
         #rv
@@ -172,18 +180,16 @@
     <!-- Valorile alese -->
     <div class="lg:col-span-3 bg-white/90 backdrop-blur-md shadow-xl ln-panel">
 
-      <!-- Rata, lipită sub header pe ecrane mici (rezumatul pentru cititoare de ecran e în cardul de rezultat) -->
       <div class="ln-mini" aria-hidden="true">
         <span class="ln-mini-label">Rata lunară</span>
         <strong class="ln-mini-value">{{ money(result().monthly) }} lei</strong>
       </div>
 
-      <!-- Pasul 1: tipul -->
       <div class="ln-field" role="radiogroup" aria-labelledby="ln-type-label">
         <h3 id="ln-type-label" class="font-bold text-slate-900 ln-step-title">
           <span class="ln-num" aria-hidden="true">1</span>Alege tipul de împrumut
         </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 ln-radios">
+        <div class="grid grid-cols-1 sm:grid-cols-2 ln-radios">
           @for (t of types; track t.id) {
             <label class="ln-radio">
               <input
@@ -207,7 +213,6 @@
         </div>
       </div>
 
-      <!-- Pasul 2: suma -->
       <div class="ln-field">
         <label for="ln-amount" class="block font-bold text-slate-900 ln-step-title">
           <span class="ln-num" aria-hidden="true">2</span>De ce sumă ai nevoie?
@@ -294,7 +299,6 @@
         </div>
       </div>
 
-      <!-- Pasul 3: perioada -->
       <div class="ln-field">
         <label for="ln-months" class="block font-bold text-slate-900 ln-step-title">
           <span class="ln-num" aria-hidden="true">3</span>Pe ce perioadă?
@@ -386,7 +390,6 @@
 
     </div>
 
-    <!-- Rezultat -->
     <div class="lg:col-span-2 lg:self-stretch">
       <div class="ln-result-sticky">
         <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900 text-white ln-result">
@@ -418,7 +421,7 @@
                 <dd>{{ money(result().total) }} lei</dd>
               </div>
               <div class="ln-row ln-row-strong">
-                <dt>Costul total al creditului <span class="ln-row-hint">dobândă + comision</span></dt>
+                <dt>Costul total al creditului <span class="ln-row-hint">{{ result().fee > 0 ? 'dobândă + comision' : 'dobândă' }}</span></dt>
                 <dd>{{ money(result().cost) }} lei</dd>
               </div>
             </dl>
@@ -427,8 +430,6 @@
               Dobândă: {{ money(result().interest) }} lei
               @if (result().fee > 0) {
                 · Comision de analiză: {{ money(result().fee) }} lei (o singură dată)
-              } @else {
-                · Fără comision de analiză
               }
             </p>
 
@@ -466,7 +467,6 @@
 
   </div>
 
-  <!-- Graficul de rambursare -->
   <div class="bg-white/90 backdrop-blur-md shadow-xl ln-schedule-card">
     <div class="flex flex-wrap items-center justify-between ln-schedule-head">
       <div class="min-w-0">
@@ -525,7 +525,6 @@
   </div>
 </section>
 
-<!-- FAQ -->
 <section #rv data-key="faq" class="max-w-3xl mx-auto ln-section reveal" [class.reveal-active]="isOn('faq')">
   <div class="text-center ln-header">
     <h2 class="font-bold text-slate-900 ln-title">Întrebări frecvente</h2>
@@ -558,7 +557,23 @@
   </div>
 </section>
 
-<!-- Banner final -->
+<section class="max-w-4xl mx-auto ln-section">
+  <div #rv data-key="support" class="reveal" [class.reveal-active]="isOn('support')">
+    <div class="bg-white/85 backdrop-blur-md border border-slate-200 shadow-lg ln-note">
+      <h2 class="font-bold text-slate-900 ln-note-title">Suntem alături de membrii noștri!</h2>
+      <p class="text-slate-600 leading-relaxed ln-note-text">
+        La C.A.R. CFR Suceava, considerăm că sprijinul reciproc, seriozitatea și încrederea reprezintă fundamentul
+        unei relații durabile cu membrii noștri.
+      </p>
+      <p class="text-slate-600 leading-relaxed ln-note-text">
+        Indiferent de forma de împrumut aleasă, urmărim să oferim soluții financiare adaptate nevoilor membrilor, în
+        condițiile prevăzute de regulamentele și statutul asociației.
+      </p>
+      <p class="font-semibold text-slate-900 ln-note-sign">C.A.R. CFR Suceava - împreună, prin încredere și întrajutorare!</p>
+    </div>
+  </div>
+</section>
+
 <section class="max-w-6xl mx-auto ln-cta-wrap">
   <div
     #rv

@@ -130,6 +130,8 @@ a:focus-visible,
 .ln-title { font-size: clamp(1.5rem, 4.5vw, 2.75rem); margin-bottom: clamp(0.6rem, 1.2vw, 0.9rem); overflow-wrap: anywhere; }
 .ln-title-line { width: clamp(3rem, 6vw, 4rem); height: clamp(0.2rem, 0.3vw, 0.25rem); }
 .ln-subtitle { font-size: clamp(0.9rem, 1.4vw, 1.05rem); max-width: 34rem; margin-top: clamp(0.75rem, 1.6vw, 1.1rem); }
+.ln-subtitle-wide { max-width: 44rem; }
+.ln-subtitle-wide + .ln-subtitle-wide { margin-top: 0.6rem; }
 
 /* ===== Tipuri de împrumut ===== */
 .ln-types { gap: clamp(1rem, 2.5vw, 2rem); }
@@ -552,6 +554,16 @@ a:focus-visible,
 .ln-cta-actions { gap: clamp(0.75rem, 2vw, 1.25rem); }
 
 /* ===== Respectă „reduce animațiile” din sistem ===== */
+/* ===== Mesaj final ===== */
+.ln-note {
+  border-left: 5px solid #f59e0b;
+  border-radius: clamp(1rem, 2.2vw, 1.5rem);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+.ln-note-title { font-size: clamp(1.25rem, 3vw, 1.9rem); line-height: 1.25; margin-bottom: clamp(0.6rem, 1.4vw, 1rem); overflow-wrap: anywhere; }
+.ln-note-text { font-size: clamp(0.92rem, 1.4vw, 1.05rem); margin-bottom: 0.85em; overflow-wrap: anywhere; }
+.ln-note-sign { font-size: clamp(0.95rem, 1.5vw, 1.1rem); margin-top: clamp(0.9rem, 2vw, 1.4rem); overflow-wrap: anywhere; }
+
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .ln-blob,

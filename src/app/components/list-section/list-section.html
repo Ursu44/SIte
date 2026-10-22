@@ -7,23 +7,23 @@
 >
   <div class="text-center list-header">
     <h2 class="font-bold text-slate-900 list-title">
-      De ce sa devii membru ?
+      De ce să devii membru?
     </h2>
     <div class="bg-amber-500 mx-auto rounded-full list-title-line"></div>
   </div>
 
   <div class="flex flex-col mx-auto list-items-container">
-   @for (item of newsItems; track item.title) {
-  <div class="group relative bg-white/75 backdrop-blur-md rounded-xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-shadow duration-300 overflow-hidden list-card">
-    <div class="absolute left-0 top-0 h-full bg-amber-500 group-hover:w-2 transition-all duration-300 list-card-accent"></div>
-    <div class="list-card-content">
-      <h3 class="font-semibold text-slate-900 group-hover:text-amber-600 transition-colors duration-300 list-card-title">
-        {{ item.title }}
-      </h3>
-      <p class="text-slate-600 leading-relaxed list-card-description">{{ item.description }}</p>
-    </div>
-  </div>
-}
+    @for (item of newsItems; track item.title) {
+      <div class="group relative bg-white/75 backdrop-blur-md rounded-xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-shadow duration-300 overflow-hidden list-card">
+        <div class="absolute left-0 top-0 h-full bg-amber-500 group-hover:w-2 transition-all duration-300 list-card-accent"></div>
+        <div class="list-card-content">
+          <h3 class="font-semibold text-slate-900 group-hover:text-amber-600 transition-colors duration-300 list-card-title">
+            {{ item.title }}
+          </h3>
+          <p class="text-slate-600 leading-relaxed list-card-description">{{ item.description }}</p>
+        </div>
+      </div>
+    }
   </div>
 
 </div>

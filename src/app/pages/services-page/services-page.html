@@ -7,7 +7,7 @@
     <span class="font-semibold text-amber-400 uppercase tracking-widest srv-banner-eyebrow">Ce oferim</span>
     <h1 class="font-bold text-white srv-banner-title">Serviciile noastre</h1>
     <p class="text-slate-300 mx-auto srv-banner-subtitle">
-      Soluții clare și oameni dedicați, în fiecare etapă a colaborării
+      Soluții accesibile, condiții transparente și sprijin pentru nevoile tale financiare
     </p>
   </div>
 </div>
@@ -88,6 +88,21 @@
   }
 </div>
 
+<div #infoRef class="max-w-6xl mx-auto srv-info-wrap reveal" [class.reveal-active]="infoVisible()">
+  <div class="flex flex-col md:flex-row items-start bg-white/85 backdrop-blur-md border border-amber-300 shadow-lg srv-info">
+    <div class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center srv-info-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 srv-info-icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+    <p class="text-slate-700 leading-relaxed srv-info-text min-w-0">
+      <strong class="text-slate-900">Dobânda la împrumuturi este fixă</strong>, conform condițiilor de acordare stabilite de
+      asociație. Împrumutul se acordă cu giranți, iar numărul lor și veniturile acestora depind de suma solicitată.
+      Pentru detalii, te așteptăm la sediul nostru.
+    </p>
+  </div>
+</div>
+
 <div #faqRef class="max-w-3xl mx-auto srv-faq reveal" [class.reveal-active]="faqVisible()">
   <div class="text-center srv-faq-header">
     <h2 class="font-bold text-slate-900 srv-section-title">Întrebări frecvente</h2>
@@ -127,10 +142,13 @@
     <div class="absolute rounded-full bg-orange-500/20 srv-blob srv-blob-2"></div>
 
     <div class="relative z-10">
-      <h2 class="font-bold text-white srv-cta-title">Gata să faci primul pas?</h2>
+      <h2 class="font-bold text-white srv-cta-title">Suntem alături de membrii noștri!</h2>
       <p class="text-slate-300 mx-auto srv-cta-text">
-        Spune-ne ce ai nevoie și te ghidăm mai departe, fără presiune și fără complicații.
+        La C.A.R. CFR Suceava, credem în solidaritate, responsabilitate și sprijin reciproc. Activitatea noastră
+        urmărește să răspundă nevoilor membrilor prin servicii financiare adaptate și printr-o relație bazată pe
+        încredere și transparență.
       </p>
+      <p class="font-semibold text-amber-400 srv-cta-sign">Împreună, prin încredere și întrajutorare!</p>
       <div class="flex flex-col sm:flex-row items-center justify-center srv-cta-actions">
         <a routerLink="/contact" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold srv-button">
           <span class="relative z-10 flex items-center text-white srv-button-inner">

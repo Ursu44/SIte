@@ -77,71 +77,54 @@ export class LoansPage {
   openFaq = signal<number | null>(0);
   showSchedule = signal(false);
 
+  // Dobânzile, sumele maxime și perioadele maxime sunt cele comunicate de asociație.
+  // Sumele minime, pașii și comisionul (feePercent: 0) sunt valori provizorii: se confirmă cu asociația.
   types: LoanType[] = [
     {
-      id: 'personal',
-      name: 'Nevoi personale',
-      tagline: 'Pentru cheltuieli planificate',
-      description: 'Un împrumut flexibil pentru cheltuieli personale, cu rate fixe pe care le știi din start.',
+      id: 'traditional',
+      name: 'Împrumuturi tradiționale',
+      tagline: 'Pentru cheltuieli personale sau familiale',
+      description: 'O soluție de sprijin financiar pentru membrii care au nevoie de fonduri pentru diverse cheltuieli personale sau familiale.',
       icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
       annualRate: 9.5,
-      feePercent: 1,
+      feePercent: 0,
       minAmount: 1000,
-      maxAmount: 30000,
+      maxAmount: 50000,
       amountStep: 500,
-      amountPresets: [2000, 5000, 10000, 20000],
-      defaultAmount: 5000,
+      amountPresets: [5000, 10000, 25000, 50000],
+      defaultAmount: 10000,
       minMonths: 6,
       maxMonths: 60,
-      monthPresets: [12, 24, 36, 48],
+      monthPresets: [12, 24, 36, 60],
       defaultMonths: 24,
-      features: ['Rate fixe, fără surprize', 'Perioadă de până la 5 ani', 'Documentație simplificată']
+      features: ['Suma maximă: 50.000 lei', 'Rambursare până la 60 de luni', 'Dobândă nominală anuală fixă: 9,5%']
     },
     {
-      id: 'urgent',
-      name: 'Rapid',
-      tagline: 'Pentru situații urgente',
-      description: 'Sume mai mici, pe perioade scurte, cu procesare accelerată atunci când ai nevoie de bani repede.',
-      icon: 'M13 10V3L4 14h7v7l9-11h-7z',
-      annualRate: 12,
-      feePercent: 1.5,
-      minAmount: 500,
-      maxAmount: 5000,
-      amountStep: 100,
-      amountPresets: [1000, 2000, 3000, 5000],
-      defaultAmount: 2000,
-      minMonths: 3,
-      maxMonths: 24,
-      monthPresets: [6, 12, 18, 24],
-      defaultMonths: 12,
-      features: ['Procesare accelerată', 'Perioade scurte, rate mici', 'Răspuns în termen scurt']
-    },
-    {
-      id: 'projects',
-      name: 'Proiecte mari',
-      tagline: 'Pentru planuri pe termen lung',
-      description: 'Sume mai mari, pe perioade lungi, potrivite pentru investiții și proiecte importante.',
-      icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
-      annualRate: 8,
-      feePercent: 0.5,
-      minAmount: 5000,
-      maxAmount: 100000,
+      id: 'diversified',
+      name: 'Împrumuturi diversificate',
+      tagline: 'Flexibilitate în alegerea soluției',
+      description: 'Pentru membrii care au nevoie de flexibilitate în alegerea soluției de finanțare, în funcție de suma solicitată și de perioada de rambursare.',
+      icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+      annualRate: 11.5,
+      feePercent: 0,
+      minAmount: 1000,
+      maxAmount: 70000,
       amountStep: 1000,
-      amountPresets: [10000, 25000, 50000, 100000],
+      amountPresets: [10000, 25000, 50000, 70000],
       defaultAmount: 20000,
-      minMonths: 12,
-      maxMonths: 120,
-      monthPresets: [24, 60, 84, 120],
-      defaultMonths: 36,
-      features: ['Perioadă de până la 10 ani', 'Dobândă mai mică', 'Consultanță dedicată']
+      minMonths: 6,
+      maxMonths: 60,
+      monthPresets: [12, 24, 36, 60],
+      defaultMonths: 24,
+      features: ['Suma maximă: 70.000 lei', 'Termen scurt, mediu sau lung, până la 60 de luni', 'Dobândă nominală anuală fixă: 11,5%']
     }
   ];
 
   advantages: Advantage[] = [
-    { title: 'Costuri clare', text: 'Dobânda și comisioanele îți sunt prezentate înainte de semnare.', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
-    { title: 'Rate stabile', text: 'Știi exact cât plătești în fiecare lună, pe toată perioada.', icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z' },
-    { title: 'Termene comunicate', text: 'Afli din start în cât timp primești răspunsul la solicitare.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-    { title: 'Sprijin la fiecare pas', text: 'Echipa noastră îți explică și te ghidează, fără presiune.', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' }
+    { title: 'Costuri clare', text: 'Dobânda și condițiile îți sunt prezentate înainte de semnare.', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
+    { title: 'Rambursare planificată', text: 'Îți planifici rambursarea în funcție de propriile posibilități.', icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z' },
+    { title: 'Reguli transparente', text: 'Împrumuturile se acordă conform statutului și regulamentelor interne.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+    { title: 'Sprijin reciproc', text: 'Seriozitate și încredere, într-o relație durabilă cu membrii.', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' }
   ];
 
   howSteps: HowStep[] = [
@@ -156,6 +139,10 @@ export class LoansPage {
     { question: 'Ce este costul total al creditului?', answer: 'Este suma pe care o plătești în plus față de suma împrumutată: dobânda totală și comisionul de analiză, dacă există.' },
     { question: 'Rezultatul din calculator este oferta finală?', answer: 'Nu, calculatorul este orientativ. Oferta exactă o primești după analizarea dosarului tău, iar condițiile îți sunt prezentate înainte de semnare.' },
     { question: 'Pot alege o altă perioadă decât cele sugerate?', answer: 'Da, poți alege orice perioadă din limitele tipului de împrumut ales. Vezi cum se schimbă rata și alege varianta care ți se potrivește.' },
+    { question: 'Cui se adresează împrumuturile?', answer: 'Împrumuturile sunt destinate membrilor Asociației, în condițiile prevăzute de statut și de regulamentele interne.' },
+    { question: 'De câți giranți am nevoie?', answer: 'Împrumutul se acordă cu giranți, iar numărul lor (2, 3 sau 4) și veniturile acestora depind de suma solicitată. Detaliile le primești la sediul nostru.' },
+    { question: 'Dobânda este fixă sau variabilă?', answer: 'Dobânda este fixă, conform condițiilor de acordare stabilite de asociație.' },
+    { question: 'Care este diferența dintre cele două tipuri de împrumut?', answer: 'Împrumuturile tradiționale sunt pentru cheltuieli personale sau familiale (până la 50.000 lei, dobândă nominală de 9,5% pe an). Cele diversificate oferă mai multă flexibilitate în alegerea soluției de finanțare (până la 70.000 lei, dobândă nominală de 11,5% pe an). Ambele se pot rambursa pe până la 60 de luni.' },
     { question: 'Ce documente am nevoie?', answer: 'Lista completă, pe categorii, o găsești în pagina Documente, împreună cu formularele gata de descărcat.' }
   ];
 

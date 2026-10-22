@@ -1,0 +1,145 @@
+<div class="relative w-full overflow-hidden flex items-center justify-center pv-banner">
+  <div class="absolute inset-0 pv-banner-bg"></div>
+  <div class="absolute rounded-full pv-blob pv-blob-1"></div>
+  <div class="absolute rounded-full pv-blob pv-blob-2"></div>
+
+  <div class="relative z-10 text-center pv-banner-content">
+    <span class="font-semibold uppercase tracking-widest pv-eyebrow">Transparență</span>
+    <h1 class="font-bold text-white pv-banner-title">Politica de confidențialitate</h1>
+    <p class="mx-auto pv-banner-subtitle">Ultima actualizare: {{ lastUpdated }}</p>
+  </div>
+</div>
+
+<!-- Pe scurt -->
+<div class="max-w-6xl mx-auto pv-highlights-wrap">
+  <ul class="pv-highlights">
+    @for (h of highlights; track h.title) {
+      <li class="pv-highlight">
+        <span class="pv-highlight-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" [attr.d]="h.icon" />
+          </svg>
+        </span>
+        <h2 class="pv-highlight-title">{{ h.title }}</h2>
+        <p class="pv-highlight-text">{{ h.text }}</p>
+      </li>
+    }
+  </ul>
+</div>
+
+<div class="max-w-6xl mx-auto pv-wrap">
+  <div class="pv-layout">
+
+    <!-- Cuprins -->
+    <aside class="pv-aside">
+      <nav class="pv-toc" aria-label="Cuprins">
+        <button
+          type="button"
+          class="pv-toc-toggle"
+          (click)="toggleToc()"
+          [attr.aria-expanded]="tocOpen()"
+          aria-controls="pv-toc-list"
+        >
+          <span>Cuprins</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="pv-toc-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <p class="pv-toc-title">Cuprins</p>
+        <ol id="pv-toc-list" class="pv-toc-list" [class.pv-toc-open]="tocOpen()">
+          @for (s of sections; track s.id; let i = $index) {
+            <li>
+              <a
+                [href]="'#' + s.id"
+                class="pv-toc-link"
+                [class.pv-toc-active]="activeId() === s.id"
+                [attr.aria-current]="activeId() === s.id ? 'location' : null"
+                (click)="$event.preventDefault(); goTo(s.id)"
+              >
+                <span class="pv-toc-num">{{ i + 1 }}</span>
+                <span class="min-w-0">{{ s.title }}</span>
+              </a>
+            </li>
+          }
+        </ol>
+      </nav>
+    </aside>
+
+    <!-- Conținut -->
+    <article class="pv-article">
+      <p class="pv-notice" role="note">
+        Pagină cu conținut de exemplu. Datele și textele de mai jos sunt fictive și se vor înlocui cu cele reale.
+      </p>
+
+      @for (s of sections; track s.id; let i = $index) {
+        <section #sectionRef [id]="s.id" class="pv-section">
+          <h2 class="font-bold pv-section-title">
+            <span class="pv-section-num" aria-hidden="true">{{ i + 1 }}</span>
+            <span class="min-w-0">{{ s.title }}</span>
+          </h2>
+
+          @for (p of s.paragraphs; track p) {
+            <p class="pv-text">{{ p }}</p>
+          }
+
+          @if (s.list) {
+            <ul class="pv-list">
+              @for (item of s.list; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          }
+
+          @if (s.table) {
+            <div class="pv-table" role="table" aria-label="Datele colectate">
+              <div class="pv-table-head" role="row">
+                <span role="columnheader">Date</span>
+                <span role="columnheader">Scop</span>
+                <span role="columnheader">Temei legal</span>
+                <span role="columnheader">Păstrare</span>
+              </div>
+              @for (row of s.table; track row.data) {
+                <div class="pv-table-row" role="row">
+                  <div class="pv-cell" role="cell"><span class="pv-cell-label">Date</span><span class="pv-cell-strong">{{ row.data }}</span></div>
+                  <div class="pv-cell" role="cell"><span class="pv-cell-label">Scop</span><span>{{ row.purpose }}</span></div>
+                  <div class="pv-cell" role="cell"><span class="pv-cell-label">Temei legal</span><span>{{ row.basis }}</span></div>
+                  <div class="pv-cell" role="cell"><span class="pv-cell-label">Păstrare</span><span>{{ row.retention }}</span></div>
+                </div>
+              }
+            </div>
+          }
+
+          @if (s.rights) {
+            <ul class="pv-rights">
+              @for (r of s.rights; track r.title) {
+                <li class="pv-right">
+                  <span class="pv-right-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" [attr.d]="r.icon" />
+                    </svg>
+                  </span>
+                  <div class="min-w-0">
+                    <h3 class="pv-right-title">{{ r.title }}</h3>
+                    <p class="pv-right-text">{{ r.text }}</p>
+                  </div>
+                </li>
+              }
+            </ul>
+          }
+        </section>
+      }
+
+      <div class="pv-contact">
+        <div class="min-w-0">
+          <h2 class="pv-contact-title">Ai o întrebare despre datele tale?</h2>
+          <p class="pv-contact-text">Scrie-ne la confidentialitate&#64;exemplu-cooperativa.ro și îți răspundem în cel mult 30 de zile.</p>
+        </div>
+        <div class="pv-actions">
+          <a routerLink="/contact" class="pv-btn-primary">Contactează-ne</a>
+          <button type="button" class="pv-btn-secondary" (click)="print()">Tipărește</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</div>

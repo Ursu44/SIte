@@ -36,43 +36,46 @@ export class AboutPage {
   @ViewChildren('rv') revealTargets!: QueryList<ElementRef<HTMLElement>>;
 
   revealed = signal<string[]>([]);
-  counts = signal<number[]>([0, 0, 0, 0]);
+
+  private readonly startYear = 1997;
 
   stats: Stat[] = [
-    { value: 25, suffix: '+', label: 'Ani de experiență' },
+    { value: new Date().getFullYear() - this.startYear, suffix: '+', label: 'Ani de experiență' },
     { value: 2000, suffix: '+', label: 'Membri' },
-    { value: 5000, suffix: '+', label: 'Dosare finalizate' },
+    // { value: 1000, suffix: '+', label: 'Dosare finalizate' },
     { value: 100, suffix: '%', label: 'Transparență' }
   ];
+
+  counts = signal<number[]>(this.stats.map(() => 0));
 
   pillars: Pillar[] = [
     {
       title: 'Misiunea noastră',
-      text: 'Să oferim soluții financiare accesibile, corecte și ușor de înțeles, sprijinind fiecare membru să își atingă obiectivele.',
+      text: 'Să fim alături de membrii noștri, promovând încrederea, respectul și spiritul de întrajutorare care ne-au definit încă de la începuturi.',
       icon: 'M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9'
     },
     {
-      title: 'Viziunea noastră',
-      text: 'Să fim alegerea de încredere pentru o comunitate mare și unită, în care fiecare om are acces la sprijin financiar echitabil.',
-      icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+      title: 'Ce facem',
+      text: 'Oferim sprijin financiar membrilor, prin acordarea de împrumuturi în condițiile stabilite prin statut și regulamentele interne, contribuind la gestionarea nevoilor financiare personale și familiale.',
+      icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
     }
   ];
 
   timeline: TimelineEvent[] = [
-    { year: '2001', title: 'Începuturile', description: 'Pornim la drum cu un grup mic de oameni și o idee simplă: să ne ajutăm între noi.' },
-    { year: '2006', title: 'Prima extindere', description: 'Comunitatea crește, iar serviciile noastre se diversifică pentru a răspunde mai multor nevoi.' },
-    { year: '2012', title: 'Modernizarea serviciilor', description: 'Simplificăm procedurile și introducem instrumente noi, pentru un răspuns mai rapid.' },
-    { year: '2018', title: 'Peste 1.000 de membri', description: 'Depășim pragul de o mie de membri și consolidăm echipa dedicată sprijinirii lor.' },
-    { year: '2024', title: 'Un nou capitol', description: 'Ne deschidem către online, păstrând aceeași grijă și apropiere față de fiecare membru.' }
+    { year: 'Originile', title: 'Dorința de întrajutorare', description: 'Asociația se naște din dorința de întrajutorare și sprijin reciproc a salariaților din cadrul Căilor Ferate Române, pe lângă instituția feroviară, în incinta gării.' },
+    { year: 'Prima locație', title: 'Uzina de Impregnat Traverse', description: 'Activitatea își începe drumul în incinta Uzinei de Impregnat Traverse.' },
+    { year: 'Sediul actual', title: 'Gara Burdujeni', description: 'Ulterior, sediul se mută în Gara Burdujeni din municipiul Suceava, unde asociația își continuă activitatea și în prezent.' },
+    { year: '1997', title: 'Personalitate juridică', description: 'Asociația dobândește personalitate juridică, consolidându-și cadrul legal de organizare și funcționare.' },
+    { year: 'Astăzi', title: 'Aceeași misiune', description: 'Ne continuăm misiunea de a fi alături de membrii noștri, cu încredere, respect și spirit de întrajutorare.' }
   ];
 
   values: ValueItem[] = [
-    { title: 'Transparență', text: 'Costurile și condițiile îți sunt prezentate clar, înainte de orice decizie.', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
-    { title: 'Seriozitate', text: 'Ne respectăm cuvântul și tratăm fiecare dosar cu responsabilitate.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
     { title: 'Solidaritate', text: 'Credem în forța unei comunități care se sprijină reciproc.', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-    { title: 'Apropiere', text: 'Fiecare membru contează, iar echipa noastră îți este mereu aproape.', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
-    { title: 'Eficiență', text: 'Procese simple și răspunsuri rapide, fără drumuri sau hârtii inutile.', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-    { title: 'Responsabilitate', text: 'Gestionăm cu grijă resursele comunității și răspundem pentru fiecare pas.', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4' }
+    { title: 'Responsabilitate', text: 'Gestionăm cu grijă resursele comune și răspundem pentru fiecare pas.', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4' },
+    { title: 'Întrajutorare', text: 'Fiecare membru contează, iar sprijinul vine din partea celorlalți.', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+    { title: 'Încredere', text: 'Construim relații bazate pe corectitudine și cuvânt respectat.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+    { title: 'Respect', text: 'Ne tratăm membrii cu atenție, deschidere și respect.', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+    { title: 'Tradiție', text: 'Păstrăm principiile care au stat la baza înființării noastre.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' }
   ];
 
   constructor() {

@@ -1,0 +1,83 @@
+<div class="relative w-full overflow-hidden flex items-center justify-center tc-banner">
+  <div class="absolute inset-0 tc-banner-bg"></div>
+  <div class="absolute rounded-full tc-blob tc-blob-1"></div>
+  <div class="absolute rounded-full tc-blob tc-blob-2"></div>
+
+  <div class="relative z-10 text-center tc-banner-content">
+    <span class="font-semibold uppercase tracking-widest tc-eyebrow">Informații legale</span>
+    <h1 class="font-bold text-white tc-banner-title">Termeni și condiții</h1>
+    <p class="mx-auto tc-banner-subtitle">Ultima actualizare: {{ lastUpdated }}</p>
+  </div>
+</div>
+
+<div class="max-w-6xl mx-auto tc-wrap">
+  <div class="tc-layout">
+
+    <!-- Cuprins -->
+    <aside class="tc-aside">
+      <nav class="tc-toc" aria-label="Cuprins">
+        <button
+          type="button"
+          class="tc-toc-toggle"
+          (click)="toggleToc()"
+          [attr.aria-expanded]="tocOpen()"
+          aria-controls="tc-toc-list"
+        >
+          <span>Cuprins</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="tc-toc-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <p class="tc-toc-title">Cuprins</p>
+        <ol id="tc-toc-list" class="tc-toc-list" [class.tc-toc-open]="tocOpen()">
+          @for (s of sections; track s.id; let i = $index) {
+            <li>
+              <a
+                [href]="'#' + s.id"
+                class="tc-toc-link"
+                [class.tc-toc-active]="activeId() === s.id"
+                [attr.aria-current]="activeId() === s.id ? 'location' : null"
+                (click)="$event.preventDefault(); goTo(s.id)"
+              >
+                <span class="tc-toc-num">{{ i + 1 }}</span>
+                <span class="min-w-0">{{ s.title }}</span>
+              </a>
+            </li>
+          }
+        </ol>
+      </nav>
+    </aside>
+
+    <!-- Conținut -->
+    <article class="tc-article">
+      <p class="tc-notice" role="note">
+        Pagină cu conținut de exemplu. Datele și textele de mai jos sunt fictive și se vor înlocui cu cele reale.
+      </p>
+
+      @for (s of sections; track s.id; let i = $index) {
+        <section #sectionRef [id]="s.id" class="tc-section">
+          <h2 class="font-bold tc-section-title">
+            <span class="tc-section-num" aria-hidden="true">{{ i + 1 }}</span>
+            <span class="min-w-0">{{ s.title }}</span>
+          </h2>
+          @for (p of s.paragraphs; track p) {
+            <p class="tc-text">{{ p }}</p>
+          }
+          @if (s.list) {
+            <ul class="tc-list">
+              @for (item of s.list; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          }
+        </section>
+      }
+
+      <div class="tc-actions">
+        <button type="button" class="tc-btn-secondary" (click)="print()">Tipărește pagina</button>
+        <a routerLink="/contact" class="tc-btn-primary">Ai întrebări? Contactează-ne</a>
+      </div>
+    </article>
+
+  </div>
+</div>

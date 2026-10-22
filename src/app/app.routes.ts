@@ -7,6 +7,8 @@ import { AboutPage } from './pages/about-page/about-page';
 import { MembershipPage } from './pages/membership-page/membership-page';
 import { LoansPage } from './pages/loans-page/loans-page';
 import { SavingsPage } from './pages/savings-page/savings-page';
+import { TermsPage } from './pages/terms-page/terms-page';
+import { PrivacyPage } from './pages/privacy/privacy';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -17,4 +19,6 @@ export const routes: Routes = [
   { path: 'devino-membru', component: MembershipPage },
   { path: 'imprumuturi', component: LoansPage },
   { path: 'economii', component: SavingsPage },
+  { path: 'termeni-si-conditii', component: TermsPage },
+  { path: 'confidentialitate', component: PrivacyPage },
 ];

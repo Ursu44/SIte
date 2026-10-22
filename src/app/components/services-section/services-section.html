@@ -1,6 +1,6 @@
 <div
   #sectionRef
-  class="max-w-7xl mx-auto services-wrapper"
+  class="max-w-6xl mx-auto services-wrapper"
   [style.opacity]="opacity()"
   [style.transform]="'translateX(' + (60 * (1 - opacity())) + 'px)'"
   style="transition: opacity 0.8s ease-out, transform 0.8s ease-out;"
@@ -12,11 +12,11 @@
     <div class="bg-amber-500 mx-auto rounded-full services-title-line"></div>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 services-grid">
+  <div class="grid grid-cols-1 md:grid-cols-3 services-grid">
     @for (service of services; track service.title) {
       <div class="bg-white/80 backdrop-blur-md rounded-xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center service-card">
         <div class="mx-auto bg-amber-500 rounded-full flex items-center justify-center service-icon-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 service-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 service-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="service.icon" />
           </svg>
         </div>
