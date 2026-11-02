@@ -7,10 +7,10 @@
   <div class="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center sv-banner-grid">
 
     <div class="text-center md:text-left">
-      <span class="font-semibold text-amber-400 uppercase tracking-widest sv-banner-eyebrow">Economii</span>
-      <h1 class="font-bold text-white sv-banner-title">Economisește inteligent, crește constant</h1>
+      <span class="font-semibold text-amber-400 uppercase tracking-widest sv-banner-eyebrow">Fondul Social</span>
+      <h1 class="font-bold text-white sv-banner-title">Economiile tale merită să crească</h1>
       <p class="text-slate-300 sv-banner-subtitle">
-        Alegi un obiectiv, vezi cât trebuie să pui deoparte și urmărești cum cresc economiile tale
+        Devino membru, depune lunar și construiește-ți propriul fond social, cu dobândă de până la 5% pe an*
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start sv-banner-actions">
@@ -22,10 +22,11 @@
             </svg>
           </span>
         </button>
-        <button type="button" (click)="scrollToProducts()" class="inline-flex items-center justify-center rounded-full font-semibold text-white sv-button sv-button-outline">
-          Vezi produsele
-        </button>
+        <a routerLink="/devino-membru" class="inline-flex items-center justify-center rounded-full font-semibold text-white sv-button sv-button-outline">
+          Cum devii membru
+        </a>
       </div>
+      <p class="text-slate-400 sv-banner-note">*Dobânda, condițiile de acordare și modalitatea de calcul se stabilesc conform regulilor în vigoare ale asociației.</p>
     </div>
 
     <!-- Monedă 3D (decorativă) -->
@@ -66,16 +67,16 @@
     <span class="font-semibold text-amber-700 uppercase tracking-widest sv-eyebrow">Începe cu un scop</span>
     <h2 class="font-bold text-slate-900 sv-title">Pentru ce economisești?</h2>
     <div class="bg-amber-500 mx-auto rounded-full sv-title-line"></div>
-    <p class="text-slate-600 mx-auto sv-subtitle">Alege un obiectiv și îți arătăm cât ai de pus deoparte în fiecare lună.</p>
+    <p class="text-slate-600 mx-auto sv-subtitle">Alege un obiectiv și îți arătăm cât ar trebui să depui lunar la fondul social.</p>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 sv-goals">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sv-goals">
     @for (goal of goals; track goal.id; let i = $index) {
       <div
         #rv
         [attr.data-key]="'goal-' + i"
         class="reveal"
-        [class.sv-goal-last]="i === goals.length - 1"
+        [class.sv-goal-last]="goals.length % 2 === 1 && i === goals.length - 1"
         [style.transition-delay]="(i * 0.08) + 's'"
         [class.reveal-active]="isOn('goal-' + i)"
       >
@@ -102,85 +103,44 @@
   </div>
 </section>
 
-<!-- Produse -->
+<!-- Fondul Social pe scurt -->
 <section #productsRef class="max-w-6xl mx-auto sv-section sv-anchor">
   <div #rv data-key="h-products" class="text-center sv-header reveal" [class.reveal-active]="isOn('h-products')">
-    <span class="font-semibold text-amber-700 uppercase tracking-widest sv-eyebrow">Compară</span>
-    <h2 class="font-bold text-slate-900 sv-title">Alege varianta potrivită</h2>
+    <span class="font-semibold text-amber-700 uppercase tracking-widest sv-eyebrow">Pe scurt</span>
+    <h2 class="font-bold text-slate-900 sv-title">Cum funcționează Fondul Social</h2>
     <div class="bg-amber-500 mx-auto rounded-full sv-title-line"></div>
+    <p class="text-slate-600 mx-auto sv-subtitle">
+      Fondul Social este mai mult decât economii: este un fond al tău, pe care îl construiești lună de lună.
+    </p>
   </div>
 
-  <!-- Tabel, pe ecrane mari -->
-  <div #rv data-key="table" class="hidden md:block reveal" [class.reveal-active]="isOn('table')">
-    <div class="bg-white/90 backdrop-blur-md shadow-xl sv-table-card">
-      <table class="sv-ptable">
-        <caption class="sr-only">Comparație între produsele de economisire</caption>
-        <thead>
-          <tr>
-            <th scope="col">Produs</th>
-            <th scope="col">Perioadă</th>
-            <th scope="col">Dobândă anuală</th>
-            <th scope="col">Depunere minimă</th>
-            <th scope="col">Acces la bani</th>
-            <th scope="col"><span class="sr-only">Acțiune</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (p of products; track p.id) {
-            <tr [class.sv-row-reco]="p.recommended">
-              <th scope="row">
-                <span class="font-bold text-slate-900">{{ p.name }}</span>
-                @if (p.recommended) {
-                  <span class="sv-badge">Recomandat</span>
-                }
-              </th>
-              <td>{{ p.term }}</td>
-              <td class="sv-rate">{{ rate(p.annualRate) }}</td>
-              <td>{{ num(p.minDeposit) }} lei</td>
-              <td>{{ p.access }}</td>
-              <td class="sv-cell-action">
-                <button type="button" class="sv-card-btn" (click)="chooseProduct(p.id)">Calculează</button>
-              </td>
-            </tr>
+  <div #rv data-key="fund" class="max-w-2xl mx-auto reveal" [class.reveal-active]="isOn('fund')">
+    @for (p of products; track p.id) {
+      <article class="relative flex flex-col bg-white/90 backdrop-blur-md border shadow-lg sv-pcard sv-pcard-reco">
+        <h3 class="font-bold text-slate-900 sv-pcard-name">{{ p.name }}</h3>
+        <p class="font-extrabold text-amber-700 sv-pcard-rate"><span class="sv-pcard-rate-unit">până la </span>{{ rate(p.annualRate) }} <span class="sv-pcard-rate-unit">/ an</span></p>
+
+        <dl class="sv-facts">
+          <div class="sv-fact"><dt>Contribuție lunară</dt><dd>{{ num(p.minMonthly) }} – {{ num(p.maxMonthly) }} lei</dd></div>
+          <div class="sv-fact"><dt>Taxă de înscriere</dt><dd>{{ num(p.joinFee) }} lei</dd></div>
+          <div class="sv-fact"><dt>Retragere</dt><dd>{{ p.access }}</dd></div>
+        </dl>
+
+        <ul class="sv-list">
+          @for (feature of p.features; track feature) {
+            <li class="flex items-start sv-list-item">
+              <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center sv-check">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 sv-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span class="text-slate-700 min-w-0 sv-list-text">{{ feature }}</span>
+            </li>
           }
-        </tbody>
-      </table>
-    </div>
-  </div>
+        </ul>
 
-  <!-- Carduri, pe telefon -->
-  <div class="md:hidden grid grid-cols-1 sv-pcards">
-    @for (p of products; track p.id; let i = $index) {
-      <div #rv [attr.data-key]="'pc-' + i" class="reveal" [class.reveal-active]="isOn('pc-' + i)">
-        <article class="relative flex flex-col bg-white/90 backdrop-blur-md border shadow-lg sv-pcard" [class.sv-pcard-reco]="p.recommended">
-          @if (p.recommended) {
-            <span class="sv-badge sv-badge-float">Recomandat</span>
-          }
-          <h3 class="font-bold text-slate-900 sv-pcard-name">{{ p.name }}</h3>
-          <p class="font-extrabold text-amber-700 sv-pcard-rate">{{ rate(p.annualRate) }} <span class="sv-pcard-rate-unit">/ an</span></p>
-
-          <dl class="sv-facts">
-            <div class="sv-fact"><dt>Perioadă</dt><dd>{{ p.term }}</dd></div>
-            <div class="sv-fact"><dt>Depunere minimă</dt><dd>{{ num(p.minDeposit) }} lei</dd></div>
-            <div class="sv-fact"><dt>Acces la bani</dt><dd>{{ p.access }}</dd></div>
-          </dl>
-
-          <ul class="sv-list">
-            @for (feature of p.features; track feature) {
-              <li class="flex items-start sv-list-item">
-                <span class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center sv-check">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 sv-check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                  </svg>
-                </span>
-                <span class="text-slate-700 min-w-0 sv-list-text">{{ feature }}</span>
-              </li>
-            }
-          </ul>
-
-          <button type="button" class="sv-card-btn" (click)="chooseProduct(p.id)">Calculează</button>
-        </article>
-      </div>
+        <button type="button" class="sv-card-btn" (click)="scrollToCalc()">Calculează-ți economiile</button>
+      </article>
     }
   </div>
 </section>
@@ -236,40 +196,11 @@
         </label>
       </div>
 
-      <!-- Pasul 1: produsul -->
-      <div class="sv-field" role="radiogroup" aria-labelledby="sv-product-label">
-        <h3 id="sv-product-label" class="font-bold text-slate-900 sv-step-title">
-          <span class="sv-num" aria-hidden="true">1</span>Alege produsul
-        </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 sv-radios">
-          @for (p of products; track p.id) {
-            <label class="sv-radio">
-              <input
-                type="radio"
-                name="product"
-                class="sv-radio-input"
-                [value]="p.id"
-                [checked]="selectedId() === p.id"
-                (change)="selectProduct(p.id)"
-              />
-              <span class="sv-radio-card">
-                <span class="sv-radio-top">
-                  <span class="sv-radio-dot" aria-hidden="true"></span>
-                  <span class="font-bold text-slate-900 sv-radio-name">{{ p.name }}</span>
-                </span>
-                <span class="text-slate-600 sv-radio-meta">Dobândă {{ rate(p.annualRate) }} / an</span>
-                <span class="text-slate-600 sv-radio-meta">Minim {{ num(p.minDeposit) }} lei</span>
-              </span>
-            </label>
-          }
-        </div>
-      </div>
-
       <!-- Pașii următori: câmpurile depind de mod -->
       @for (key of visibleFields(); track key; let i = $index) {
         <div class="sv-field">
           <label [attr.for]="'sv-' + key" class="block font-bold text-slate-900 sv-step-title">
-            <span class="sv-num" aria-hidden="true">{{ i + 2 }}</span>{{ fieldMeta[key].label }}
+            <span class="sv-num" aria-hidden="true">{{ i + 1 }}</span>{{ fieldMeta[key].label }}
           </label>
 
           <div class="flex items-center sv-control">
@@ -372,7 +303,7 @@
               <p class="text-amber-300 uppercase tracking-wider font-semibold sv-result-label">La final vei avea</p>
               <p class="font-extrabold sv-result-big">{{ money(calc().final) }}<span class="sv-result-unit"> lei</span></p>
               <p class="text-slate-300 sv-result-sub">
-                după {{ duration(values().months) }} · dobândă {{ rate(selected().annualRate) }} / an
+                după {{ duration(values().months) }} · dobândă de până la {{ rate(selected().annualRate) }} / an
               </p>
             } @else {
               <p class="text-amber-300 uppercase tracking-wider font-semibold sv-result-label">Trebuie să pui lunar</p>
@@ -381,7 +312,10 @@
                 ca să ajungi la {{ num(values().target) }} lei în {{ duration(values().months) }}
               </p>
               @if (calc().alreadyThere) {
-                <p class="text-amber-200 sv-result-note">Cu suma inițială atingi deja obiectivul, fără depuneri lunare.</p>
+                <p class="text-amber-200 sv-result-note">Cu suma din fond atingi deja obiectivul. Contribuția lunară minimă rămâne de {{ num(limits().monthly.min) }} lei.</p>
+              }
+              @if (calc().overMax) {
+                <p class="text-amber-200 sv-result-note">Contribuția lunară maximă este de {{ num(limits().monthly.max) }} lei. Alege o perioadă mai lungă sau o sumă țintă mai mică.</p>
               }
             }
 
@@ -393,11 +327,11 @@
                 </div>
               }
               <div class="sv-row">
-                <dt>Depunerile tale <span class="sv-row-hint">suma inițială + contribuții</span></dt>
+                <dt>Depunerile tale <span class="sv-row-hint">suma din fond + contribuții</span></dt>
                 <dd>{{ money(calc().paid) }} lei</dd>
               </div>
               <div class="sv-row sv-row-strong">
-                <dt>Dobânda câștigată</dt>
+                <dt>Dobânda estimată</dt>
                 <dd>{{ money(calc().interest) }} lei</dd>
               </div>
             </dl>
@@ -411,9 +345,9 @@
               <li class="sv-legend-item"><span class="sv-dot sv-dot-int"></span>Dobândă</li>
             </ul>
 
-            <a routerLink="/contact" class="btn-wow group relative inline-flex items-center justify-center rounded-full overflow-hidden font-semibold w-full sv-button sv-result-cta">
+            <a routerLink="/devino-membru" class="btn-wow group relative inline-flex items-center justify-center rounded-full overflow-hidden font-semibold w-full sv-button sv-result-cta">
               <span class="relative z-10 flex items-center text-white sv-button-inner">
-                Deschide un cont de economii
+                Devino membru
                 <svg xmlns="http://www.w3.org/2000/svg" class="sv-button-icon transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -421,7 +355,7 @@
             </a>
 
             <p class="text-slate-400 sv-disclaimer">
-              Calcul orientativ, cu dobândă capitalizată lunar și depuneri la finalul lunii. Condițiile finale se confirmă la deschiderea contului.
+              Calcul orientativ, cu dobândă de până la 5% pe an, capitalizată lunar, și depuneri la finalul lunii. Dobânda reală, condițiile și modalitatea de calcul se stabilesc conform regulilor în vigoare ale asociației.
             </p>
           </div>
         </div>
@@ -435,7 +369,7 @@
     <div class="flex flex-wrap items-center justify-between sv-chart-head">
       <div class="min-w-0">
         <h3 class="font-bold text-slate-900 sv-chart-title">Cum crește economia ta</h3>
-        <p class="text-slate-600 sv-chart-sub">Partea de deasupra depunerilor tale este dobânda câștigată</p>
+        <p class="text-slate-600 sv-chart-sub">Partea de deasupra depunerilor tale este dobânda estimată</p>
       </div>
       <ul class="flex flex-wrap sv-legend-light">
         <li class="sv-legend-item"><span class="sv-dot sv-dot-total"></span>Total economisit</li>
@@ -508,7 +442,7 @@
 <section class="max-w-6xl mx-auto sv-section">
   <div #rv data-key="h-how" class="text-center sv-header reveal" [class.reveal-active]="isOn('h-how')">
     <span class="font-semibold text-amber-700 uppercase tracking-widest sv-eyebrow">Pas cu pas</span>
-    <h2 class="font-bold text-slate-900 sv-title">Cum începi să economisești</h2>
+    <h2 class="font-bold text-slate-900 sv-title">Cum devii membru și începi să economisești</h2>
     <div class="bg-amber-500 mx-auto rounded-full sv-title-line"></div>
   </div>
 
@@ -532,7 +466,7 @@
 
 <!-- De ce la noi -->
 <section class="max-w-6xl mx-auto sv-section">
-  <div class="grid grid-cols-1 md:grid-cols-3 sv-infos">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sv-infos">
     @for (info of infos; track info.title; let i = $index) {
       <div
         #rv
@@ -600,9 +534,9 @@
     <div class="absolute rounded-full bg-orange-500/20 sv-blob sv-blob-2"></div>
 
     <div class="relative z-10">
-      <h2 class="font-bold text-white sv-cta-title">Începe să economisești azi</h2>
+      <h2 class="font-bold text-white sv-cta-title">Fă primul pas către economii</h2>
       <p class="text-slate-300 mx-auto sv-cta-text">
-        Spune-ne ce obiectiv ai și te ajutăm să alegi varianta potrivită, fără presiune și fără complicații.
+        Contactează Casa de Ajutor Reciproc CFR Suceava pentru detalii despre înscriere, dobândă și condițiile de depunere și retragere.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center sv-cta-actions">
         <a routerLink="/contact" class="btn-wow group relative inline-flex items-center rounded-full overflow-hidden font-semibold sv-button">

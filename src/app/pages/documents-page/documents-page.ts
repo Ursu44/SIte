@@ -1,4 +1,5 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren, afterNextRender, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 interface Category {
   id: string;
@@ -7,6 +8,7 @@ interface Category {
   description: string;
   conditions: string[];
   image: string;
+  imageAlt: string;
   imagePosition?: string;
 }
 
@@ -20,57 +22,67 @@ interface DocItem {
 @Component({
   selector: 'app-documents-page',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './documents-page.html',
   styleUrl: './documents-page.css'
 })
 export class DocumentsPage {
   @ViewChild('tabsRef') tabsRef!: ElementRef<HTMLElement>;
   @ViewChild('docsRef') docsRef!: ElementRef<HTMLElement>;
+  @ViewChild('guarRef') guarRef!: ElementRef<HTMLElement>;
   @ViewChildren('docCard') docCards!: QueryList<ElementRef<HTMLElement>>;
 
   activeTab = signal(0);
   tabsVisible = signal(false);
   docsVisible = signal(false);
+  guarVisible = signal(false);
   visibleDocs = signal<number[]>([]);
 
   categories: Category[] = [
     {
-      id: 'cat1',
-      label: 'Categoria 1',
-      title: 'Condiții pentru Categoria 1',
-      description: 'Descriere scurtă a primei categorii și a cui i se adresează.',
+      id: 'salariati',
+      label: 'Salariați',
+      title: 'Documente pentru salariați',
+      description: 'Pentru analizarea cererii de împrumut, salariații prezintă:',
       conditions: [
-        'Prima condiție de îndeplinit pentru această categorie',
-        'A doua condiție, formulată clar și pe scurt',
-        'A treia condiție care trebuie respectată',
-        'A patra condiție necesară pentru aprobare'
+        'Adeverință de venit, completată de angajator',
+        'Extras din Registrul general de evidență a salariaților (REGES-ONLINE), conform cerințelor asociației',
+        'Actul de identitate și alte documente, dacă sunt solicitate'
       ],
-      image: 'categorie1.jpg',
+      image: 'salariati.png',
+      imageAlt: 'Salariați',
       imagePosition: 'center'
     },
     {
-      id: 'cat2',
-      label: 'Categoria 2',
-      title: 'Condiții pentru Categoria 2',
-      description: 'Descriere scurtă a celei de-a doua categorii și a cui i se adresează.',
+      id: 'pensionari',
+      label: 'Pensionari',
+      title: 'Documente pentru pensionari',
+      description: 'Pentru analizarea cererii de împrumut, pensionarii prezintă:',
       conditions: [
-        'Prima condiție pentru cea de-a doua categorie',
-        'A doua condiție, adaptată acestei categorii',
-        'A treia condiție care trebuie respectată',
-        'A patra condiție necesară pentru aprobare'
+        'Cuponul de pensie',
+        'Actul de identitate',
+        'Alte documente, în funcție de valoarea împrumutului solicitat'
       ],
-      image: 'categorie2.jpg',
+      image: 'pensionari.png',
+      imageAlt: 'pensionari.png',
       imagePosition: 'center'
     }
   ];
 
+  guarantors = {
+    title: 'Este nevoie de giranți?',
+    paragraphs: [
+      'În funcție de suma solicitată și de condițiile de acordare a împrumutului, poate fi necesară prezentarea unuia, a doi sau a trei giranți.',
+      'Numărul giranților și documentele necesare se stabilesc în funcție de situația fiecărui solicitant. Pentru a afla ce documente sunt necesare în cazul tău, ce condiții trebuie îndeplinite și câți giranți sunt necesari pentru suma dorită, ne poți contacta sau ne poți vizita la sediul Casei de Ajutor Reciproc CFR Suceava.'
+    ]
+  };
+
+  // Fișierele din folderul `documente/` trebuie adăugate: acum sunt doar exemple.
   documents: DocItem[] = [
-    { title: 'Cerere tip', description: 'Formularul standard de completat pentru orice solicitare.', file: 'documente/cerere-tip.pdf', size: 'PDF · 120 KB' },
-    { title: 'Act de identitate', description: 'Model și indicații privind copia actului de identitate.', file: 'documente/act-identitate.pdf', size: 'PDF · 85 KB' },
-    { title: 'Declarație pe propria răspundere', description: 'Model de declarație, gata de completat și semnat.', file: 'documente/declaratie.pdf', size: 'PDF · 96 KB' },
-    { title: 'Acord de prelucrare a datelor', description: 'Acordul GDPR necesar pentru dosarul tău.', file: 'documente/acord-gdpr.pdf', size: 'PDF · 110 KB' },
-    { title: 'Adeverință de venit', description: 'Model de adeverință care se solicită de la angajator.', file: 'documente/adeverinta-venit.pdf', size: 'PDF · 74 KB' },
-    { title: 'Ghid complet', description: 'Toți pașii și documentele într-un singur ghid.', file: 'documente/ghid.pdf', size: 'PDF · 540 KB' }
+    { title: 'Cerere de înscriere', description: 'Formularul de completat pentru a deveni membru al asociației.', file: 'documente/cerere-inscriere.pdf', size: 'PDF' },
+    { title: 'Cerere de împrumut', description: 'Formularul de completat pentru solicitarea unui împrumut.', file: 'documente/cerere-imprumut.pdf', size: 'PDF' },
+    { title: 'Adeverință de venit', description: 'Model de adeverință care se completează de angajator.', file: 'documente/adeverinta-venit.pdf', size: 'PDF' },
+    { title: 'Acord de prelucrare a datelor', description: 'Acordul privind prelucrarea datelor personale, necesar pentru dosar.', file: 'documente/acord-date.pdf', size: 'PDF' }
   ];
 
   constructor() {
@@ -82,6 +94,7 @@ export class DocumentsPage {
 
       this.observeOnce(this.tabsRef.nativeElement, options, () => this.tabsVisible.set(true));
       this.observeOnce(this.docsRef.nativeElement, options, () => this.docsVisible.set(true));
+      this.observeOnce(this.guarRef.nativeElement, options, () => this.guarVisible.set(true));
 
       const cardObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {

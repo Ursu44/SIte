@@ -7,12 +7,11 @@ type Mode = 'grow' | 'target';
 interface Product {
   id: string;
   name: string;
-  term: string;
-  annualRate: number;   // dobândă anuală, în %
-  minDeposit: number;
-  minMonths: number;
+  annualRate: number;   // dobândă anuală maximă, în %
+  minMonthly: number;   // contribuția lunară minimă, în lei
+  maxMonthly: number;   // contribuția lunară maximă, în lei
+  joinFee: number;      // taxa de înscriere, în lei
   access: string;
-  recommended: boolean;
   features: string[];
 }
 
@@ -113,77 +112,61 @@ export class SavingsPage {
   openFaq = signal<number | null>(0);
   showTable = signal(false);
 
-  // ===== VALORI DE EXEMPLU: înlocuiește-le cu cele reale =====
+  // Dobânda (până la 5%), contribuția lunară (30–800 lei) și taxa de înscriere (30 lei) sunt cele comunicate de asociație.
+  // Detaliile de retragere și modul exact de calcul al dobânzii se confirmă cu asociația (statut, regulamente).
   products: Product[] = [
     {
-      id: 'flex',
-      name: 'Economii flexibile',
-      term: 'Fără termen fix',
-      annualRate: 2.5,
-      minDeposit: 100,
-      minMonths: 1,
-      access: 'Acces oricând',
-      recommended: false,
-      features: ['Depui când vrei', 'Fără termen fix', 'Începi cu o sumă mică']
-    },
-    {
-      id: 'd12',
-      name: 'Depozit 12 luni',
-      term: '12 luni',
-      annualRate: 4.5,
-      minDeposit: 500,
-      minMonths: 12,
-      access: 'La scadență',
-      recommended: true,
-      features: ['Dobândă mai bună', 'Termen de un an', 'Echilibru între acces și randament']
-    },
-    {
-      id: 'd36',
-      name: 'Depozit 36 luni',
-      term: '36 luni',
-      annualRate: 6.5,
-      minDeposit: 1000,
-      minMonths: 36,
-      access: 'La scadență',
-      recommended: false,
-      features: ['Cea mai mare dobândă', 'Pentru obiective pe termen lung', 'Creștere constantă']
+      id: 'fond-social',
+      name: 'Fondul Social',
+      annualRate: 5,
+      minMonthly: 30,
+      maxMonthly: 800,
+      joinFee: 30,
+      access: 'Conform statutului',
+      features: [
+        'Dobândă de până la 5% pe an, conform condițiilor asociației',
+        'Depui lunar și îți construiești propriile economii',
+        'Poți solicita retragerea sumelor, în condițiile prevăzute de statut',
+        'Ca membru, poți solicita un împrumut'
+      ]
     }
   ];
 
   goals: Goal[] = [
-    { id: 'urgenta', name: 'Fond de urgență', text: 'O plasă de siguranță pentru momentele neprevăzute.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', target: 6000, initial: 500, months: 24 },
-    { id: 'vacanta', name: 'Vacanță', text: 'Plecarea la care visezi, plătită fără griji.', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z', target: 5000, initial: 500, months: 12 },
-    { id: 'masina', name: 'Mașină', text: 'Avansul sau suma întreagă pentru mașina dorită.', icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z', target: 25000, initial: 2000, months: 36 },
-    { id: 'casa', name: 'Casă', text: 'Avansul pentru locuința ta, strâns pas cu pas.', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', target: 60000, initial: 5000, months: 60 },
-    { id: 'educatie', name: 'Educație', text: 'Studii, cursuri sau viitorul copiilor tăi.', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', target: 15000, initial: 1000, months: 48 }
+    { id: 'urgenta', name: 'Fond de urgență', text: 'O plasă de siguranță pentru momentele neprevăzute.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', target: 6000, initial: 0, months: 24 },
+    { id: 'vacanta', name: 'Vacanță', text: 'Plecarea la care visezi, plătită fără griji.', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z', target: 5000, initial: 0, months: 18 },
+    { id: 'masina', name: 'Mașină', text: 'Avansul sau suma întreagă pentru mașina dorită.', icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z', target: 25000, initial: 0, months: 48 },
+    { id: 'educatie', name: 'Educație', text: 'Studii, cursuri sau viitorul copiilor tăi.', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', target: 15000, initial: 0, months: 48 }
   ];
 
   howSteps: HowStep[] = [
-    { number: '1', title: 'Alegi produsul', text: 'Compari variantele și o alegi pe cea potrivită obiectivului tău.' },
-    { number: '2', title: 'Deschizi contul', text: 'Vii la sediu cu actele necesare, iar un coleg te ajută cu formalitățile.' },
-    { number: '3', title: 'Faci prima depunere', text: 'Depui suma cu care începi, iar de aici economiile tale încep să crească.' },
-    { number: '4', title: 'Urmărești cum crește', text: 'Poți adăuga oricând sume noi și vezi mereu cât ai strâns.' }
+    { number: '1', title: 'Completezi cererea', text: 'Completezi o cerere de înscriere ca membru al asociației, conform statutului.' },
+    { number: '2', title: 'Achiți taxa de înscriere', text: 'Taxa de înscriere este de 30 lei, conform condițiilor asociației.' },
+    { number: '3', title: 'Alegi contribuția lunară', text: 'Poți depune lunar o sumă între 30 și 800 lei, în funcție de posibilitățile tale.' },
+    { number: '4', title: 'Economisești lunar', text: 'Depui contribuția aleasă, iar fondul tău social crește, cu dobândă de până la 5% pe an.' }
   ];
 
   infos: Info[] = [
-    { title: 'Condiții clare', text: 'Dobânda, termenul și condițiile îți sunt prezentate înainte să alegi.', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
-    { title: 'Control asupra economiilor', text: 'Știi mereu cât ai strâns și când ajungi la scadență.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-    { title: 'Sprijin la fiecare pas', text: 'Echipa noastră îți răspunde la orice întrebare, fără presiune.', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' }
+    { title: 'Primești dobândă', text: 'Banii depuși în fondul social pot beneficia de dobândă, conform condițiilor stabilite de asociație.', icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' },
+    { title: 'Economisești în ritmul tău', text: 'Poți contribui lunar la fondul social și îți poți dezvolta treptat economiile.', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+    { title: 'Ai acces la fondul tău', text: 'Poți solicita retragerea sumelor în condițiile prevăzute de statut și de regulile asociației.', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
+    { title: 'Poți solicita un împrumut', text: 'În calitate de membru, poți solicita un împrumut, în funcție de fondul social și de condițiile de creditare aplicabile.', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' }
   ];
 
   faqs: Faq[] = [
-    { question: 'Cum se calculează dobânda?', answer: 'Calculatorul presupune dobândă capitalizată lunar, iar contribuțiile se depun la finalul fiecărei luni. Suma finală exactă se confirmă la deschiderea contului.' },
-    { question: 'Pot depune bani și după ce deschid contul?', answer: 'Da, poți adăuga sume noi. Condițiile exacte depind de produsul ales, deci le discutăm la deschidere.' },
-    { question: 'Ce se întâmplă la scadență?', answer: 'La scadență poți retrage suma împreună cu dobânda sau poți relua economisirea pentru o nouă perioadă.' },
-    { question: 'Care este suma minimă cu care pot începe?', answer: 'Depinde de produs. Suma minimă pentru fiecare variantă o vezi în tabelul de comparație de mai sus.' },
-    { question: 'Rezultatul din calculator este garantat?', answer: 'Nu, calculatorul este orientativ. Condițiile finale ți le prezentăm înainte de deschiderea contului.' }
+    { question: 'Cum se calculează dobânda?', answer: 'Calculatorul estimează o dobândă de până la 5% pe an, capitalizată lunar, cu depuneri la finalul fiecărei luni. Dobânda reală, condițiile și modalitatea de calcul se stabilesc conform regulilor în vigoare ale asociației.' },
+    { question: 'Cât pot depune lunar?', answer: 'Poți depune lunar o sumă între 30 și 800 lei, în funcție de posibilitățile și obiectivele tale de economisire.' },
+    { question: 'Cum pot deveni membru?', answer: 'Completezi o cerere de înscriere, achiți taxa de înscriere de 30 lei și îți stabilești contribuția lunară. Detaliile le găsești în pagina Devino membru.' },
+    { question: 'Pot retrage banii din fondul social?', answer: 'Da, poți solicita retragerea sumelor în condițiile prevăzute de statut și de regulile asociației. Detaliile le primești la sediul nostru.' },
+    { question: 'Pot obține un împrumut?', answer: 'Da, în calitate de membru poți solicita un împrumut, în funcție de fondul social și de condițiile de creditare aplicabile.' },
+    { question: 'Rezultatul din calculator este garantat?', answer: 'Nu, calculatorul este orientativ. Dobânda este de până la 5% pe an, iar condițiile finale se stabilesc conform regulilor asociației.' }
   ];
 
   // Cifrele din banner, derivate din produse
   stats: Stat[] = [
-    { value: Math.max(...this.products.map((p) => p.annualRate)), decimals: 1, suffix: '%', label: 'Dobândă anuală, până la' },
-    { value: Math.min(...this.products.map((p) => p.minDeposit)), decimals: 0, suffix: ' lei', label: 'Depunere minimă' },
-    { value: this.products.length, decimals: 0, suffix: '', label: 'Variante de economisire' }
+    { value: Math.max(...this.products.map((p) => p.annualRate)), decimals: 0, suffix: '%', label: 'Dobândă anuală, până la' },
+    { value: Math.min(...this.products.map((p) => p.minMonthly)), decimals: 0, suffix: ' lei', label: 'Contribuție lunară minimă' },
+    { value: Math.max(...this.products.map((p) => p.maxMonthly)), decimals: 0, suffix: ' lei', label: 'Contribuție lunară maximă' }
   ];
   counts = signal<number[]>([0, 0, 0]);
 
@@ -194,15 +177,15 @@ export class SavingsPage {
   fieldKeys: FieldKey[] = ['initial', 'monthly', 'months', 'target'];
 
   fieldMeta: Record<FieldKey, FieldMeta> = {
-    initial: { label: 'Cu ce sumă începi?', short: 'suma inițială', suffix: 'lei', unit: 'lei', presets: [500, 1000, 5000, 10000] },
-    monthly: { label: 'Cât economisești lunar?', short: 'contribuția lunară', suffix: 'lei / lună', unit: 'lei', presets: [0, 100, 250, 500, 1000] },
+    initial: { label: 'Ce sumă ai deja în fond?', short: 'suma din fond', suffix: 'lei', unit: 'lei', presets: [0, 500, 1000, 5000] },
+    monthly: { label: 'Cât depui lunar?', short: 'contribuția lunară', suffix: 'lei / lună', unit: 'lei', presets: [30, 100, 200, 400, 800] },
     months: { label: 'Pentru cât timp?', short: 'perioada', suffix: 'luni', unit: 'luni', presets: [12, 24, 36, 60] },
     target: { label: 'Ce sumă vrei să strângi?', short: 'suma țintă', suffix: 'lei', unit: 'lei', presets: [5000, 10000, 25000, 50000] }
   };
 
   mode = signal<Mode>('grow');
-  selectedId = signal(this.products[1].id);
-  raw = signal<Record<FieldKey, number | null>>({ initial: 1000, monthly: 200, months: 24, target: 10000 });
+  selectedId = signal(this.products[0].id);
+  raw = signal<Record<FieldKey, number | null>>({ initial: 0, monthly: 100, months: 24, target: 10000 });
 
   selected = computed(() => this.products.find((p) => p.id === this.selectedId()) ?? this.products[0]);
 
@@ -213,10 +196,10 @@ export class SavingsPage {
   limits = computed<Record<FieldKey, Limit>>(() => {
     const p = this.selected();
     return {
-      initial: { min: p.minDeposit, max: 100000, step: 100 },
-      monthly: { min: 0, max: 5000, step: 50 },
-      months: { min: p.minMonths, max: 120, step: 1 },
-      target: { min: 1000, max: 500000, step: 500 }
+      initial: { min: 0, max: 100000, step: 100 },
+      monthly: { min: p.minMonthly, max: p.maxMonthly, step: 10 },
+      months: { min: 1, max: 120, step: 1 },
+      target: { min: 1000, max: 100000, step: 500 }
     };
   });
 
@@ -243,16 +226,19 @@ export class SavingsPage {
     const initial = v.initial;
     let monthly = v.monthly;
     let alreadyThere = false;
+    let overMax = false;
 
     if (this.mode() === 'target') {
       const growth = Math.pow(1 + r, n);
       const fromInitial = initial * growth;
+      const minMonthly = p.minMonthly;
       if (fromInitial >= v.target) {
-        monthly = 0;
+        monthly = minMonthly; // contribuția minimă se plătește oricum
         alreadyThere = true;
       } else {
         const needed = r === 0 ? (v.target - initial) / n : ((v.target - fromInitial) * r) / (growth - 1);
-        monthly = Math.ceil(needed * 100) / 100; // rotunjit în sus, ca să atingi ținta
+        monthly = Math.max(minMonthly, Math.ceil(needed * 100) / 100); // rotunjit în sus, ca să atingi ținta
+        overMax = monthly > p.maxMonthly;
       }
     }
 
@@ -273,6 +259,7 @@ export class SavingsPage {
     return {
       monthly,
       alreadyThere,
+      overMax,
       rows,
       final,
       paid,
@@ -316,9 +303,10 @@ export class SavingsPage {
       return `La final vei avea ${this.money(c.final)} lei, după ${durationText(v.months)}. Dobânda câștigată este de ${this.money(c.interest)} lei.`;
     }
     if (c.alreadyThere) {
-      return `Cu suma inițială atingi deja ținta de ${this.num(v.target)} lei.`;
+      return `Cu suma din fond atingi deja ținta de ${this.num(v.target)} lei.`;
     }
-    return `Trebuie să pui lunar ${this.money(c.monthly)} lei pentru a ajunge la ${this.num(v.target)} lei în ${durationText(v.months)}.`;
+    const over = c.overMax ? ' Contribuția maximă permisă este de 800 lei lunar.' : '';
+    return `Trebuie să pui lunar ${this.money(c.monthly)} lei pentru a ajunge la ${this.num(v.target)} lei în ${durationText(v.months)}.${over}`;
   });
 
   chartLabel = computed(() => {

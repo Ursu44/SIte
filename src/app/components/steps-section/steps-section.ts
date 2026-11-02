@@ -22,9 +22,30 @@ export class StepsSection {
   });
 
   steps: Step[] = [
-    { number: '01', title: 'Obtinerea actelor', description: 'Documentele necesare se pot descarca din sectiunea Documente.' },
-    { number: '02', title: 'Completarea documentelor ', description: 'Se completeaza documentele la sediul nostru.' },
-    { number: '03', title: 'Gasirea si aducerea la sediu a girantilor', description: 'Dupa gasirea girantilor, trebuie sa va prezentati cu ei la sediu.' },
-    { number: '04', title: 'Finalizarea', description: 'Dupa indeplinirea tuturor conditiilor si aprobare banii vor veni fie in cont fie prin casierie.' }
+    {
+      number: '01',
+      title: 'Devino membru',
+      description: 'Împrumuturile se acordă membrilor asociației. Completezi cererea de înscriere, achiți taxa de 30 lei și începi contribuția lunară la Fondul Social.'
+    },
+    {
+      number: '02',
+      title: 'Alege tipul de împrumut',
+      description: 'Împrumut tradițional (până la 50.000 lei, dobândă fixă 9,5%) sau diversificat (până la 70.000 lei, dobândă fixă 11,5%), pe maximum 60 de luni.'
+    },
+    {
+      number: '03',
+      title: 'Pregătește documentele',
+      description: 'Salariații au nevoie de adeverință de venit completată de angajator, extras REGES-ONLINE și act de identitate. Pensionarii, de cupon de pensie și act de identitate. Formularele se descarcă din secțiunea Documente.'
+    },
+    {
+      number: '04',
+      title: 'Găsește giranții',
+      description: 'În funcție de suma solicitată ai nevoie de unul, doi sau trei giranți. Vă prezentați împreună la sediu pentru completarea actelor.'
+    },
+    {
+      number: '05',
+      title: 'Aprobare și primirea banilor',
+      description: 'După îndeplinirea condițiilor și aprobarea cererii, banii vin în cont sau îi ridici de la casierie.'
+    }
   ];
 }

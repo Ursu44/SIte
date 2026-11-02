@@ -140,7 +140,7 @@ export class LoansPage {
     { question: 'Rezultatul din calculator este oferta finală?', answer: 'Nu, calculatorul este orientativ. Oferta exactă o primești după analizarea dosarului tău, iar condițiile îți sunt prezentate înainte de semnare.' },
     { question: 'Pot alege o altă perioadă decât cele sugerate?', answer: 'Da, poți alege orice perioadă din limitele tipului de împrumut ales. Vezi cum se schimbă rata și alege varianta care ți se potrivește.' },
     { question: 'Cui se adresează împrumuturile?', answer: 'Împrumuturile sunt destinate membrilor Asociației, în condițiile prevăzute de statut și de regulamentele interne.' },
-    { question: 'De câți giranți am nevoie?', answer: 'Împrumutul se acordă cu giranți, iar numărul lor (2, 3 sau 4) și veniturile acestora depind de suma solicitată. Detaliile le primești la sediul nostru.' },
+    { question: 'De câți giranți am nevoie?', answer: 'În funcție de suma solicitată, poate fi necesar unul, doi sau trei giranți. Numărul exact și condițiile le afli la sediul nostru.' },
     { question: 'Dobânda este fixă sau variabilă?', answer: 'Dobânda este fixă, conform condițiilor de acordare stabilite de asociație.' },
     { question: 'Care este diferența dintre cele două tipuri de împrumut?', answer: 'Împrumuturile tradiționale sunt pentru cheltuieli personale sau familiale (până la 50.000 lei, dobândă nominală de 9,5% pe an). Cele diversificate oferă mai multă flexibilitate în alegerea soluției de finanțare (până la 70.000 lei, dobândă nominală de 11,5% pe an). Ambele se pot rambursa pe până la 60 de luni.' },
     { question: 'Ce documente am nevoie?', answer: 'Lista completă, pe categorii, o găsești în pagina Documente, împreună cu formularele gata de descărcat.' }

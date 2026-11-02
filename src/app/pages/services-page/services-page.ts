@@ -45,8 +45,10 @@ export class ServicesPage {
   counts = signal<number[]>([0, 0, 0, 0]);
   openFaq = signal<number | null>(0);
 
+  // Anul de la care numărăm experiența (personalitate juridică); anii se calculează singuri.
   private readonly startYear = 1997;
 
+  // Valoarea pentru membri este fictivă: se înlocuiește cu cea reală.
   stats: Stat[] = [
     { value: new Date().getFullYear() - this.startYear, suffix: '+', label: 'Ani de experiență' },
     { value: 2000, suffix: '+', label: 'Membri' },
@@ -116,7 +118,7 @@ export class ServicesPage {
     },
     {
       question: 'De câți giranți am nevoie?',
-      answer: 'Împrumutul se acordă cu giranți, iar numărul lor (2, 3 sau 4) și veniturile acestora depind de suma solicitată. Detaliile le primești la sediul nostru.'
+      answer: 'În funcție de suma solicitată, poate fi necesar unul, doi sau trei giranți. Numărul exact și condițiile le afli la sediul nostru.'
     },
     {
       question: 'Ce este Fondul Social?',

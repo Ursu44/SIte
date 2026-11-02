@@ -3,7 +3,7 @@
   <div class="relative z-10 text-center docs-banner-content">
     <h1 class="font-bold text-white docs-banner-title">Documente</h1>
     <p class="text-slate-300 mx-auto docs-banner-subtitle">
-      Tot ce ai nevoie pentru dosarul tău, într-un singur loc
+      Ce ai nevoie pentru dosarul de împrumut, în funcție de categoria ta
     </p>
   </div>
 </div>
@@ -11,13 +11,15 @@
 <div #tabsRef class="max-w-5xl mx-auto docs-content reveal" [class.reveal-active]="tabsVisible()">
   <div class="bg-white/85 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden">
 
-    <div class="relative grid grid-cols-2 bg-slate-100/80 tabs-bar" role="tablist">
+    <div class="relative grid grid-cols-2 bg-slate-100/80 tabs-bar" role="tablist" aria-label="Categoria solicitantului">
       <div class="tab-indicator" [style.transform]="'translateX(' + (activeTab() * 100) + '%)'"></div>
       @for (cat of categories; track cat.id; let i = $index) {
         <button
           type="button"
           role="tab"
+          [id]="'tab-' + cat.id"
           [attr.aria-selected]="activeTab() === i"
+          [attr.aria-controls]="'panel-' + cat.id"
           (click)="selectTab(i)"
           class="relative z-10 font-semibold transition-colors duration-300 tab-button"
           [class.tab-button-active]="activeTab() === i"
@@ -28,7 +30,7 @@
     </div>
 
     @for (cat of [categories[activeTab()]]; track cat.id) {
-      <div class="grid grid-cols-1 md:grid-cols-2 tab-content">
+      <div class="grid grid-cols-1 md:grid-cols-2 tab-content" role="tabpanel" [id]="'panel-' + cat.id" [attr.aria-labelledby]="'tab-' + cat.id">
 
         <div class="flex flex-col justify-center min-w-0">
           <h2 class="font-bold text-slate-900 tab-title">{{ cat.title }}</h2>
@@ -51,7 +53,7 @@
         <div class="relative overflow-hidden rounded-2xl shadow-lg order-first md:order-last tab-image-wrapper">
           <img
             [src]="cat.image"
-            [alt]="cat.label"
+            [alt]="cat.imageAlt"
             class="absolute inset-0 w-full h-full object-cover tab-image"
             [style.object-position]="cat.imagePosition || 'center'"
           />
@@ -67,15 +69,34 @@
   </div>
 </div>
 
+<div #guarRef class="max-w-5xl mx-auto docs-content reveal" [class.reveal-active]="guarVisible()">
+  <div class="flex flex-col md:flex-row items-start bg-white/85 backdrop-blur-md border border-amber-300 shadow-lg guar-card">
+    <div class="flex-shrink-0 bg-amber-500 rounded-full flex items-center justify-center guar-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" class="text-slate-900 guar-icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+    </div>
+    <div class="min-w-0">
+      <h2 class="font-bold text-slate-900 guar-title">{{ guarantors.title }}</h2>
+      @for (p of guarantors.paragraphs; track p) {
+        <p class="text-slate-600 leading-relaxed guar-text">{{ p }}</p>
+      }
+      <div class="guar-actions">
+        <a routerLink="/contact" class="guar-btn">Aflu ce împrumut pot obține</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="max-w-5xl mx-auto docs-content docs-section">
 
   <div #docsRef class="text-center docs-header reveal" [class.reveal-active]="docsVisible()">
-    <h2 class="font-bold text-slate-900 docs-section-title">Documente comune</h2>
+    <h2 class="font-bold text-slate-900 docs-section-title">Formulare de descărcat</h2>
     <div class="bg-amber-500 mx-auto rounded-full docs-title-line"></div>
-    <p class="text-slate-600 mx-auto docs-section-subtitle">Necesare indiferent de categoria aleasă</p>
+    <p class="text-slate-600 mx-auto docs-section-subtitle">Modele gata de completat</p>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 docs-grid">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 docs-grid">
     @for (doc of documents; track doc.title; let i = $index) {
       <div
         #docCard
