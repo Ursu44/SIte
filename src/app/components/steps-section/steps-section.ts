@@ -35,7 +35,7 @@ export class StepsSection {
     {
       number: '03',
       title: 'Pregătește documentele',
-      description: 'Salariații au nevoie de adeverință de venit completată de angajator, extras REGES-ONLINE și act de identitate. Pensionarii, de cupon de pensie și act de identitate. Formularele se descarcă din secțiunea Documente.'
+      description: 'Salariații au nevoie de adeverință de venit completată de angajator, extras REGES-ONLINE și act de identitate, iar pensionarii, de cupon de pensie și act de identitate. Formularele se descarcă din secțiunea Documente.'
     },
     {
       number: '04',

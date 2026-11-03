@@ -26,7 +26,7 @@ export class ListSection {
   newsItems: NewsItem[] = [
     {
       title: 'Dobândă fixă la împrumuturi',
-      description: 'Împrumuturi cu dobândă fixă, de 9,5% sau 11,5% pe an, în funcție de tip, ca să știi din start ce ai de plătit.'
+      description: 'Împrumuturi cu dobândă fixă, de 9,5% la împrumut tradițional și 11,5% la împrumutul opționl, pe an, în funcție de tip, ca să știi din start ce ai de plătit.'
     },
     {
       title: 'Economii cu dobândă',

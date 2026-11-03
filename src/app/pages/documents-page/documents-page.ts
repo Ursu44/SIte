@@ -77,12 +77,11 @@ export class DocumentsPage {
     ]
   };
 
-  // Fișierele din folderul `documente/` trebuie adăugate: acum sunt doar exemple.
   documents: DocItem[] = [
-    { title: 'Cerere de înscriere', description: 'Formularul de completat pentru a deveni membru al asociației.', file: 'documente/cerere-inscriere.pdf', size: 'PDF' },
-    { title: 'Cerere de împrumut', description: 'Formularul de completat pentru solicitarea unui împrumut.', file: 'documente/cerere-imprumut.pdf', size: 'PDF' },
-    { title: 'Adeverință de venit', description: 'Model de adeverință care se completează de angajator.', file: 'documente/adeverinta-venit.pdf', size: 'PDF' },
-    { title: 'Acord de prelucrare a datelor', description: 'Acordul privind prelucrarea datelor personale, necesar pentru dosar.', file: 'documente/acord-date.pdf', size: 'PDF' }
+    { title: 'Cerere de înscriere', description: 'Formularul de completat pentru a deveni membru al asociației.', file: 'documente/CerereDeInscriere.pdf', size: 'PDF' },
+    { title: 'Cerere de împrumut', description: 'Formularul de completat pentru solicitarea unui împrumut.', file: 'documente/CerereDeImprumut.pdf', size: 'PDF' },
+    { title: 'Adeverință de imprumut', description: 'Model de adeverință care se completează de angajator.', file: 'documente/AdeverintaImprumut.pdf', size: 'PDF' },
+    { title: 'Cerere de retragere', description: 'Formularul de completat pentru solicitarea retragereii unei sume de bani din fondul social.', file: 'documente/CerereDeRetragere.pdf', size: 'PDF' }
   ];
 
   constructor() {
