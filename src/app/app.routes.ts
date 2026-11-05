@@ -9,6 +9,7 @@ import { LoansPage } from './pages/loans-page/loans-page';
 import { SavingsPage } from './pages/savings-page/savings-page';
 import { TermsPage } from './pages/terms-page/terms-page';
 import { PrivacyPage } from './pages/privacy/privacy';
+import { ComingSoonPage } from './pages/coming-soon-page/coming-soon-page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -21,4 +22,5 @@ export const routes: Routes = [
   { path: 'economii', component: SavingsPage },
   { path: 'termeni-si-conditii', component: TermsPage },
   { path: 'confidentialitate', component: PrivacyPage },
+  { path: 'in-curand', component: ComingSoonPage },
 ];

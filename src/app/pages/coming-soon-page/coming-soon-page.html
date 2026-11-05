@@ -1,0 +1,34 @@
+<section class="cs-section">
+  <div class="cs-card">
+    <div class="cs-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/>
+        <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </svg>
+    </div>
+
+    @if (portalUrl) {
+      <h1 class="cs-title">Portalul pentru membri</h1>
+      <div class="cs-line"></div>
+      <p class="cs-text">
+        Accesează spațiul online dedicat membrilor asociației.
+      </p>
+      <div class="cs-actions">
+        <a [href]="portalUrl" target="_blank" rel="noopener noreferrer" class="cs-btn cs-btn-primary">Accesează portalul</a>
+        <a routerLink="/contact" class="cs-btn cs-btn-secondary">Contactează-ne</a>
+      </div>
+    } @else {
+      <h1 class="cs-title">Portalul pentru membri va fi disponibil în curând</h1>
+      <div class="cs-line"></div>
+      <p class="cs-text">
+        Pregătim un spațiu online dedicat membrilor asociației.
+        Vom anunța aici când este gata. Până atunci, ne găsești la sediul
+        asociației sau ne poți contacta direct.
+      </p>
+      <div class="cs-actions">
+        <a routerLink="/contact" class="cs-btn cs-btn-primary">Contactează-ne</a>
+        <a routerLink="/" class="cs-btn cs-btn-secondary">Înapoi la pagina principală</a>
+      </div>
+    }
+  </div>
+</section>
