@@ -1,209 +1,133 @@
-import { Component, ElementRef, QueryList, ViewChildren, afterNextRender, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
 
-interface DataRow {
-  data: string;
-  purpose: string;
-  basis: string;
-  retention: string;
-}
-
-interface Right {
-  title: string;
-  text: string;
-  icon: string;
-}
-
-interface Highlight {
-  title: string;
-  text: string;
-  icon: string;
-}
-
-interface PrivacySection {
+interface LegalSection {
   id: string;
   title: string;
   paragraphs: string[];
   list?: string[];
-  table?: DataRow[];
-  rights?: Right[];
 }
 
 @Component({
   selector: 'app-privacy-page',
   standalone: true,
-  imports: [RouterLink],
   templateUrl: './privacy.html',
   styleUrl: './privacy.css'
 })
 export class PrivacyPage {
-  @ViewChildren('sectionRef') sectionRefs!: QueryList<ElementRef<HTMLElement>>;
+  lastUpdated = '10 noiembrie 2026';
 
-  activeId = signal<string>('');
-  tocOpen = signal(false);
-
-  readonly lastUpdated = '1 ianuarie 2026';
-
-  readonly highlights: Highlight[] = [
-    {
-      title: 'Fără cookie-uri de urmărire',
-      text: 'Site-ul nu folosește cookie-uri de analiză sau de publicitate.',
-      icon: 'M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z M9 12l2 2 4-4'
-    },
-    {
-      title: 'Doar datele necesare',
-      text: 'Îți cerem doar ce ne trebuie pentru a-ți răspunde.',
-      icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-    },
-    {
-      title: 'Nu vindem datele tale',
-      text: 'Nu le vindem și nu le oferim spre folosire în scop comercial.',
-      icon: 'M18.364 5.636l-12.728 12.728M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-    },
-    {
-      title: 'Tu ai controlul',
-      text: 'Poți cere oricând accesul, corectarea sau ștergerea datelor.',
-      icon: 'M5 13l4 4L19 7'
-    }
-  ];
-
-  readonly sections: PrivacySection[] = [
+  sections: LegalSection[] = [
     {
       id: 'operator',
-      title: 'Cine prelucrează datele tale',
+      title: 'Cine este operatorul datelor',
       paragraphs: [
-        'Operatorul datelor este Cooperativa de Credit „Exemplu", cu sediul în Str. Exemplului nr. 1, Orașul Exemplu, Județul Exemplu, cod unic de înregistrare RO 00000000.',
-        'Pentru orice întrebare despre datele tale ne poți scrie la confidentialitate@exemplu-cooperativa.ro.'
+        'Operatorul datelor personale este Casa de Ajutor Reciproc CFR Suceava (C.A.R. CFR Suceava), cu sediul în [adresa sediului], cod de identificare fiscală [CUI], e-mail [e-mail], telefon [telefon].',
+        '[Dacă asociația a desemnat un responsabil cu protecția datelor, se trece aici adresa lui de contact.]'
       ]
     },
     {
       id: 'date',
-      title: 'Ce date colectăm și de ce',
-      paragraphs: ['Colectăm date doar în situațiile de mai jos. Navigarea pe site nu presupune transmiterea de date personale.'],
-      table: [
-        {
-          data: 'Nume, email, telefon, mesaj',
-          purpose: 'Răspundem la mesajul trimis prin formularul de contact',
-          basis: 'Interesul tău și al nostru de a comunica',
-          retention: '12 luni de la ultimul mesaj'
-        },
-        {
-          data: 'Nume, text și nota recenziei',
-          purpose: 'Publicăm recenzia pe site',
-          basis: 'Consimțământul tău',
-          retention: 'Până ceri retragerea'
-        },
-        {
-          data: 'Adresa IP, data și pagina accesată',
-          purpose: 'Securitatea și buna funcționare a site-ului',
-          basis: 'Interesul legitim de a proteja site-ul',
-          retention: '30 de zile'
-        }
+      title: 'Ce date prelucrăm',
+      paragraphs: ['În funcție de modul în care folosești site-ul sau relaționezi cu asociația, putem prelucra:'],
+      list: [
+        'datele pe care ni le transmiți când ne contactezi (nume, e-mail, telefon, conținutul mesajului);',
+        'datele din recenziile publicate pe site (numele afișat, evaluarea, textul recenziei, data);',
+        'date tehnice de bază, generate automat la accesarea site-ului (adresă IP, tipul browserului, data și ora accesării), în jurnalele serverului;',
+        'datele din dosarul de membru sau de împrumut (identificare, venituri, documente, date ale giranților), care se completează la sediul asociației, nu prin acest site.'
+      ]
+    },
+    {
+      id: 'scopuri',
+      title: 'Scopurile și temeiurile prelucrării',
+      paragraphs: ['Prelucrăm datele doar atât cât este necesar, pentru:'],
+      list: [
+        'răspunsul la mesajele tale: interesul legitim sau pașii premergători încheierii unui contract, la cererea ta;',
+        'afișarea recenziilor: consimțământul tău;',
+        'securitatea și funcționarea site-ului: interesul legitim al asociației;',
+        'înscrierea ca membru și analiza cererilor de împrumut: executarea contractului sau pașii premergători, plus obligațiile legale, conform statutului și legislației aplicabile;',
+        'respectarea obligațiilor legale (evidență, arhivare, solicitări ale autorităților).'
       ]
     },
     {
       id: 'cookies',
       title: 'Cookie-uri și tehnologii similare',
       paragraphs: [
-        'Site-ul nu folosește cookie-uri și nu stochează informații în browserul tău pentru analiză, publicitate sau urmărire.',
-        'Dacă vom introduce în viitor astfel de instrumente, vom cere mai întâi acordul tău și vom actualiza această pagină.'
-      ]
-    },
-    {
-      id: 'folosire',
-      title: 'Cum folosim datele',
-      paragraphs: ['Folosim datele doar pentru scopul pentru care le-ai transmis. Nu luăm decizii automate care să te afecteze și nu facem profilare.'],
-      list: [
-        'pentru a-ți răspunde la întrebări și solicitări',
-        'pentru a publica recenziile pe care ai ales să le trimiți',
-        'pentru a păstra securitatea site-ului',
-        'pentru a respecta obligațiile legale ale Cooperativei'
+        'Site-ul nu folosește cookie-uri de analiză sau de marketing și nu salvează date de urmărire în browser. De aceea nu afișăm un banner de cookie-uri.',
+        'Dacă vom adăuga în viitor instrumente care folosesc cookie-uri (statistici, hărți, videoclipuri încorporate), vom actualiza această pagină și vom cere consimțământul unde este necesar.'
       ]
     },
     {
       id: 'destinatari',
       title: 'Cui transmitem datele',
       paragraphs: [
-        'Nu vindem datele tale. Le putem transmite doar furnizorilor care ne ajută să operăm site-ul (de exemplu, găzduirea și baza de date) și autorităților, atunci când legea ne obligă.',
-        'Acești furnizori prelucrează datele numai pe baza instrucțiunilor noastre și în condiții de securitate adecvate.'
+        'Nu vindem datele tale. Le pot primi doar furnizorii care ne ajută să rulăm site-ul, de exemplu serviciile de găzduire și de bază de date (Cloudflare), care acționează în numele nostru, și autoritățile, atunci când legea o cere.',
+        '[De completat cu orice alt furnizor folosit de asociație (e-mail, contabilitate, portalul pentru membri).]'
       ]
     },
     {
-      id: 'pastrare',
-      title: 'Cât păstrăm datele',
+      id: 'transfer',
+      title: 'Transferul în afara UE',
       paragraphs: [
-        'Păstrăm datele doar cât este necesar scopului pentru care au fost colectate, conform perioadelor din tabelul de mai sus. După expirare, le ștergem sau le anonimizăm.'
+        'Unii furnizori de infrastructură pot prelucra date și în afara Spațiului Economic European. În acest caz se aplică garanțiile prevăzute de GDPR, de exemplu clauze contractuale standard sau decizii de adecvare. [De verificat cu setările și contractul furnizorului.]'
+      ]
+    },
+    {
+      id: 'durata',
+      title: 'Cât timp păstrăm datele',
+      paragraphs: [],
+      list: [
+        'mesajele de contact: cât este necesar pentru a-ți răspunde, apoi cel mult [perioadă];',
+        'recenziile: cât timp sunt afișate pe site sau până retragi consimțământul;',
+        'jurnalele tehnice: pe perioade scurte, stabilite de furnizorul de găzduire;',
+        'datele din dosarele de membri și de împrumut: pe durata calității de membru sau a contractului și apoi pe perioadele de arhivare impuse de lege [de confirmat].'
       ]
     },
     {
       id: 'drepturi',
       title: 'Drepturile tale',
-      paragraphs: ['Conform legislației privind protecția datelor, ai următoarele drepturi:'],
-      rights: [
-        { title: 'Acces', text: 'Poți afla ce date avem despre tine.', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z' },
-        { title: 'Rectificare', text: 'Poți cere corectarea datelor greșite.', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.4-9.4a2 2 0 112.8 2.8L11.8 15H9v-2.8l8.6-8.6z' },
-        { title: 'Ștergere', text: 'Poți cere ștergerea datelor, când e cazul.', icon: 'M19 7l-1 12a2 2 0 01-2 2H8a2 2 0 01-2-2L5 7m5 4v6m4-6v6M9 7V4h6v3M4 7h16' },
-        { title: 'Restricționare', text: 'Poți cere limitarea prelucrării.', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' },
-        { title: 'Portabilitate', text: 'Poți primi datele într-un format uzual.', icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4' },
-        { title: 'Opoziție', text: 'Te poți opune prelucrării bazate pe interes legitim.', icon: 'M18.364 5.636l-12.728 12.728M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
+      paragraphs: ['Conform GDPR (Regulamentul UE 2016/679) ai dreptul:'],
+      list: [
+        'de acces la datele tale;',
+        'de rectificare a datelor incorecte;',
+        'de ștergere („dreptul de a fi uitat”), în condițiile legii;',
+        'de restricționare a prelucrării;',
+        'la portabilitatea datelor;',
+        'de opoziție, în cazurile prevăzute de lege;',
+        'de retragere a consimțământului, oricând, fără a afecta prelucrarea de până atunci.'
       ]
     },
     {
       id: 'exercitare',
       title: 'Cum îți exerciți drepturile',
       paragraphs: [
-        'Scrie-ne la confidentialitate@exemplu-cooperativa.ro sau vino la sediu. Îți răspundem în cel mult 30 de zile și, ca să te protejăm, putem cere o verificare a identității.',
-        'Dacă consideri că drepturile ți-au fost încălcate, poți depune o plângere la Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP), www.dataprotection.ro.'
+        'Ne poți scrie la [e-mail] sau la sediul asociației. Îți răspundem în cel mult o lună de la primirea cererii.',
+        'Dacă ești nemulțumit, ai dreptul să depui o plângere la Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP): dataprotection.ro, B-dul G-ral. Gheorghe Magheru nr. 28-30, sector 1, București. Te rugăm să ne dai întâi șansa să rezolvăm problema.'
       ]
     },
     {
       id: 'securitate',
       title: 'Securitatea datelor',
       paragraphs: [
-        'Folosim măsuri tehnice și organizatorice adecvate: conexiune criptată (HTTPS), acces limitat la date și actualizarea regulată a sistemelor. Nicio metodă de transmitere pe internet nu este însă complet lipsită de risc.'
+        'Folosim măsuri tehnice și organizatorice rezonabile: conexiune securizată (HTTPS), acces limitat la date și păstrarea documentelor din dosare la sediul asociației. Niciun sistem nu este însă complet lipsit de risc.'
+      ]
+    },
+    {
+      id: 'minori',
+      title: 'Minori',
+      paragraphs: [
+        'Site-ul se adresează adulților. Nu colectăm intenționat date ale minorilor prin acest site.'
       ]
     },
     {
       id: 'modificari',
       title: 'Modificări ale politicii',
       paragraphs: [
-        'Putem actualiza această politică. Versiunea în vigoare este cea de pe această pagină, cu data ultimei actualizări în partea de sus. Pentru schimbări importante te vom informa prin site.'
+        'Putem actualiza această politică. Versiunea în vigoare este cea publicată aici, cu data ultimei actualizări afișată sus.'
       ]
     }
   ];
 
-  constructor() {
-    afterNextRender(() => {
-      const first = this.sections[0]?.id;
-      if (first) this.activeId.set(first);
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((e) => e.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-          if (visible) this.activeId.set((visible.target as HTMLElement).id);
-        },
-        { rootMargin: '-20% 0px -65% 0px', threshold: 0 }
-      );
-      this.sectionRefs.forEach((s) => observer.observe(s.nativeElement));
-    });
-  }
-
-  toggleToc() {
-    this.tocOpen.update((v) => !v);
-  }
-
-  goTo(id: string) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-    this.activeId.set(id);
-    this.tocOpen.set(false);
-  }
-
-  print() {
-    window.print();
+  scrollTo(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }

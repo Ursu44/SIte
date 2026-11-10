@@ -1,7 +1,6 @@
-import { Component, ElementRef, QueryList, ViewChildren, afterNextRender, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
 
-interface TermsSection {
+interface LegalSection {
   id: string;
   title: string;
   paragraphs: string[];
@@ -11,149 +10,128 @@ interface TermsSection {
 @Component({
   selector: 'app-terms-page',
   standalone: true,
-  imports: [RouterLink],
   templateUrl: './terms-page.html',
   styleUrl: './terms-page.css'
 })
 export class TermsPage {
-  @ViewChildren('sectionRef') sectionRefs!: QueryList<ElementRef<HTMLElement>>;
+  lastUpdated = '10 noiembrie 2026';
 
-  activeId = signal<string>('');
-  tocOpen = signal(false);
-
-  // Date fictive, de înlocuit după discuția cu cooperativa.
-  readonly lastUpdated = '1 ianuarie 2026';
-
-  readonly sections: TermsSection[] = [
+  sections: LegalSection[] = [
     {
-      id: 'introducere',
-      title: 'Introducere și acceptare',
+      id: 'despre',
+      title: 'Despre asociație și acest site',
       paragraphs: [
-        'Acest site este administrat de Cooperativa de Credit „Exemplu" (denumită în continuare „Cooperativa"). Prin accesarea și utilizarea site-ului, confirmi că ai citit și ai înțeles prezentii termeni și condiții.',
-        'Dacă nu ești de acord cu o parte dintre ei, te rugăm să nu folosești site-ul. Utilizarea lui în continuare după o modificare a termenilor înseamnă că ai luat act de varianta actualizată.'
+        'Acest site este administrat de Casa de Ajutor Reciproc CFR Suceava (C.A.R. CFR Suceava), asociație a salariaților și pensionarilor din domeniul feroviar, cu personalitate juridică din anul 1997.',
+        'Date de identificare: sediul în [adresa sediului], cod de identificare fiscală [CUI], număr de înregistrare [număr de înregistrare], telefon [telefon], e-mail [e-mail].'
       ]
     },
     {
-      id: 'operator',
-      title: 'Date despre operator',
-      paragraphs: ['Informațiile de identificare ale Cooperativei sunt următoarele:'],
+      id: 'acceptare',
+      title: 'Acceptarea termenilor',
+      paragraphs: [
+        'Prin accesarea și utilizarea site-ului confirmi că ai citit acești termeni și că ești de acord cu ei. Dacă nu ești de acord, te rugăm să nu folosești site-ul.',
+        'Site-ul are rol de prezentare și informare. Nu poți încheia online contracte de împrumut sau de economisire.'
+      ]
+    },
+    {
+      id: 'servicii',
+      title: 'Serviciile prezentate',
+      paragraphs: [
+        'Pe site sunt prezentate serviciile asociației, destinate membrilor:'
+      ],
       list: [
-        'Denumire: Cooperativa de Credit „Exemplu"',
-        'Cod unic de înregistrare: RO 00000000',
-        'Registrul de evidență: C00/000/0000',
-        'Sediu: Str. Exemplului nr. 1, Orașul Exemplu, Județul Exemplu',
-        'Email: contact@exemplu-cooperativa.ro',
-        'Telefon: 0200 000 000'
+        'împrumuturi tradiționale, de până la 50.000 lei, pe maximum 60 de luni, cu dobândă fixă de 9,5% pe an;',
+        'împrumuturi diversificate, de până la 70.000 lei, pe maximum 60 de luni, cu dobândă fixă de 11,5% pe an;',
+        'Fondul Social, cu dobândă de până la 5% pe an, contribuție lunară între 30 și 800 lei și taxă de înscriere de 30 lei.'
       ]
     },
     {
-      id: 'scop',
-      title: 'Scopul site-ului',
+      id: 'membri',
+      title: 'Calitatea de membru',
       paragraphs: [
-        'Site-ul are rol informativ. Îți prezintă serviciile Cooperativei, documentele necesare și modul de contact. Informațiile nu reprezintă o ofertă fermă și nu produc efecte juridice între tine și Cooperativă.',
-        'Un contract se încheie doar în scris, la sediul Cooperativei sau prin alte mijloace stabilite de comun acord, după analiza solicitării tale.'
+        'Serviciile se acordă membrilor asociației. Condițiile de înscriere, drepturile și obligațiile membrilor, retragerea din asociație și restituirea sumelor se stabilesc prin statutul asociației și prin regulamentele ei, care prevalează asupra informațiilor de pe site.',
+        'Acordarea unui împrumut depinde de analiza dosarului, de documentele prezentate, de eventualii giranți și de aprobarea asociației. Prezentarea site-ului nu constituie o ofertă obligatorie și nu garantează aprobarea unei cereri.'
       ]
     },
     {
-      id: 'calculatoare',
-      title: 'Calculatoare și simulări',
+      id: 'simulatoare',
+      title: 'Simulatoare și calcule orientative',
       paragraphs: [
-        'Calculatoarele de împrumut și de economii oferă rezultate orientative, bazate pe valorile introduse de tine și pe ipoteze simplificate. Ele nu iau în calcul toate costurile sau situațiile individuale.',
-        'Condițiile finale, inclusiv dobânda, comisioanele și rata, se stabilesc doar la încheierea contractului și pot diferi de simulare.'
+        'Calculatoarele de pe site oferă rezultate orientative, bazate pe valorile introduse de tine. Ele nu reprezintă o ofertă și nu înlocuiesc contractul sau documentele întocmite la sediul asociației.',
+        'Valorile finale (rată, dobândă, costuri) se stabilesc la analiza cererii și se regăsesc în documentele semnate.'
       ]
     },
     {
-      id: 'utilizare',
-      title: 'Utilizarea permisă',
-      paragraphs: ['Te angajezi să folosești site-ul în mod legal și cu bună-credință. Este interzis:'],
-      list: [
-        'să încerci accesul neautorizat la sistemele sau la datele Cooperativei',
-        'să trimiți conținut fals, ofensator sau care încalcă drepturile altora',
-        'să folosești programe automate pentru a prelua conținutul fără acordul nostru',
-        'să perturbi funcționarea site-ului'
+      id: 'documente',
+      title: 'Documente și formulare descărcabile',
+      paragraphs: [
+        'Formularele din secțiunea Documente sunt modele de completat. Asociația poate cere documente suplimentare, în funcție de situația solicitantului și de valoarea împrumutului.',
+        'Asociația poate modifica modelele de formulare. Folosește versiunea cea mai recentă sau confirmă-o la sediu.'
+      ]
+    },
+    {
+      id: 'continut',
+      title: 'Conținutul site-ului și drepturile de autor',
+      paragraphs: [
+        'Textele, imaginile, siglele și designul site-ului aparțin asociației sau sunt folosite cu drept de utilizare. Nu poți copia, reproduce sau distribui conținutul în scop comercial fără acordul scris al asociației.',
+        'Siglele ANPC și ale platformei de soluționare a litigiilor aparțin proprietarilor lor și sunt folosite doar ca trimitere informativă.'
       ]
     },
     {
       id: 'recenzii',
-      title: 'Recenzii și mesaje trimise',
+      title: 'Recenzii și mesaje trimise de utilizatori',
       paragraphs: [
-        'Dacă lași o recenzie sau trimiți un mesaj prin formularul de contact, ești responsabil pentru conținutul lui. Recenziile trebuie să reflecte o experiență reală.',
-        'Ne rezervăm dreptul de a nu publica sau de a retrage conținutul care încalcă acești termeni sau legea, precum limbaj jignitor, date personale ale altor persoane ori mesaje promoționale.'
+        'Dacă trimiți o recenzie sau un mesaj, ești responsabil de conținutul lui. Nu sunt permise mesajele ofensatoare, false, ilegale sau care conțin date personale ale altor persoane.',
+        'Asociația poate refuza sau elimina conținutul care încalcă aceste reguli. Prelucrarea datelor tale este explicată în Politica de confidențialitate.'
       ]
     },
     {
-      id: 'proprietate',
-      title: 'Proprietate intelectuală',
+      id: 'linkuri',
+      title: 'Linkuri către alte site-uri',
       paragraphs: [
-        'Textele, imaginile, siglele și designul site-ului aparțin Cooperativei sau sunt folosite cu acordul titularilor. Nu le poți copia, modifica sau distribui fără acordul nostru scris.',
-        'Poți tipări sau salva paginile pentru uz personal, cu condiția să nu le modifici și să păstrezi menționarea sursei.'
-      ]
-    },
-    {
-      id: 'date',
-      title: 'Date personale și cookie-uri',
-      paragraphs: [
-        'Datele personale pe care ni le transmiți sunt prelucrate conform legislației aplicabile privind protecția datelor. Detaliile despre scopuri, durată și drepturile tale se găsesc în Politica de confidențialitate.',
-        'Site-ul poate folosi cookie-uri necesare funcționării. Poți controla cookie-urile din setările browserului.'
+        'Site-ul poate conține trimiteri către alte pagini, de exemplu autorități sau portalul pentru membri. Asociația nu controlează aceste site-uri și nu răspunde de conținutul sau de politicile lor.'
       ]
     },
     {
       id: 'raspundere',
       title: 'Limitarea răspunderii',
       paragraphs: [
-        'Depunem eforturi pentru ca informațiile să fie corecte și actualizate, dar nu garantăm lipsa erorilor sau disponibilitatea neîntreruptă a site-ului.',
-        'Cooperativa nu răspunde pentru pagubele rezultate din utilizarea informațiilor de pe site fără verificarea lor în prealabil, din întreruperi tehnice sau din conținutul site-urilor externe către care trimitem.'
+        'Depunem eforturi pentru ca informațiile să fie corecte și actualizate, dar nu garantăm că site-ul este lipsit de erori sau disponibil permanent. Informațiile pot fi modificate fără notificare prealabilă.',
+        'În caz de diferențe între site și statutul sau documentele oficiale ale asociației, se aplică acestea din urmă. Asociația nu răspunde pentru deciziile luate exclusiv pe baza informațiilor de pe site.'
+      ]
+    },
+    {
+      id: 'litigii',
+      title: 'Reclamații și soluționarea litigiilor',
+      paragraphs: [
+        'Pentru orice nemulțumire ne poți scrie sau ne poți vizita la sediu, iar noi vom răspunde în termenul legal.',
+        'Dacă nu ajungem la o înțelegere, poți apela la entitățile de soluționare alternativă a litigiilor (SAL) și poți consulta site-ul ANPC (anpc.ro). [De verificat cu asociația ce se aplică în cazul ei, inclusiv dacă este necesară o mențiune despre platforma europeană de soluționare online a litigiilor, închisă din iulie 2025.]'
       ]
     },
     {
       id: 'modificari',
       title: 'Modificarea termenilor',
       paragraphs: [
-        'Putem actualiza acești termeni oricând. Versiunea în vigoare este cea publicată pe această pagină, iar data ultimei actualizări apare la începutul ei.'
+        'Putem actualiza acești termeni. Versiunea în vigoare este cea publicată pe această pagină, cu data ultimei actualizări afișată sus. Continuarea utilizării site-ului după o modificare înseamnă acceptarea noii versiuni.'
       ]
     },
     {
-      id: 'legea',
-      title: 'Legea aplicabilă și contact',
+      id: 'lege',
+      title: 'Legea aplicabilă',
       paragraphs: [
-        'Acești termeni sunt guvernați de legea română. Eventualele neînțelegeri se rezolvă pe cale amiabilă, iar în caz contrar de instanțele competente.',
-        'Pentru orice întrebare despre acești termeni ne poți scrie la contact@exemplu-cooperativa.ro sau ne poți vizita la sediu.'
+        'Acești termeni sunt guvernați de legea română. Litigiile se soluționează amiabil, iar în lipsa unei înțelegeri, de instanțele competente din România.'
+      ]
+    },
+    {
+      id: 'contact',
+      title: 'Contact',
+      paragraphs: [
+        'Pentru întrebări despre acești termeni ne poți contacta la [e-mail], la telefon [telefon] sau la sediul din [adresa sediului].'
       ]
     }
   ];
 
-  constructor() {
-    afterNextRender(() => {
-      const first = this.sections[0]?.id;
-      if (first) this.activeId.set(first);
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((e) => e.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-          if (visible) this.activeId.set((visible.target as HTMLElement).id);
-        },
-        { rootMargin: '-20% 0px -65% 0px', threshold: 0 }
-      );
-      this.sectionRefs.forEach((s) => observer.observe(s.nativeElement));
-    });
-  }
-
-  toggleToc() {
-    this.tocOpen.update((v) => !v);
-  }
-
-  goTo(id: string) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-    this.activeId.set(id);
-    this.tocOpen.set(false);
-  }
-
-  print() {
-    window.print();
+  scrollTo(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
